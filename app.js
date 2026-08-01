@@ -1,49 +1,31 @@
-let nextMemberID=Number(localStorage.getItem("nextMemberID"))||6007;
-
-function newMemberID(){
-
-let id="26PP0"+nextMemberID;
-
+let nextMemberID =
+Number(localStorage.getItem("nextID")) || 6007;
+function generateMemberID(){
+let id = "26PP0" + nextMemberID;
 nextMemberID++;
-
-localStorage.setItem("nextMemberID",nextMemberID);
-
+localStorage.setItem(
+"nextID",
+nextMemberID
+);
 return id;
-
 }
-
-function expiryDate(start,plan){
-
-let d=new Date(start);
-
-switch(plan){
-
-case "1 Month":
-
-d.setMonth(d.getMonth()+1);
-
-break;
-
-case "3 Months":
-
-d.setMonth(d.getMonth()+3);
-
-break;
-
-case "6 Months":
-
-d.setMonth(d.getMonth()+6);
-
-break;
-
-case "12 Months":
-
-d.setMonth(d.getMonth()+12);
-
-break;
-
+function calculateExpiry(start,plan){
+let date=new Date(start);
+if(plan=="1 Month")
+date.setMonth(date.getMonth()+1);
+if(plan=="3 Months")
+date.setMonth(date.getMonth()+3);
+if(plan=="6 Months")
+date.setMonth(date.getMonth()+6);
+if(plan=="12 Months")
+date.setFullYear(date.getFullYear()+1);
+return date.toISOString().split("T")[0];
 }
-
-return d.toISOString().split("T")[0];
-
+function remainingDays(expiry){
+let today=new Date();
+let end=new Date(expiry);
+let diff=end-today;
+return Math.ceil(
+diff/(1000*60*60*24)
+);
 }
