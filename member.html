@@ -1,16 +1,12 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html>
 
 <head>
 
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Member Details</title>
-
+<title>Member Profile</title>
 <link rel="stylesheet" href="style.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 </head>
 
@@ -18,13 +14,12 @@
 
 <a href="javascript:history.back()" class="back-btn">← Back</a>
 
+
 <div class="container">
 
 <div class="card">
 
-<h1 id="name">Loading...</h1>
-
-<hr>
+<h1 id="name"></h1>
 
 <p id="memberid"></p>
 
@@ -32,99 +27,112 @@
 
 <p id="plan"></p>
 
-<p id="startdate"></p>
-
 <p id="expiry"></p>
 
-<p id="days"></p>
+<h2 id="days"></h2>
 
-<p id="status"></p>
+<h2 id="status"></h2>
 
-<p id="membershipStatus"></p>
+
+<div id="qrcode"></div>
+
 
 </div>
 
 </div>
+
 
 <script src="api.js"></script>
-
 <script src="app.js"></script>
+
 
 <script>
 
+
 async function loadMember(){
 
-const params=new URLSearchParams(window.location.search);
 
-const id=params.get("id");
+let id =
+new URLSearchParams(location.search).get("id");
 
-if(!id){
 
-alert("Member ID Missing");
 
-return;
+let m = await getMember(id);
 
-}
 
-// Auto Attendance
-
-await attendanceAPI(id);
-
-// Get Member
-
-const m=await getMemberAPI(id);
-
-if(!m || !m.memberid){
-
-alert("Member Not Found");
-
-return;
-
-}
 
 document.getElementById("name").innerHTML=m.name;
 
-document.getElementById("memberid").innerHTML="Member ID : "+m.memberid;
+document.getElementById("memberid").innerHTML=
+"Member ID : "+m.memberid;
 
-document.getElementById("mobile").innerHTML="Mobile : "+m.mobile;
 
-document.getElementById("plan").innerHTML="Plan : "+m.plan;
+document.getElementById("mobile").innerHTML=
+"Mobile : "+m.mobile;
 
-document.getElementById("startdate").innerHTML="Start Date : "+m.startdate;
 
-document.getElementById("expiry").innerHTML="Expiry Date : "+m.expiry;
+document.getElementById("plan").innerHTML=
+"Plan : "+m.plan;
 
-document.getElementById("status").innerHTML="Status : "+m.status;
 
-const days=remainingDays(m.expiry);
+document.getElementById("expiry").innerHTML=
+"Expiry : "+m.expiry;
 
-document.getElementById("days").innerHTML="Remaining Days : "+days;
 
-const membershipStatus=document.getElementById("membershipStatus");
+
+let days=remainingDays(m.expiry);
+
+
+
+document.getElementById("days").innerHTML=
+"Remaining Days : "+days;
+
+
 
 if(days<=0){
 
-membershipStatus.innerHTML="❌ Membership Expired";
-
-membershipStatus.style.color="red";
-
-}else if(days<=7){
-
-membershipStatus.innerHTML="⚠️ Membership Expiring Soon";
-
-membershipStatus.style.color="orange";
-
-}else{
-
-membershipStatus.innerHTML="✅ Active Membership";
-
-membershipStatus.style.color="green";
+document.getElementById("status").innerHTML=
+"❌ Expired";
 
 }
 
+else if(days<=7){
+
+document.getElementById("status").innerHTML=
+"⚠️ Expiring Soon";
+
 }
+
+else{
+
+document.getElementById("status").innerHTML=
+"✅ Active";
+
+}
+
+
+
+new QRCode(
+document.getElementById("qrcode"),
+{
+
+text:m.memberid,
+
+width:220,
+
+height:220
+
+}
+
+);
+
+
+}
+
+
 
 loadMember();
+
 
 </script>
 
