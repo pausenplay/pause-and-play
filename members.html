@@ -1,49 +1,116 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Member List</title>
+
+<title>Members</title>
 <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
-<a href="index.html" class="home-btn">🏠 Home</a>
-  <h1>Member List</h1>
-<hr>
-<table border="1" width="100%" id="memberTable">
-<tr>
-  <th>Member ID</th>
-  <th>Name</th>
-  <th>Mobile</th>
-  <th>Plan</th>
-  <th>Start Date</th>
-  <th>QR</th>
-  <th>Edit</th>
-<td>
-<button onclick="location.href='editmember.html?id=${member.memberid}'">
-🖉
-</button>
-</td>
-</tr>
-</table>
+
+<a href="javascript:history.back()" class="back-btn">← Back</a>
+
+<div class="container">
+
+<div class="card">
+
+<h1>Members</h1>
+
+<input id="search" placeholder="Search Member ID / Name" onkeyup="loadMembers()">
+
+<div id="list"></div>
+
+</div>
+
+</div>
+
+
+<script src="api.js"></script>
+
 <script>
-let members = JSON.parse(localStorage.getItem("members")) || [];
-let table = document.getElementById("memberTable");
-members.forEach(function(member){
-table.innerHTML += `
-<tr>
-<td>${member.memberid}</td>
-<td>${member.name}</td>
-<td>${member.mobile}</td>
-<td>${member.plan}</td>
-<td>${member.startdate}</td>
-<td>
-<button onclick="location.href='qr.html?id=${member.memberid}'">
-QR
+
+async function loadMembers(){
+
+let members=await getMembers();
+
+let search=document.getElementById("search").value.toLowerCase();
+
+
+let html="";
+
+
+members.forEach(m=>{
+
+
+if(
+m.memberid.toLowerCase().includes(search) ||
+m.name.toLowerCase().includes(search)
+){
+
+
+html += `
+
+<div class="card">
+
+<h2>${m.name}</h2>
+
+<p>ID: ${m.memberid}</p>
+
+<p>Plan: ${m.plan}</p>
+
+<p>Expiry: ${m.expiry}</p>
+
+<p>Status: ${m.status}</p>
+
+
+<button onclick="location.href='member.html?id=${m.memberid}'">
+
+View
+
 </button>
-</td>
-</tr>
+
+
+<button onclick="location.href='editmember.html?id=${m.memberid}'">
+
+Edit
+
+</button>
+
+
+<button onclick="location.href='renew.html?id=${m.memberid}'">
+
+Renew
+
+</button>
+
+
+<button onclick="location.href='qr.html?id=${m.memberid}'">
+
+QR
+
+</button>
+
+
+</div>
+
 `;
+
+}
+
 });
+
+
+document.getElementById("list").innerHTML=html;
+
+}
+
+
+loadMembers();
+
 </script>
+
 </body>
 
 </html>
