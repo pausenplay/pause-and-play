@@ -1,141 +1,66 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
 <title>Member Profile</title>
 <link rel="stylesheet" href="style.css">
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
 </head>
-
 <body>
-
 <a href="javascript:history.back()" class="back-btn">← Back</a>
-
-
 <div class="container">
-
 <div class="card">
-
 <h1 id="name"></h1>
-
 <p id="memberid"></p>
-
 <p id="mobile"></p>
-
 <p id="plan"></p>
-
 <p id="expiry"></p>
-
 <h2 id="days"></h2>
-
 <h2 id="status"></h2>
-
-
 <div id="qrcode"></div>
-
-
 </div>
-
 </div>
-
-
 <script src="api.js"></script>
 <script src="app.js"></script>
-
-
 <script>
-
-
 async function loadMember(){
-
-
 let id =
 new URLSearchParams(location.search).get("id");
-
-
-
+await markAttendance(id);
 let m = await getMember(id);
-
-
-
 document.getElementById("name").innerHTML=m.name;
-
 document.getElementById("memberid").innerHTML=
 "Member ID : "+m.memberid;
-
-
 document.getElementById("mobile").innerHTML=
 "Mobile : "+m.mobile;
-
-
 document.getElementById("plan").innerHTML=
 "Plan : "+m.plan;
-
-
 document.getElementById("expiry").innerHTML=
 "Expiry : "+m.expiry;
-
-
-
 let days=remainingDays(m.expiry);
-
-
-
 document.getElementById("days").innerHTML=
 "Remaining Days : "+days;
-
-
-
 if(days<=0){
-
 document.getElementById("status").innerHTML=
 "❌ Expired";
-
 }
-
 else if(days<=7){
-
 document.getElementById("status").innerHTML=
 "⚠️ Expiring Soon";
-
 }
-
 else{
-
 document.getElementById("status").innerHTML=
 "✅ Active";
-
 }
-
-
-
 new QRCode(
 document.getElementById("qrcode"),
 {
-
 text:m.memberid,
-
 width:220,
-
 height:220
-
 }
-
 );
-
-
 }
-
-
-
 loadMember();
-
-
 </script>
-
 </body>
-
 </html>
