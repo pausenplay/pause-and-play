@@ -21,35 +21,27 @@ document.getElementById("startdate").value,
 document.getElementById("plan").value
 
 ),
-
 status:"ACTIVE"
-
 };
-
 await saveMemberAPI(member);
-
 alert("Member Saved");
-
 location.reload();
-
 }
-
 async function getMemberAPI(memberid){
-
 const response=await fetch(
 API_URL+"?action=getMember&memberid="+memberid
 );
-
 return await response.json();
-
 }
-
 async function attendanceAPI(memberid){
-
 const response=await fetch(
 API_URL+"?action=attendance&memberid="+memberid
 );
-
 return await response.json();
-
+}
+function remainingDays(expiry){
+    const today = new Date();
+    const expiryDate = new Date(expiry);
+    const diff = expiryDate - today;
+    return Math.ceil(diff / (1000 * 60 * 60 * 24));
 }
