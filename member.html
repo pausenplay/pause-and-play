@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
 
 <head>
 
-<title>Member</title>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Member Details</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -17,35 +22,112 @@
 
 <div class="card">
 
-<h1 id="name"></h1>
+<h1 id="name">Loading...</h1>
+
+<hr>
 
 <p id="memberid"></p>
+
 <p id="mobile"></p>
+
 <p id="plan"></p>
+
+<p id="startdate"></p>
+
 <p id="expiry"></p>
-<p id="status"></p>
+
 <p id="days"></p>
+
+<p id="status"></p>
+
+<p id="membershipStatus"></p>
+
 </div>
 
 </div>
 
 <script src="api.js"></script>
 
+<script src="app.js"></script>
+
 <script>
+
 async function loadMember(){
-const id=new URLSearchParams(location.search).get("id");
-await attendanceAPI(id);
-const m=await getMemberAPI(id);
-document.getElementById("name").innerHTML=m.name;
-document.getElementById("memberid").innerHTML="ID : "+m.memberid;
-document.getElementById("mobile").innerHTML="Mobile : "+m.mobile;
-document.getElementById("plan").innerHTML="Plan : "+m.plan;
-document.getElementById("expiry").innerHTML="Expiry : "+m.expiry;
-document.getElementById("status").innerHTML="Status : "+m.status;
+
+const params=new URLSearchParams(window.location.search);
+
+const id=params.get("id");
+
+if(!id){
+
+alert("Member ID Missing");
+
+return;
+
 }
+
+// Auto Attendance
+
+await attendanceAPI(id);
+
+// Get Member
+
+const m=await getMemberAPI(id);
+
+if(!m || !m.memberid){
+
+alert("Member Not Found");
+
+return;
+
+}
+
+document.getElementById("name").innerHTML=m.name;
+
+document.getElementById("memberid").innerHTML="Member ID : "+m.memberid;
+
+document.getElementById("mobile").innerHTML="Mobile : "+m.mobile;
+
+document.getElementById("plan").innerHTML="Plan : "+m.plan;
+
+document.getElementById("startdate").innerHTML="Start Date : "+m.startdate;
+
+document.getElementById("expiry").innerHTML="Expiry Date : "+m.expiry;
+
+document.getElementById("status").innerHTML="Status : "+m.status;
+
+const days=remainingDays(m.expiry);
+
+document.getElementById("days").innerHTML="Remaining Days : "+days;
+
+const membershipStatus=document.getElementById("membershipStatus");
+
+if(days<=0){
+
+membershipStatus.innerHTML="❌ Membership Expired";
+
+membershipStatus.style.color="red";
+
+}else if(days<=7){
+
+membershipStatus.innerHTML="⚠️ Membership Expiring Soon";
+
+membershipStatus.style.color="orange";
+
+}else{
+
+membershipStatus.innerHTML="✅ Active Membership";
+
+membershipStatus.style.color="green";
+
+}
+
+}
+
 loadMember();
-  document.getElementById("days").innerHTML =
-"Remaining Days : " + remainingDays(m.expiry);
+
 </script>
+
 </body>
+
 </html>
