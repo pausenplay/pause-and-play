@@ -5,21 +5,24 @@ nextMemberID=6007;
 }else{
 nextMemberID=parseInt(nextMemberID);
 }
-function saveMember() {
-    let member = {
-        memberid: "26PP0" + nextMemberID,
-        name: document.getElementById("name").value,
-        mobile: document.getElementById("mobile").value,
-        plan: document.getElementById("plan").value,
-        startdate: document.getElementById("startdate").value
-    };
-    let members = JSON.parse(localStorage.getItem("members")) || [];
-    members.push(member);
-    localStorage.setItem("members", JSON.stringify(members));
-    alert("Member Saved Successfully");
-    nextMemberID++;
-    localStorage.setItem("nextMemberID",nextMemberID);
-    location.reload();
+async function saveMember(){
+let member={
+memberid:"26PP0"+nextMemberID,
+name:document.getElementById("name").value,
+mobile:document.getElementById("mobile").value,
+plan:document.getElementById("plan").value,
+startdate:document.getElementById("startdate").value,
+expiry:"",
+status:"ACTIVE"
+};
+await fetch(API_URL,{
+method:"POST",
+body:JSON.stringify(member)
+});
+alert("Member Saved");
+nextMemberID++;
+localStorage.setItem("nextMemberID",nextMemberID);
+location.reload();
 }
 function generateQRCode(memberID){
     document.getElementById("memberid").innerHTML=memberID;
