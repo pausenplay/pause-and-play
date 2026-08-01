@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Edit Member</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<a href="javascript:history.back()" class="back-btn">← Back</a>
+
+<div class="container">
+
+<div class="card">
+
+<h1>Edit Member</h1>
+
+<input id="name">
+
+<input id="mobile">
+
+<select id="plan">
+
+<option>1 Month</option>
+
+<option>3 Months</option>
+
+<option>6 Months</option>
+
+<option>12 Months</option>
+
+</select>
+
+<input type="date" id="startdate">
+
+<button onclick="updateMember()">
+
+Update Member
+
+</button>
+
+</div>
+
+</div>
+
+<script src="api.js"></script>
+
+<script src="app.js"></script>
+
+</body>
+
+</html>
