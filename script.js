@@ -28,3 +28,16 @@ function generateQRCode(memberID){
         height:220
     });
 }
+function viewMember(memberid){
+let members=JSON.parse(localStorage.getItem("members"))||[];
+let member=members.find(x=>x.memberid===memberid);
+if(!member){
+alert("Member Not Found");
+return;
+}
+document.getElementById("memberID").innerHTML="Member ID : "+member.memberid;
+document.getElementById("memberName").innerHTML="Name : "+member.name;
+document.getElementById("memberMobile").innerHTML="Mobile : "+member.mobile;
+document.getElementById("memberPlan").innerHTML="Plan : "+member.plan;
+document.getElementById("memberStart").innerHTML="Start Date : "+member.startdate;
+}
