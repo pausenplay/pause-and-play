@@ -20,3 +20,11 @@ function saveMember() {
     localStorage.setItem("nextMemberID",nextMemberID);
     location.reload();
 }
+function generateQRCode(memberID){
+    document.getElementById("memberid").innerHTML=memberID;
+    new QRCode(document.getElementById("qrcode"),{
+        text:memberID,
+        width:220,
+        height:220
+    });
+}
