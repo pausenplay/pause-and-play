@@ -5,29 +5,24 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <script>
-  document.getElementById("memberid").innerHTML =
-  "Member ID : " + generateMemberID();
-  </script>
-  <h1>Add New Member</h1>
-  <h3 id="memberid"></h3>
-<hr>
-<input type="text" placeholder="Member Name">
+<h1>Add New Member</h1>
+<h3 id="memberid"></h3>
+<input type="text" id="name" placeholder="Member Name">
 <br><br>
-<input type="text" placeholder="Mobile Number">
+<input type="text" id="mobile" placeholder="Mobile Number">
 <br><br>
-<select>
-<option>Select Membership</option>
+<select id="plan">
 <option>1 Month</option>
 <option>3 Months</option>
 <option>6 Months</option>
 <option>12 Months</option>
 </select>
 <br><br>
-<input type="date">
+<input type="date" id="startdate">
 <br><br>
-<button>
-  <script src="script.js"></script>
-  Save Member</button>
+<button onclick="saveMember()">
+Save Member
+</button>
+<script src="script.js"></script>
 </body>
 </html>
