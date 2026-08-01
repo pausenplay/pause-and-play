@@ -1,10 +1,9 @@
-let nextMemberID = 6007;
-document.addEventListener("DOMContentLoaded", function () {
-    const member = document.getElementById("memberid");
-    if(member){
-        member.innerHTML="Member ID : 26PP0"+nextMemberID;
-    }
-});
+let nextMemberID = localStorage.getItem("nextMemberID");
+if(nextMemberID==null){
+nextMemberID=6007;
+}else{
+nextMemberID=parseInt(nextMemberID);
+}
 function saveMember() {
     let member = {
         memberid: "26PP0" + nextMemberID,
@@ -18,5 +17,6 @@ function saveMember() {
     localStorage.setItem("members", JSON.stringify(members));
     alert("Member Saved Successfully");
     nextMemberID++;
+    localStorage.setItem("nextMemberID",nextMemberID);
     location.reload();
 }
