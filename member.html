@@ -44,6 +44,8 @@ document.getElementById("expiry").innerHTML="Expiry : "+m.expiry;
 document.getElementById("status").innerHTML="Status : "+m.status;
 }
 loadMember();
+  document.getElementById("days").innerHTML =
+"Remaining Days : " + remainingDays(m.expiry);
 </script>
 </body>
 </html>
