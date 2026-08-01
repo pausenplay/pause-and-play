@@ -1,81 +1,45 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
 <title>Dashboard</title>
 <link rel="stylesheet" href="style.css">
-
 </head>
-
-
 <body>
-
 <div class="container">
-
 <div class="card">
-
-<h1>Dashboard</h1>
-
-<h2>Total Members</h2>
-<h1 id="total">0</h1>
-
-
-<h2>Active Members</h2>
-<h1 id="active">0</h1>
-
-
-<h2>Today's Attendance</h2>
-<h1 id="today">0</h1>
-
-
+<h1>Pause And Play</h1>
 <button onclick="location.href='addmember.html'">
-Add Member
+➕ Add Member
 </button>
-
-
 <button onclick="location.href='members.html'">
-Members
+👥 Members
 </button>
-
-
 <button onclick="location.href='scanner.html'">
 📷 Scan QR
 </button>
-
-
+<button onclick="location.href='attendance.html'">
+📋 Attendance
+</button>
 </div>
-
+<div class="card">
+<h2>Total Members</h2>
+<h1 id="total">0</h1>
 </div>
-
-
+<div class="card">
+<h2>Active Members</h2>
+<h1 id="active">0</h1>
+</div>
+</div>
 <script src="api.js"></script>
-
-
 <script>
-
-
-async function loadDashboard(){
-
+async function load(){
 let data=await getDashboard();
-
-
-document.getElementById("total").innerHTML=data.total;
-
-document.getElementById("active").innerHTML=data.active;
-
-document.getElementById("today").innerHTML=data.today;
-
-
+document.getElementById("total")
+.innerHTML=data.total;
+document.getElementById("active")
+.innerHTML=data.active;
 }
-
-
-loadDashboard();
-
-
+load();
 </script>
-
-
 </body>
-
 </html>
