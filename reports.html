@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reports</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a href="javascript:history.back()" class="back-btn">
+← Back
+</a>
+<div class="container">
+<h1>Reports</h1>
+<!-- Summary -->
+<div class="grid">
+<div class="card">
+<h3>Total Members</h3>
+<h1 id="totalMembers">0</h1>
+</div>
+<div class="card">
+<h3>Active Members</h3>
+<h1 id="activeMembers">0</h1>
+</div>
+<div class="card">
+<h3>Expired Members</h3>
+<h1 id="expiredMembers">0</h1>
+</div>
+<div class="card">
+<h3>Today's Attendance</h3>
+<h1 id="todayAttendance">0</h1>
+</div>
+</div>
+<br>
+<!-- Report Buttons -->
+<div class="card">
+<button onclick="loadMembersReport()">
+👥 Members Report
+</button>
+<button onclick="loadAttendanceReport()">
+📅 Attendance Report
+</button>
+<button onclick="loadExpiredReport()">
+❌ Expired Members
+</button>
+<button onclick="exportCSV()">
+📄 Export CSV
+</button>
+</div>
+<br>
+<!-- Search -->
+<input
+type="text"
+id="search"
+placeholder="Search..."
+onkeyup="filterReport()">
+<br><br>
+<!-- Report Table -->
+<div class="card">
+<table width="100%" id="reportTable">
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Mobile</th>
+<th>Plan</th>
+<th>Status</th>
+<th>Expiry</th>
+</tr>
+</thead>
+<tbody id="reportBody">
+</tbody>
+</table>
+</div>
+</div>
+<script src="api.js"></script>
+<script>
+let reportData=[];
+async function loadDashboardCards(){
+let d=await getDashboard();
+totalMembers.innerHTML=d.total;
+activeMembers.innerHTML=d.active;
+}
+async function loadMembersReport(){
+reportData=await getMembers();
+renderTable(reportData);
+}
+function renderTable(data){
+let html="";
+data.forEach(m=>{
+html+=`
+<tr>
+<td>${m.memberid}</td>
+<td>${m.name}</td>
+<td>${m.mobile}</td>
+<td>${m.plan}</td>
+<td>${m.status}</td>
+<td>${m.expiry}</td>
+</tr>
+`;
+});
+reportBody.innerHTML=html;
+}
+function filterReport(){
+let s=search.value.toLowerCase();
+let filtered=reportData.filter(m=>
+m.memberid.toLowerCase().includes(s)||
+m.name.toLowerCase().includes(s)
+);
+renderTable(filtered);
+}
+async function loadAttendanceReport(){
+location.href="attendance.html";
+}
+async function loadExpiredReport(){
+let data=await getMembers();
+let expired=[];
+data.forEach(m=>{
+if(m.status=="EXPIRED"){
+expired.push(m);
+}
+});
+renderTable(expired);
+}
+loadDashboardCards();
+loadMembersReport();
+</script>
+</body>
+</html>
