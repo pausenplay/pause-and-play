@@ -1,49 +1,50 @@
-// =========================
-// Pause And Play API
-// =========================
+const API_URL="YOUR_GOOGLE_APPS_SCRIPT_URL";
 
-const API_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL_HERE";
 
-// Get Member Details
-async function getMemberAPI(memberid) {
+async function saveMemberAPI(member){
 
-    const response = await fetch(
-        API_URL + "?action=getMember&memberid=" + encodeURIComponent(memberid)
-    );
+let res=await fetch(API_URL,{
+method:"POST",
+body:JSON.stringify(member)
+});
 
-    return await response.json();
+return await res.json();
+
 }
 
-// Save Member
-async function saveMemberAPI(member) {
 
-    const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(member)
-    });
+async function getMemberAPI(memberid){
 
-    return await response.json();
+let res=await fetch(
+API_URL+"?action=getMember&memberid="+memberid
+);
+
+return await res.json();
+
 }
 
-// Mark Attendance
-async function attendanceAPI(memberid) {
 
-    const response = await fetch(
-        API_URL + "?action=attendance&memberid=" + encodeURIComponent(memberid)
-    );
+async function updateMemberAPI(member){
 
-    return await response.json();
+let res=await fetch(API_URL,{
+method:"POST",
+body:JSON.stringify({
+action:"update",
+data:member
+})
+});
+
+return await res.json();
+
 }
 
-// Dashboard
-async function dashboardAPI() {
 
-    const response = await fetch(
-        API_URL + "?action=dashboard"
-    );
+async function dashboardAPI(){
 
-    return await response.json();
+let res=await fetch(
+API_URL+"?action=dashboard"
+);
+
+return await res.json();
+
 }
