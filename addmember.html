@@ -4,26 +4,80 @@
 <title>Add Member</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<a href="index.html" class="back-btn">←</a>
-  <h1>Add New Member</h1>
-<h3 id="memberid"></h3>
-<input type="text" id="name" placeholder="Member Name">
-<br><br>
-<input type="text" id="mobile" placeholder="Mobile Number">
-<br><br>
+
+<a href="javascript:history.back()" class="back-btn">← Back</a>
+
+<div class="container">
+<div class="card">
+
+<h1>Add Member</h1>
+
+<input id="name" placeholder="Name">
+
+<input id="mobile" placeholder="Mobile">
+
 <select id="plan">
 <option>1 Month</option>
 <option>3 Months</option>
 <option>6 Months</option>
 <option>12 Months</option>
 </select>
-<br><br>
+
 <input type="date" id="startdate">
-<br><br>
-<button onclick="saveMember()">
+
+<button onclick="saveNewMember()">
 Save Member
 </button>
-<script src="script.js"></script>
+
+</div>
+</div>
+
+
+<script src="api.js"></script>
+<script src="app.js"></script>
+
+<script>
+
+async function saveNewMember(){
+
+let start=document.getElementById("startdate").value;
+
+let plan=document.getElementById("plan").value;
+
+
+let member={
+
+memberid:generateMemberID(),
+
+name:document.getElementById("name").value,
+
+mobile:document.getElementById("mobile").value,
+
+plan:plan,
+
+startdate:start,
+
+expiry:calculateExpiry(start,plan)
+
+};
+
+
+let result=await addMember(member);
+
+
+if(result.success){
+
+alert("Member Saved");
+
+location.href="members.html";
+
+}
+
+}
+
+</script>
+
 </body>
 </html>
