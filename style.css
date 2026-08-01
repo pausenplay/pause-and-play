@@ -100,3 +100,17 @@ margin:15px 0;
 border:none;
 border-top:1px solid #E5E5EA;
 }
+.login-card{
+margin-top:80px;
+text-align:center;
+}
+.subtitle{
+color:#8E8E93;
+margin-bottom:25px;
+font-size:15px;
+}
+#msg{
+margin-top:15px;
+color:#ff3b30;
+font-weight:600;
+}
