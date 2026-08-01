@@ -49,50 +49,28 @@ m.memberid.toLowerCase().includes(search) ||
 m.name.toLowerCase().includes(search)
 ){
 
-
 html += `
-
 <div class="card">
-
 <h2>${m.name}</h2>
-
 <p>ID: ${m.memberid}</p>
-
 <p>Plan: ${m.plan}</p>
-
 <p>Expiry: ${m.expiry}</p>
-
 <p>Status: ${m.status}</p>
-
-
 <button onclick="location.href='member.html?id=${m.memberid}'">
-
 View
-
 </button>
-
-
 <button onclick="location.href='editmember.html?id=${m.memberid}'">
-
 Edit
-
 </button>
-
-
 <button onclick="location.href='renew.html?id=${m.memberid}'">
-
 Renew
-
 </button>
-
-
 <button onclick="location.href='qr.html?id=${m.memberid}'">
-
 QR
-
 </button>
-
-
+<button onclick="deleteMember('${m.memberid}')">
+Delete
+</button>
 </div>
 
 `;
