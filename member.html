@@ -36,31 +36,18 @@
 <script src="api.js"></script>
 
 <script>
-
 async function loadMember(){
-
 const id=new URLSearchParams(location.search).get("id");
-
+await attendanceAPI(id);
 const m=await getMemberAPI(id);
-
 document.getElementById("name").innerHTML=m.name;
-
 document.getElementById("memberid").innerHTML="ID : "+m.memberid;
-
 document.getElementById("mobile").innerHTML="Mobile : "+m.mobile;
-
 document.getElementById("plan").innerHTML="Plan : "+m.plan;
-
 document.getElementById("expiry").innerHTML="Expiry : "+m.expiry;
-
 document.getElementById("status").innerHTML="Status : "+m.status;
-
 }
-
 loadMember();
-
 </script>
-
 </body>
-
 </html>
