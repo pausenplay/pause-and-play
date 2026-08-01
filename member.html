@@ -1,21 +1,66 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Member Details</title>
+
+<title>Member</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
-<a href="index.html" class="back-btn">←</a>
-<h1>Member Details</h1>
-<hr>
-<h2 id="memberID"></h2>
-<h3 id="memberName"></h3>
-<p id="memberMobile"></p>
-<p id="memberPlan"></p>
-<p id="memberStart"></p>
-<p id="memberExpiry"></p>
-<p id="memberStatus"></p>
-<div id="qrcode"></div>
-<script src="script.js"></script>
+
+<a href="javascript:history.back()" class="back-btn">← Back</a>
+
+<div class="container">
+
+<div class="card">
+
+<h1 id="name"></h1>
+
+<p id="memberid"></p>
+
+<p id="mobile"></p>
+
+<p id="plan"></p>
+
+<p id="expiry"></p>
+
+<p id="status"></p>
+
+</div>
+
+</div>
+
+<script src="api.js"></script>
+
+<script>
+
+async function loadMember(){
+
+const id=new URLSearchParams(location.search).get("id");
+
+const m=await getMemberAPI(id);
+
+document.getElementById("name").innerHTML=m.name;
+
+document.getElementById("memberid").innerHTML="ID : "+m.memberid;
+
+document.getElementById("mobile").innerHTML="Mobile : "+m.mobile;
+
+document.getElementById("plan").innerHTML="Plan : "+m.plan;
+
+document.getElementById("expiry").innerHTML="Expiry : "+m.expiry;
+
+document.getElementById("status").innerHTML="Status : "+m.status;
+
+}
+
+loadMember();
+
+</script>
+
 </body>
+
 </html>
