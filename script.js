@@ -45,3 +45,20 @@ document.getElementById("memberMobile").innerHTML="Mobile : "+member.mobile;
 document.getElementById("memberPlan").innerHTML="Plan : "+member.plan;
 document.getElementById("memberStart").innerHTML="Start Date : "+member.startdate;
 }
+async function searchAttendance(){
+let id=document.getElementById("memberSearch").value;
+let res=await fetch(API_URL+"?memberid="+id);
+let data=await res.json();
+document.getElementById("result").innerHTML=
+`
+<div class="card">
+<h2>${data.name}</h2>
+<p>${data.memberid}</p>
+<p>${data.plan}</p>
+<p>${data.status}</p>
+<button onclick="markAttendance('${data.memberid}')">
+Mark Attendance
+</button>
+</div>
+`;
+}
