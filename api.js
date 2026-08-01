@@ -1,47 +1,49 @@
-const API_URL="YOUR_GOOGLE_APPS_SCRIPT_URL";
+// =========================
+// Pause And Play API
+// =========================
 
-async function saveMember(){
+const API_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL_HERE";
 
-const member={
+// Get Member Details
+async function getMemberAPI(memberid) {
 
-memberid:newMemberID(),
+    const response = await fetch(
+        API_URL + "?action=getMember&memberid=" + encodeURIComponent(memberid)
+    );
 
-name:document.getElementById("name").value,
-
-mobile:document.getElementById("mobile").value,
-
-plan:document.getElementById("plan").value,
-
-startdate:document.getElementById("startdate").value,
-
-expiry:expiryDate(
-
-document.getElementById("startdate").value,
-
-document.getElementById("plan").value
-
-),
-status:"ACTIVE"
-};
-await saveMemberAPI(member);
-alert("Member Saved");
-location.reload();
+    return await response.json();
 }
-async function getMemberAPI(memberid){
-const response=await fetch(
-API_URL+"?action=getMember&memberid="+memberid
-);
-return await response.json();
+
+// Save Member
+async function saveMemberAPI(member) {
+
+    const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(member)
+    });
+
+    return await response.json();
 }
-async function attendanceAPI(memberid){
-const response=await fetch(
-API_URL+"?action=attendance&memberid="+memberid
-);
-return await response.json();
+
+// Mark Attendance
+async function attendanceAPI(memberid) {
+
+    const response = await fetch(
+        API_URL + "?action=attendance&memberid=" + encodeURIComponent(memberid)
+    );
+
+    return await response.json();
 }
-function remainingDays(expiry){
-    const today = new Date();
-    const expiryDate = new Date(expiry);
-    const diff = expiryDate - today;
-    return Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+// Dashboard
+async function dashboardAPI() {
+
+    const response = await fetch(
+        API_URL + "?action=dashboard"
+    );
+
+    return await response.json();
 }
