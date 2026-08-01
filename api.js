@@ -1,13 +1,36 @@
 const API_URL="YOUR_GOOGLE_APPS_SCRIPT_URL";
 
-async function saveMemberAPI(member){
+async function saveMember(){
 
-const response=await fetch(API_URL,{
-method:"POST",
-body:JSON.stringify(member)
-});
+const member={
 
-return await response.json();
+memberid:newMemberID(),
+
+name:document.getElementById("name").value,
+
+mobile:document.getElementById("mobile").value,
+
+plan:document.getElementById("plan").value,
+
+startdate:document.getElementById("startdate").value,
+
+expiry:expiryDate(
+
+document.getElementById("startdate").value,
+
+document.getElementById("plan").value
+
+),
+
+status:"ACTIVE"
+
+};
+
+await saveMemberAPI(member);
+
+alert("Member Saved");
+
+location.reload();
 
 }
 
