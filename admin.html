@@ -5,6 +5,11 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <script>
+if(localStorage.getItem("loggedIn")!="true"){
+location.href="login.html";
+}
+</script>
 <div class="container">
 <div class="card">
 <h1>Pause And Play</h1>
