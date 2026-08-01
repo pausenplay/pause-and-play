@@ -1,57 +1,56 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
-
 <title>Edit Member</title>
-
 <link rel="stylesheet" href="style.css">
-
 </head>
-
 <body>
-
-<a href="javascript:history.back()" class="back-btn">← Back</a>
-
+<a href="javascript:history.back()" class="back-btn">
+← Back
+</a>
 <div class="container">
-
 <div class="card">
-
 <h1>Edit Member</h1>
-
 <input id="name">
-
 <input id="mobile">
-
 <select id="plan">
-
 <option>1 Month</option>
-
 <option>3 Months</option>
-
 <option>6 Months</option>
-
 <option>12 Months</option>
-
 </select>
-
 <input type="date" id="startdate">
-
 <button onclick="updateMember()">
-
-Update Member
-
+Update
 </button>
-
 </div>
-
 </div>
-
 <script src="api.js"></script>
-
-<script src="app.js"></script>
-
+<script>
+let memberID=
+new URLSearchParams(location.search).get("id");
+async function load(){
+let m=await getMemberAPI(memberID);
+name.value=m.name;
+mobile.value=m.mobile;
+plan.value=m.plan;
+startdate.value=m.startdate;
+}
+async function updateMember(){
+let data={
+memberid:memberID,
+name:name.value,
+mobile:mobile.value,
+plan:plan.value,
+startdate:startdate.value,
+expiry:m.expiry
+};
+await updateMemberAPI(data);
+alert("Updated");
+history.back();
+}
+load();
+</script>
 </body>
 
 </html>
