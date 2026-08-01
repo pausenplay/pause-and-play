@@ -2,70 +2,101 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,sans-serif;
+font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
 }
 
 body{
-background:#f5f5f5;
-color:#222;
+background:#F2F2F7;
+color:#1C1C1E;
 padding:20px;
 }
 
-header{
+.container{
+max-width:430px;
+margin:auto;
+}
+
+.card{
 background:#fff;
+border-radius:18px;
 padding:20px;
-border-radius:10px;
-margin-bottom:20px;
-box-shadow:0 2px 10px rgba(0,0,0,.1);
+margin-bottom:18px;
+box-shadow:0 6px 20px rgba(0,0,0,.08);
 }
 
-button{
-background:#0066ff;
-color:#fff;
-border:none;
-padding:12px 20px;
-border-radius:8px;
-cursor:pointer;
-margin:5px;
+h1{
+font-size:30px;
+margin-bottom:8px;
 }
 
-button:hover{
-background:#0050cc;
+h2{
+font-size:20px;
+margin-bottom:15px;
 }
 
 input,select{
 width:100%;
-padding:12px;
-margin:8px 0;
-border:1px solid #ccc;
-border-radius:8px;
+padding:14px;
+margin-top:10px;
+border:1px solid #D1D1D6;
+border-radius:12px;
+font-size:16px;
+background:white;
+}
+
+button{
+width:100%;
+padding:15px;
+margin-top:15px;
+border:none;
+border-radius:14px;
+background:#007AFF;
+color:white;
+font-size:17px;
+font-weight:600;
+cursor:pointer;
+transition:.25s;
+}
+
+button:hover{
+background:#0062CC;
+}
+
+.back-btn{
+position:fixed;
+top:20px;
+left:20px;
+width:auto;
+padding:10px 16px;
+border-radius:999px;
+text-decoration:none;
+background:white;
+color:#007AFF;
+box-shadow:0 4px 15px rgba(0,0,0,.12);
+font-weight:600;
 }
 
 table{
 width:100%;
+background:white;
 border-collapse:collapse;
-background:#fff;
-margin-top:20px;
-}
-
-th,td{
-padding:12px;
-border:1px solid #ddd;
-text-align:left;
+border-radius:15px;
+overflow:hidden;
 }
 
 th{
-background:#0066ff;
-color:#fff;
+background:#007AFF;
+color:white;
+padding:14px;
 }
 
-.home-btn{
-position:fixed;
-left:20px;
-top:20px;
-text-decoration:none;
-background:#0066ff;
-color:#fff;
-padding:10px 18px;
-border-radius:8px;
+td{
+padding:12px;
+border-bottom:1px solid #ECECEC;
+}
+
+hr{
+margin:15px 0;
+border:none;
+border-top:1px solid #E5E5EA;
 }
