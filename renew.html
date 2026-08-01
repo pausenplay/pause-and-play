@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Renew Membership</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<a href="javascript:history.back()" class="back-btn">← Back</a>
+
+<div class="container">
+<div class="card">
+
+<h1>Renew Membership</h1>
+
+<h2 id="member"></h2>
+
+<select id="plan">
+
+<option>1 Month</option>
+<option>3 Months</option>
+<option>6 Months</option>
+<option>12 Months</option>
+
+</select>
+
+
+<button onclick="renew()">
+Renew
+</button>
+
+</div>
+</div>
+
+
+<script src="api.js"></script>
+<script src="app.js"></script>
+
+<script>
+
+let id=new URLSearchParams(location.search).get("id");
+
+
+document.getElementById("member").innerHTML=id;
+
+
+
+async function renew(){
+
+
+let today=new Date()
+.toISOString()
+.split("T")[0];
+
+
+let data={
+
+memberid:id,
+
+plan:plan.value,
+
+expiry:calculateExpiry(today,plan.value)
+
+};
+
+
+await renewMember(data);
+
+
+alert("Membership Renewed");
+
+history.back();
+
+
+}
+
+</script>
+
+
+</body>
+
+</html>
