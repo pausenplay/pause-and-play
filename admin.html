@@ -1,121 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Pause And Play - Dashboard</title>
-
+<title>Dashboard</title>
 <link rel="stylesheet" href="style.css">
 
 </head>
 
-<body>
 
-<a href="javascript:history.back()" class="back-btn">← Back</a>
+<body>
 
 <div class="container">
 
 <div class="card">
 
-<h1>🎮 Dashboard</h1>
+<h1>Dashboard</h1>
 
-<p>Pause And Play Gaming Cafe</p>
-
-</div>
-
-
-<div class="card">
-
-<h2>Statistics</h2>
-
-<table>
-
-<tr>
-<th>Total Members</th>
-<td id="total">0</td>
-</tr>
-
-<tr>
-<th>Active Members</th>
-<td id="active">0</td>
-</tr>
-
-<tr>
-<th>Today's Attendance</th>
-<td id="todayAttendance">0</td>
-</tr>
-
-</table>
-
-</div>
+<h2>Total Members</h2>
+<h1 id="total">0</h1>
 
 
-<div class="card">
+<h2>Active Members</h2>
+<h1 id="active">0</h1>
 
-<h2>Members</h2>
+
+<h2>Today's Attendance</h2>
+<h1 id="today">0</h1>
+
 
 <button onclick="location.href='addmember.html'">
-
-➕ Add Member
-
+Add Member
 </button>
+
 
 <button onclick="location.href='members.html'">
-
-👥 Member List
-
+Members
 </button>
 
-<button onclick="location.href='attendance.html'">
 
-✅ Attendance
-
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>Membership</h2>
-<button onclick="location.href='renew.html'">
-🔄 Renew Membership
-</button>
-<button onclick="location.href='search.html'">
-🔍 Search Member
-</button>
-<button onclick="location.href='reports.html'">
-📊 Reports
-</button>
-</div>
-<div class="card">
-<h2>QR System</h2>
-  
-<button onclick="location.href='scan.html'">
+<button onclick="location.href='scanner.html'">
 📷 Scan QR
 </button>
 
-<button onclick="location.href='qr.html'">
-
-🪪 Generate QR
-
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>Settings</h2>
-
-<button onclick="location.href='settings.html'">
-
-⚙ Settings
-
-</button>
 
 </div>
 
@@ -124,31 +51,30 @@
 
 <script src="api.js"></script>
 
+
 <script>
+
 
 async function loadDashboard(){
 
-try{
+let data=await getDashboard();
 
-const data=await dashboardAPI();
 
-document.getElementById("total").innerHTML=data.total||0;
+document.getElementById("total").innerHTML=data.total;
 
-document.getElementById("active").innerHTML=data.active||0;
+document.getElementById("active").innerHTML=data.active;
 
-document.getElementById("todayAttendance").innerHTML=data.today||0;
+document.getElementById("today").innerHTML=data.today;
 
-}catch(e){
-
-console.log(e);
 
 }
 
-}
 
 loadDashboard();
 
+
 </script>
+
 
 </body>
 
