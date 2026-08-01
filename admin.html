@@ -49,5 +49,11 @@ document.getElementById("active")
 }
 load();
 </script>
+  <script>
+function logout(){
+localStorage.removeItem("loggedIn");
+location.href="login.html";
+}
+</script>
 </body>
 </html>
