@@ -85,3 +85,18 @@ async function getDashboard(){
 return await apiGet("dashboard");
 
 }
+async function markAttendance(memberid){
+
+let response =
+await fetch(
+
+API_URL+
+"?action=attendance&memberid="
++memberid
+
+);
+
+
+return await response.json();
+
+}
