@@ -5,6 +5,20 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<header class="topbar">
+<div class="logo">
+<img src="assets/logo.png" height="45">
+<span>Pause & Play</span>
+</div>
+<div>
+<button onclick="window.open('billing.html','_blank')">
+💳 Billing
+</button>
+<button onclick="logout()">
+Logout
+</button>
+</div>
+</header>
   <script>
 if(localStorage.getItem("loggedIn")!="true"){
 location.href="login.html";
