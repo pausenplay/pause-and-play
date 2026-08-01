@@ -1,50 +1,87 @@
-const API_URL="YOUR_GOOGLE_APPS_SCRIPT_URL";
+const API_URL = "YOUR_APPS_SCRIPT_WEB_APP_URL";
 
 
-async function saveMemberAPI(member){
+async function apiGet(action, value=""){
 
-let res=await fetch(API_URL,{
+let url = API_URL + "?action=" + action;
+
+if(value!=""){
+
+url += "&memberid=" + value;
+
+}
+
+let response = await fetch(url);
+
+return await response.json();
+
+}
+
+
+
+async function apiPost(data){
+
+let response = await fetch(API_URL,{
+
 method:"POST",
-body:JSON.stringify(member)
+
+body:JSON.stringify(data)
+
 });
 
-return await res.json();
+
+return await response.json();
 
 }
 
 
-async function getMemberAPI(memberid){
 
-let res=await fetch(
-API_URL+"?action=getMember&memberid="+memberid
-);
+async function addMember(data){
 
-return await res.json();
+return await apiPost(data);
 
 }
 
 
-async function updateMemberAPI(member){
 
-let res=await fetch(API_URL,{
-method:"POST",
-body:JSON.stringify({
-action:"update",
-data:member
-})
-});
+async function getMember(id){
 
-return await res.json();
+return await apiGet("getMember",id);
 
 }
 
 
-async function dashboardAPI(){
 
-let res=await fetch(
-API_URL+"?action=dashboard"
-);
+async function getMembers(){
 
-return await res.json();
+return await apiGet("getAllMembers");
+
+}
+
+
+
+async function updateMember(data){
+
+data.action="update";
+
+return await apiPost(data);
+
+}
+
+
+
+async function renewMember(data){
+
+data.action="renew";
+
+return await apiPost(data);
+
+}
+
+
+
+async function getDashboard(){
+
+return await apiGet("dashboard");
 
 }
