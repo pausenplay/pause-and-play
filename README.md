@@ -1,1 +1,1 @@
-# pause-and-play
+# Pause-and-Play
