@@ -1,1 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Member List</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Member List</h1>
+<hr>
+<table border="1" width="100%" id="memberTable">
+<tr>
+<th>Member ID</th>
+<th>Name</th>
+<th>Mobile</th>
+<th>Plan</th>
+<th>Start Date</th>
+</tr>
+</table>
+<script>
+let members = JSON.parse(localStorage.getItem("members")) || [];
+let table = document.getElementById("memberTable");
+members.forEach(function(member){
+table.innerHTML += `
+<tr>
+<td>${member.memberid}</td>
+<td>${member.name}</td>
+<td>${member.mobile}</td>
+<td>${member.plan}</td>
+<td>${member.startdate}</td>
+</tr>
+`;
+});
+</script>
+</body>
 
+</html>
