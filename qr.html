@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Member QR</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+</head>
+
+<body>
+
+<a href="javascript:history.back()" class="back-btn">← Back</a>
+
+<div class="container">
+
+<div class="card">
+
+<h1>Member QR</h1>
+
+<h2 id="memberID"></h2>
+
+<div id="qrcode"></div>
+
+</div>
+
+</div>
+
+<script src="api.js"></script>
+<script src="app.js"></script>
+
+<script>
+
+const params = new URLSearchParams(location.search);
+
+const memberid = params.get("id");
+
+document.getElementById("memberID").innerHTML = memberid;
+
+new QRCode(document.getElementById("qrcode"),{
+
+text:location.origin+"/member.html?id="+memberid,
+
+width:250,
+
+height:250
+
+});
+
+</script>
+
+</body>
+
+</html>
