@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Settings</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<a href="javascript:history.back()" class="back-btn">
+← Back
+</a>
+
+<div class="container">
+
+<h1>Settings</h1>
+
+<div class="card">
+
+<h2>Business Information</h2>
+
+<input id="businessName" placeholder="Business Name">
+
+<input id="ownerName" placeholder="Owner Name">
+
+<input id="mobile" placeholder="Mobile Number">
+
+<input id="email" placeholder="Email">
+
+<textarea id="address" placeholder="Business Address"></textarea>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h2>Membership Prices</h2>
+
+<input id="price1" type="number" placeholder="1 Month">
+
+<input id="price3" type="number" placeholder="3 Months">
+
+<input id="price6" type="number" placeholder="6 Months">
+
+<input id="price12" type="number" placeholder="12 Months">
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h2>Payment</h2>
+
+<input id="upi" placeholder="UPI ID">
+
+<input id="gst" placeholder="GST Number">
+
+<input id="currency" value="₹">
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h2>System</h2>
+
+<button onclick="saveSettings()">
+💾 Save Settings
+</button>
+
+<button onclick="backupDatabase()">
+📦 Backup Database
+</button>
+
+<button onclick="restoreDatabase()">
+♻ Restore Database
+</button>
+
+<button onclick="location.href='reports.html'">
+📊 Reports
+</button>
+
+<button onclick="logout()">
+🚪 Logout
+</button>
+
+</div>
+
+</div>
+
+<script src="api.js"></script>
+
+<script>
+
+async function loadSettings(){
+
+let s=await getSettings();
+
+if(!s)return;
+
+businessName.value=s.businessName||"";
+
+ownerName.value=s.ownerName||"";
+
+mobile.value=s.mobile||"";
+
+email.value=s.email||"";
+
+address.value=s.address||"";
+
+price1.value=s.price1||500;
+
+price3.value=s.price3||1400;
+
+price6.value=s.price6||2700;
+
+price12.value=s.price12||5000;
+
+upi.value=s.upi||"";
+
+gst.value=s.gst||"";
+
+currency.value=s.currency||"₹";
+
+}
+
+async function saveSettings(){
+
+let data={
+
+businessName:businessName.value,
+
+ownerName:ownerName.value,
+
+mobile:mobile.value,
+
+email:email.value,
+
+address:address.value,
+
+price1:price1.value,
+
+price3:price3.value,
+
+price6:price6.value,
+
+price12:price12.value,
+
+upi:upi.value,
+
+gst:gst.value,
+
+currency:currency.value
+
+};
+
+await saveSettings(data);
+
+alert("Settings Saved");
+
+}
+
+function logout(){
+
+localStorage.removeItem("loggedIn");
+
+location.href="login.html";
+
+}
+
+loadSettings();
+
+</script>
+
+</body>
+
+</html>
