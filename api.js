@@ -1,232 +1,89 @@
-// =========================
-// Pause & Play API
-// =========================
+"use strict";
 
-const API_URL=https://script.google.com/macros/s/AKfycbwVVpKy9oZBYJGpN9u-iLn2tXF8b489ZceBbE_N1FFBs9mXvzCWiyaUcc0Mkm-qKcs9Uw/exec;
+/*==========================================================
+  API CONFIGURATION
+==========================================================*/
 
-// ---------- Common GET ----------
+const API = {
 
-async function apiGet(action, params = {}) {
+    URL: "YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL",
 
-    let url = API_URL + "?action=" + action;
+    VERSION: "3.0"
 
-    for (let key in params) {
+};
 
-        url += "&" + key + "=" + encodeURIComponent(params[key]);
+/*==========================================================
+  BUILD QUERY STRING
+==========================================================*/
+
+function buildQuery(params = {}) {
+
+    const query = new URLSearchParams();
+
+    Object.keys(params).forEach(key => {
+
+        if (
+            params[key] !== undefined &&
+            params[key] !== null
+        ) {
+
+            query.append(key, params[key]);
+
+        }
+
+    });
+
+    return query.toString();
+
+}
+
+/*==========================================================
+  COMMON REQUEST
+==========================================================*/
+
+async function api(action, params = {}) {
+
+    params.action = action;
+
+    const url =
+        API.URL +
+        "?" +
+        buildQuery(params);
+
+    try {
+
+        const response = await fetch(url, {
+
+            method: "GET",
+
+            cache: "no-store"
+
+        });
+
+        if (!response.ok) {
+
+            throw new Error(
+                "HTTP " + response.status
+            );
+
+        }
+
+        return await response.json();
 
     }
 
-    const response = await fetch(url);
+    catch (error) {
 
-    return await response.json();
+        console.error(error);
 
-}
+        return {
 
+            success: false,
 
-// ---------- Common POST ----------
+            message: error.message
 
-async function apiPost(data) {
+        };
 
-    const response = await fetch(API_URL, {
-
-        method: "POST",
-
-        headers: {
-
-            "Content-Type": "application/json"
-
-        },
-
-        body: JSON.stringify(data)
-
-    });
-
-    return await response.json();
-
-}
-
-
-
-// =========================
-// MEMBER
-// =========================
-
-async function addMember(member) {
-
-    return await apiPost(member);
-
-}
-
-async function getMember(memberid) {
-
-    return await apiGet("getMember", {
-
-        memberid: memberid
-
-    });
-
-}
-
-async function getMembers() {
-
-    return await apiGet("getAllMembers");
-
-}
-
-async function updateMember(member) {
-
-    member.action = "update";
-
-    return await apiPost(member);
-
-}
-
-async function renewMember(member) {
-
-    member.action = "renew";
-
-    return await apiPost(member);
-
-}
-
-async function deleteMember(memberid) {
-
-    return await apiPost({
-
-        action: "delete",
-
-        memberid: memberid
-
-    });
-
-}
-
-
-
-// =========================
-// ATTENDANCE
-// =========================
-
-async function markAttendance(memberid) {
-
-    return await apiGet("attendance", {
-
-        memberid: memberid
-
-    });
-
-}
-
-async function getAttendance() {
-
-    return await apiGet("attendanceList");
-
-}
-
-async function getTodayAttendance() {
-
-    return await apiGet("todayAttendance");
-
-}
-
-
-
-// =========================
-// DASHBOARD
-// =========================
-
-async function getDashboard() {
-
-    return await apiGet("dashboard");
-
-}
-
-
-
-// =========================
-// REPORTS
-// =========================
-
-async function getReports() {
-
-    return await apiGet("reports");
-
-}
-
-async function exportCSV() {
-
-    return await apiGet("exportCSV");
-
-}
-
-
-
-// =========================
-// LOGIN
-// =========================
-
-async function login(username, password) {
-
-    return await apiPost({
-
-        action: "login",
-
-        username: username,
-
-        password: password
-
-    });
-
-}
-
-async function changePassword(oldPassword, newPassword) {
-
-    return await apiPost({
-
-        action: "changePassword",
-
-        oldPassword: oldPassword,
-
-        newPassword: newPassword
-
-    });
-
-}
-
-
-
-// =========================
-// SETTINGS
-// =========================
-
-async function getSettings() {
-
-    return await apiGet("settings");
-
-}
-
-async function saveSettings(data) {
-
-    data.action = "saveSettings";
-
-    return await apiPost(data);
-
-}
-
-
-
-// =========================
-// BACKUP
-// =========================
-
-async function backupDatabase() {
-
-    return await apiGet("backup");
-
-}
-
-async function restoreDatabase() {
-
-    return await apiGet("restore");
+    }
 
 }
