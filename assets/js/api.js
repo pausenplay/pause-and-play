@@ -4,10 +4,10 @@
  ************************************************/
 
 // ========================================
-// CHANGE ONLY THIS
+// WEB_APP_URL
 // ========================================
 
-const API_URL="YOUR_WEB_APP_URL";
+const API_URL="https://script.google.com/macros/s/AKfycbwVVpKy9oZBYJGpN9u-iLn2tXF8b489ZceBbE_N1FFBs9mXvzCWiyaUcc0Mkm-qKcs9Uw/exec";
 
 // ========================================
 
