@@ -1104,3 +1104,455 @@ document.addEventListener(
     }
 
 );
+/*===========================================================
+  GLOBAL API WRAPPER
+===========================================================*/
+
+const Api={
+
+    async get(action,...params){
+
+        try{
+
+            showLoading();
+
+            const response=await apiGet(
+
+                action,
+
+                ...params
+
+            );
+
+            hideLoading();
+
+            return response;
+
+        }
+
+        catch(error){
+
+            hideLoading();
+
+            apiError(error);
+
+            return null;
+
+        }
+
+    },
+
+    async post(action,data){
+
+        try{
+
+            showLoading();
+
+            const response=await apiPost(
+
+                action,
+
+                data
+
+            );
+
+            hideLoading();
+
+            return response;
+
+        }
+
+        catch(error){
+
+            hideLoading();
+
+            apiError(error);
+
+            return null;
+
+        }
+
+    }
+
+};
+
+
+/*===========================================================
+  EXPORT CSV
+===========================================================*/
+
+function exportCSV(filename,data){
+
+    if(!Array.isArray(data)) return;
+
+    if(data.length===0) return;
+
+    const headers=Object.keys(data[0]);
+
+    let csv=headers.join(",")+"\n";
+
+    data.forEach(row=>{
+
+        csv+=headers.map(h=>row[h]).join(",");
+
+        csv+="\n";
+
+    });
+
+    const blob=new Blob(
+
+        [csv],
+
+        {
+
+            type:"text/csv"
+
+        }
+
+    );
+
+    const url=URL.createObjectURL(blob);
+
+    const a=document.createElement("a");
+
+    a.href=url;
+
+    a.download=filename;
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+}
+
+
+/*===========================================================
+  EXPORT EXCEL (CSV FORMAT)
+===========================================================*/
+
+function exportExcel(filename,data){
+
+    exportCSV(
+
+        filename+".csv",
+
+        data
+
+    );
+
+}
+
+
+/*===========================================================
+  PRINT
+===========================================================*/
+
+function printElement(id){
+
+    const element=document.getElementById(id);
+
+    if(!element) return;
+
+    const printWindow=
+
+    window.open(
+
+        "",
+
+        "_blank"
+
+    );
+
+    printWindow.document.write(
+
+        "<html><head><title>Print</title></head><body>"
+
+    );
+
+    printWindow.document.write(
+
+        element.outerHTML
+
+    );
+
+    printWindow.document.write(
+
+        "</body></html>"
+
+    );
+
+    printWindow.document.close();
+
+    printWindow.print();
+
+}
+
+
+/*===========================================================
+  BACKUP
+===========================================================*/
+
+async function downloadBackup(){
+
+    const backup={
+
+        exported:new Date(),
+
+        user:currentUser(),
+
+        version:APP.VERSION
+
+    };
+
+    downloadJSON(
+
+        backup,
+
+        "backup.json"
+
+    );
+
+}
+
+
+/*===========================================================
+  DATE FORMAT
+===========================================================*/
+
+function formatDateTime(date){
+
+    return new Date(date)
+
+    .toLocaleString(
+
+        "en-IN"
+
+    );
+
+}
+
+
+/*===========================================================
+  CURRENCY
+===========================================================*/
+
+function money(value){
+
+    return Number(value)
+
+    .toLocaleString(
+
+        "en-IN",
+
+        {
+
+            style:"currency",
+
+            currency:"INR"
+
+        }
+
+    );
+
+}
+
+
+/*===========================================================
+  NUMBER
+===========================================================*/
+
+function number(value){
+
+    return Number(value)
+
+    .toLocaleString(
+
+        "en-IN"
+
+    );
+
+}
+
+
+/*===========================================================
+  DEVELOPER MODE
+===========================================================*/
+
+const DEV={
+
+    enabled:true,
+
+    log(...args){
+
+        if(this.enabled){
+
+            console.log(
+
+                "[APP]",
+
+                ...args
+
+            );
+
+        }
+
+    },
+
+    warn(...args){
+
+        if(this.enabled){
+
+            console.warn(
+
+                "[WARNING]",
+
+                ...args
+
+            );
+
+        }
+
+    },
+
+    error(...args){
+
+        if(this.enabled){
+
+            console.error(
+
+                "[ERROR]",
+
+                ...args
+
+            );
+
+        }
+
+    }
+
+};
+
+
+/*===========================================================
+  VERSION
+===========================================================*/
+
+function appVersion(){
+
+    return APP.VERSION;
+
+}
+
+function appName(){
+
+    return APP.NAME;
+
+}
+
+
+/*===========================================================
+  SYSTEM INFO
+===========================================================*/
+
+function systemInfo(){
+
+    return{
+
+        app:APP.NAME,
+
+        version:APP.VERSION,
+
+        browser:navigator.userAgent,
+
+        language:navigator.language,
+
+        platform:navigator.platform,
+
+        online:navigator.onLine
+
+    };
+
+}
+
+
+/*===========================================================
+  INITIALIZATION
+===========================================================*/
+
+window.addEventListener(
+
+    "load",
+
+    ()=>{
+
+        DEV.log(
+
+            "Application Started"
+
+        );
+
+        DEV.log(
+
+            systemInfo()
+
+        );
+
+    }
+
+);
+
+
+/*===========================================================
+  GLOBAL ERROR HANDLER
+===========================================================*/
+
+window.onerror=function(
+
+    message,
+
+    source,
+
+    line,
+
+    column,
+
+    error
+
+){
+
+    DEV.error(
+
+        message,
+
+        source,
+
+        line,
+
+        column,
+
+        error
+
+    );
+
+};
+
+
+/*===========================================================
+  GLOBAL PROMISE HANDLER
+===========================================================*/
+
+window.addEventListener(
+
+    "unhandledrejection",
+
+    function(event){
+
+        DEV.error(
+
+            event.reason
+
+        );
+
+    }
+
+);
