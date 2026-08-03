@@ -1,74 +1,149 @@
+/*==========================================================
+  Pause & Play Gym Management System
+  File      : api.js
+  Version   : 3.0
+  Purpose   : Central API Client
+==========================================================*/
+
 "use strict";
 
 /*==========================================================
-  API CONFIGURATION
+  CONFIGURATION
 ==========================================================*/
 
 const API = {
 
-    URL: "YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL",
+    URL: "https://script.google.com/macros/s/AKfycbwVVpKy9oZBYJGpN9u-iLn2tXF8b489ZceBbE_N1FFBs9mXvzCWiyaUcc0Mkm-qKcs9Uw/exec",
 
-    VERSION: "3.0"
+    TIMEOUT: 30000
 
 };
 
 /*==========================================================
-  BUILD QUERY STRING
+  RESPONSE PARSER
 ==========================================================*/
 
-function buildQuery(params = {}) {
+async function parseResponse(response) {
 
-    const query = new URLSearchParams();
+    if (!response.ok) {
 
-    Object.keys(params).forEach(key => {
+        throw new Error(
 
-        if (
-            params[key] !== undefined &&
-            params[key] !== null
-        ) {
+            "HTTP " + response.status
 
-            query.append(key, params[key]);
+        );
 
-        }
+    }
 
-    });
-
-    return query.toString();
+    return await response.json();
 
 }
 
 /*==========================================================
-  COMMON REQUEST
+  GET REQUEST
 ==========================================================*/
 
-async function api(action, params = {}) {
+async function apiGet(action, params = {}) {
 
     params.action = action;
 
-    const url =
-        API.URL +
-        "?" +
-        buildQuery(params);
+    const query = new URLSearchParams(params);
 
-    try {
+    const response = await fetch(
 
-        const response = await fetch(url, {
+        API.URL + "?" + query.toString(),
+
+        {
 
             method: "GET",
 
             cache: "no-store"
 
-        });
+        }
 
-        if (!response.ok) {
+    );
 
-            throw new Error(
-                "HTTP " + response.status
+    return parseResponse(response);
+
+}
+
+/*==========================================================
+  POST REQUEST
+==========================================================*/
+
+async function apiPost(action, data = {}) {
+
+    data.action = action;
+
+    const formData = new URLSearchParams();
+
+    Object.keys(data).forEach(key => {
+
+        if (
+
+            data[key] !== undefined &&
+
+            data[key] !== null
+
+        ) {
+
+            formData.append(
+
+                key,
+
+                data[key]
+
             );
 
         }
 
-        return await response.json();
+    });
+
+    const response = await fetch(
+
+        API.URL,
+
+        {
+
+            method: "POST",
+
+            body: formData
+
+        }
+
+    );
+
+    return parseResponse(response);
+
+}
+
+/*==========================================================
+  SAFE REQUEST
+==========================================================*/
+
+async function request(method, action, data = {}) {
+
+    try {
+
+        if (method === "GET") {
+
+            return await apiGet(
+
+                action,
+
+                data
+
+            );
+
+        }
+
+        return await apiPost(
+
+            action,
+
+            data
+
+        );
 
     }
 
