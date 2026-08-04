@@ -67,56 +67,24 @@ async function apiGet(action, params = {}) {
 
 }
 
-/*==========================================================
-  POST REQUEST
-==========================================================*/
+/*==========================================================*
+* POST REQUEST
+*==========================================================*/
 
-async function apiPost(action, data = {}) {
-
-    data.action = action;
-
-    const formData = new URLSearchParams();
-
-    Object.keys(data).forEach(key => {
-
-        if (
-
-            data[key] !== undefined &&
-
-            data[key] !== null
-
-        ) {
-
-            formData.append(
-
-                key,
-
-                data[key]
-
-            );
-
-        }
-
+async function apiPost(action, data = {}) 
+{
+  data.action = action;
+  const response = await fetch(API.URL, 
+    {
+      method: "POST",
+      headers: 
+      {
+        "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
     });
-
-    const response = await fetch(
-
-        API.URL,
-
-        {
-
-            method: "POST",
-
-            body: formData
-
-        }
-
-    );
-
     return parseResponse(response);
-
 }
-
 /*==========================================================
   SAFE REQUEST
 ==========================================================*/
