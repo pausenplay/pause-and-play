@@ -995,36 +995,11 @@ function navigate(url){
 /*===========================================================
   ACTIVE USER INFO
 ===========================================================*/
-
-function fillUserInfo(){
-
-    const user=currentUser();
-
-    if(!user) return;
-
-    document.querySelectorAll(
-
-        "[data-user-name]"
-
-    ).forEach(el=>{
-
-        el.innerText=user.name;
-
-    });
-
-    document.querySelectorAll(
-
-        "[data-user-role]"
-
-    ).forEach(el=>{
-
-        el.innerText=user.role;
-
-    });
-
+// Helper to retrieve current logged-in user from session storage
+function currentUser() {
+  const user = sessionStorage.getItem("gym_user");
+  return user ? JSON.parse(user) : null;
 }
-
-
 /*===========================================================
   CLOCK
 ===========================================================*/
