@@ -13,7 +13,7 @@
 
 const API = {
 
-    URL: "https://script.google.com/macros/s/AKfycbwVVpKy9oZBYJGpN9u-iLn2tXF8b489ZceBbE_N1FFBs9mXvzCWiyaUcc0Mkm-qKcs9Uw/exec",
+    URL: "https://script.google.com/macros/s/AKfycbzSpiMEBHgiq9iGzou2beyjRejwVvmqbhZ7KNbogG53oZD6eKmKsP5ZP4jCiu-bhpPLug/exec",
 
     TIMEOUT: 30000
 
