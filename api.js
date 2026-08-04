@@ -132,63 +132,34 @@ async function request(method, action, data = {}) {
 ==========================================================*/
 
 function login(username, password) {
-
-    return request("GET", "login", {
-
+    return request("POST", "login", {
         username,
-
         password
-
     });
-
 }
-
 function logout(token) {
-
     return request("POST", "logout", {
-
         token
-
     });
-
 }
-
 function changePassword(oldPassword, newPassword) {
-
     return request("POST", "changePassword", {
-
         oldPassword,
-
         newPassword
-
     });
-
 }
-
 function createStaff(staff) {
-
     return request("POST", "createStaff", staff);
-
 }
-
 function enableStaff(username) {
-
     return request("POST", "enableStaff", {
-
         username
-
     });
-
 }
-
 function disableStaff(username) {
-
     return request("POST", "disableStaff", {
-
         username
-
     });
-
 }
 
 function deleteStaff(username) {
