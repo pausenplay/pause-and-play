@@ -85,46 +85,28 @@ async function apiPost(action, data = {}) {
   SAFE REQUEST
 ==========================================================*/
 
-async function request(method, action, data = {}) {
+async function request(method, action, data = {}) {async function request(method, action, data = {}) {
 
     try {
 
-        if (method === "GET") {
+        if (method.toUpperCase() === "GET") {
 
-            return await apiGet(
-
-                action,
-
-                data
-
-            );
+            return await apiGet(action, data);
 
         }
 
-        return await apiPost(
-
-            action,
-
-            data
-
-        );
-
+        if (method.toUpperCase() === "POST") {
+            return await apiPost(action, data);
+        }
+        throw new Error("Invalid HTTP Method");
     }
-
-    catch (error) {
-
+    catch(error) {
         console.error(error);
-
         return {
-
-            success: false,
-
-            message: error.message
-
+            success:false,
+            message:error.message
         };
-
     }
-
 }
 /*==========================================================
   PART 2
