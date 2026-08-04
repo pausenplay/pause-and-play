@@ -108,7 +108,11 @@ function deleteStaff(username) {
 function getStaffList() {
   return request("GET", "staffList");
 }
-
+// Helper to retrieve current user from session storage
+function currentUser() {
+  const user = sessionStorage.getItem("gym_user");
+  return user ? JSON.parse(user) : null;
+}
 /*==========================================================
   MEMBERS MANAGEMENT
 ==========================================================*/
