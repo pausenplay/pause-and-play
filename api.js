@@ -70,15 +70,12 @@ async function apiGet(action, params = {}) {
 /*==========================================================*
 * POST REQUEST
 *==========================================================*/
-async function apiPost(action, data = {}) 
-{
-  data.action = action;
-  const response = await fetch(API.URL, 
-    {
-      method: "POST",
-      headers: 
-      {
-        "Content-Type": "application/json"
+async function apiPost(action, data = {}) {
+    data.action = action;
+    const response = await fetch(API.URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(data)
     });
