@@ -12,542 +12,310 @@
 ==========================================================*/
 
 const API = {
-
-    URL: "https://script.google.com/macros/s/AKfycbzSpiMEBHgiq9iGzou2beyjRejwVvmqbhZ7KNbogG53oZD6eKmKsP5ZP4jCiu-bhpPLug/exec",
-
-    TIMEOUT: 30000
-
+  URL: "https://script.google.com/macros/s/AKfycbzSpiMEBHgiq9iGzou2beyjRejwVvmqbhZ7KNbogG53oZD6eKmKsP5ZP4jCiu-bhpPLug/exec",
+  TIMEOUT: 30000
 };
 
 /*==========================================================
-  RESPONSE PARSER
+  RESPONSE PARSER & BASE REQUEST HANDLERS
 ==========================================================*/
 
 async function parseResponse(response) {
-
-    if (!response.ok) {
-
-        throw new Error(
-
-            "HTTP " + response.status
-
-        );
-
-    }
-
-    return await response.json();
-
+  if (!response.ok) {
+    throw new Error("HTTP " + response.status);
+  }
+  return await response.json();
 }
-
-/*==========================================================
-  GET REQUEST
-==========================================================*/
 
 async function apiGet(action, params = {}) {
+  params.action = action;
+  const query = new URLSearchParams(params);
 
-    params.action = action;
+  const response = await fetch(`${API.URL}?${query.toString()}`, {
+    method: "GET",
+    cache: "no-store"
+  });
 
-    const query = new URLSearchParams(params);
-
-    const response = await fetch(
-
-        API.URL + "?" + query.toString(),
-
-        {
-
-            method: "GET",
-
-            cache: "no-store"
-
-        }
-
-    );
-
-    return parseResponse(response);
-
+  return parseResponse(response);
 }
 
-/*==========================================================*
-* POST REQUEST
-*==========================================================*/
-async function apiPost(data) {
-  const url = 'https://script.google.com/macros/s/AKfycbzSpiMEBHgiq9iGzou2beyjRejwVvmqbhZ7KNbogG53oZD6eKmKsP5ZP4jCiu-bhpPLug/exec';
+async function apiPost(action, data = {}) {
+  // Pass the action parameter inside the POST JSON payload
+  const payload = { action, ...data };
 
+  const response = await fetch(API.URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+    redirect: "follow",
+    body: JSON.stringify(payload)
+  });
+
+  return parseResponse(response);
+}
+
+async function request(method, action, data = {}) {
   try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'text/plain;charset=utf-8',
-      },
-      redirect: 'follow',
-      body: JSON.stringify(data),
-    });
-
-    return await response.json();
+    if (method.toUpperCase() === "GET") {
+      return await apiGet(action, data);
+    }
+    if (method.toUpperCase() === "POST") {
+      return await apiPost(action, data);
+    }
+    throw new Error("Invalid HTTP Method");
   } catch (error) {
-    console.error("API POST Error:", error);
-    throw error;
+    console.error("API Request Error:", error);
+    return {
+      success: false,
+      message: error.message
+    };
   }
 }
+
 /*==========================================================
-  SAFE REQUEST
-==========================================================*/
-
-async function request(method, action, data = {}) {async function request(method, action, data = {}) {
-
-    try {
-
-        if (method.toUpperCase() === "GET") {
-
-            return await apiGet(action, data);
-
-        }
-
-        if (method.toUpperCase() === "POST") {
-            return await apiPost(action, data);
-        }
-        throw new Error("Invalid HTTP Method");
-    }
-    catch(error) {
-        console.error(error);
-        return {
-            success:false,
-            message:error.message
-        };
-    }
-}
-/*==========================================================
-  PART 2
-  AUTHENTICATION
+  AUTHENTICATION & STAFF MANAGEMENT
 ==========================================================*/
 
 function login(username, password) {
-    return request("POST", "login", {
-        username,
-        password
-    });
+  return request("POST", "login", { username, password });
 }
+
 function logout(token) {
-    return request("POST", "logout", {
-        token
-    });
+  return request("POST", "logout", { token });
 }
+
 function changePassword(oldPassword, newPassword) {
-    return request("POST", "changePassword", {
-        oldPassword,
-        newPassword
-    });
+  return request("POST", "changePassword", { oldPassword, newPassword });
 }
+
 function createStaff(staff) {
-    return request("POST", "createStaff", staff);
+  return request("POST", "createStaff", staff);
 }
+
 function enableStaff(username) {
-    return request("POST", "enableStaff", {
-        username
-    });
+  return request("POST", "enableStaff", { username });
 }
+
 function disableStaff(username) {
-    return request("POST", "disableStaff", {
-        username
-    });
+  return request("POST", "disableStaff", { username });
 }
 
 function deleteStaff(username) {
-
-    return request("POST", "deleteStaff", {
-
-        username
-
-    });
-
+  return request("POST", "deleteStaff", { username });
 }
 
 function getStaffList() {
-
-    return request("GET", "staffList");
-
+  return request("GET", "staffList");
 }
 
-
 /*==========================================================
-  MEMBERS
+  MEMBERS MANAGEMENT
 ==========================================================*/
 
 function saveMember(member) {
-
-    return request("POST", "saveMember", member);
-
+  return request("POST", "saveMember", member);
 }
 
 function updateMember(member) {
-
-    return request("POST", "updateMember", member);
-
+  return request("POST", "updateMember", member);
 }
 
 function renewMember(member) {
-
-    return request("POST", "renewMember", member);
-
+  return request("POST", "renewMember", member);
 }
 
 function deleteMember(memberid) {
-
-    return request("POST", "deleteMember", {
-
-        memberid
-
-    });
-
+  return request("POST", "deleteMember", { memberid });
 }
 
 function getMember(memberid) {
-
-    return request("GET", "member", {
-
-        memberid
-
-    });
-
+  return request("GET", "member", { memberid });
 }
 
 function getAllMembers() {
-
-    return request("GET", "members");
-
+  return request("GET", "members");
 }
 
 function searchMember(keyword) {
-
-    return request("GET", "searchMember", {
-
-        keyword
-
-    });
-
+  return request("GET", "searchMember", { keyword });
 }
 
 function getDashboard() {
-
-    return request("GET", "dashboard");
-
+  return request("GET", "dashboard");
 }
 
 function getMembershipStats() {
-
-    return request("GET", "membershipStats");
-
+  return request("GET", "membershipStats");
 }
 
 function getRecentMembers() {
-
-    return request("GET", "recentMembers");
-
+  return request("GET", "recentMembers");
 }
 
 function getExpiringSoon() {
-
-    return request("GET", "expiringSoon");
-
+  return request("GET", "expiringSoon");
 }
-
 
 /*==========================================================
   ATTENDANCE
 ==========================================================*/
 
 function markAttendance(memberid) {
-
-    return request("GET", "attendance", {
-
-        memberid
-
-    });
-
+  return request("GET", "attendance", { memberid });
 }
 
 function attendanceList() {
-
-    return request("GET", "attendanceList");
-
+  return request("GET", "attendanceList");
 }
 
 function memberAttendance(memberid) {
-
-    return request("GET", "memberAttendance", {
-
-        memberid
-
-    });
-
+  return request("GET", "memberAttendance", { memberid });
 }
 
 function todayAttendance() {
-
-    return request("GET", "todayAttendance");
-
+  return request("GET", "todayAttendance");
 }
 
 function deleteAttendance(memberid, date) {
-
-    return request("POST", "deleteAttendance", {
-
-        memberid,
-
-        date
-
-    });
-
+  return request("POST", "deleteAttendance", { memberid, date });
 }
-
 
 /*==========================================================
-  END OF PART 2
+  BILLING & PAYMENTS
 ==========================================================*/
 
-/*==========================================================
-  PART 3
-  BILLING • REPORTS • SETTINGS • BACKUP • NOTIFICATIONS
-==========================================================*/
-
-
-/*==========================================================
-  BILLING
-==========================================================*/
-
-function savePayment(payment){
-
-    return request("POST","savePayment",payment);
-
+function savePayment(payment) {
+  return request("POST", "savePayment", payment);
 }
 
-function cancelInvoice(invoice){
-
-    return request("POST","cancelInvoice",{
-
-        invoice
-
-    });
-
+function cancelInvoice(invoice) {
+  return request("POST", "cancelInvoice", { invoice });
 }
 
-function getInvoice(invoice){
-
-    return request("GET","invoice",{
-
-        invoice
-
-    });
-
+function getInvoice(invoice) {
+  return request("GET", "invoice", { invoice });
 }
 
-function invoiceHistory(){
-
-    return request("GET","invoiceHistory");
-
+function invoiceHistory() {
+  return request("GET", "invoiceHistory");
 }
 
-function todayRevenue(){
-
-    return request("GET","todayRevenue");
-
+function todayRevenue() {
+  return request("GET", "todayRevenue");
 }
 
-function monthlyRevenue(){
-
-    return request("GET","monthlyRevenue");
-
+function monthlyRevenue() {
+  return request("GET", "monthlyRevenue");
 }
 
-function yearlyRevenue(){
-
-    return request("GET","yearlyRevenue");
-
+function yearlyRevenue() {
+  return request("GET", "yearlyRevenue");
 }
 
-function paymentAnalytics(){
-
-    return request("GET","paymentAnalytics");
-
+function paymentAnalytics() {
+  return request("GET", "paymentAnalytics");
 }
 
-function searchInvoice(keyword){
-
-    return request("GET","searchInvoice",{
-
-        keyword
-
-    });
-
+function searchInvoice(keyword) {
+  return request("GET", "searchInvoice", { keyword });
 }
-
 
 /*==========================================================
   REPORTS
 ==========================================================*/
 
-function reports(){
-
-    return request("GET","reports");
-
+function reports() {
+  return request("GET", "reports");
 }
 
-function activeReport(){
-
-    return request("GET","activeReport");
-
+function activeReport() {
+  return request("GET", "activeReport");
 }
 
-function expiredReport(){
-
-    return request("GET","expiredReport");
-
+function expiredReport() {
+  return request("GET", "expiredReport");
 }
 
-function monthlyJoining(){
-
-    return request("GET","monthlyJoining");
-
+function monthlyJoining() {
+  return request("GET", "monthlyJoining");
 }
 
-function planReport(){
-
-    return request("GET","planReport");
-
+function planReport() {
+  return request("GET", "planReport");
 }
 
-function exportCSV(){
-
-    return request("GET","exportCSV");
-
+function exportCSV() {
+  return request("GET", "exportCSV");
 }
-
 
 /*==========================================================
-  SETTINGS
+  SETTINGS & SYSTEM
 ==========================================================*/
 
-function getSettings(){
-
-    return request("GET","settings");
-
+function getSettings() {
+  return request("GET", "settings");
 }
 
-function saveSettings(settings){
-
-    return request("POST","saveSettings",settings);
-
+function saveSettings(settings) {
+  return request("POST", "saveSettings", settings);
 }
 
-function updateSetting(key,value){
-
-    return request("POST","updateSetting",{
-
-        key,
-
-        value
-
-    });
-
+function updateSetting(key, value) {
+  return request("POST", "updateSetting", { key, value });
 }
 
-function systemInfo(){
-
-    return request("GET","systemInfo");
-
+function systemInfo() {
+  return request("GET", "systemInfo");
 }
 
-
-/*==========================================================
-  BACKUP
-==========================================================*/
-
-function backupDatabase(){
-
-    return request("GET","backup");
-
+function backupDatabase() {
+  return request("GET", "backup");
 }
-
 
 /*==========================================================
   NOTIFICATIONS
 ==========================================================*/
 
-function expiryNotifications(){
-
-    return request("GET","expiryNotifications");
-
+function expiryNotifications() {
+  return request("GET", "expiryNotifications");
 }
 
-function birthdayNotifications(){
-
-    return request("GET","birthdayNotifications");
-
+function birthdayNotifications() {
+  return request("GET", "birthdayNotifications");
 }
 
-function inactiveMembers(){
-
-    return request("GET","inactiveMembers");
-
+function inactiveMembers() {
+  return request("GET", "inactiveMembers");
 }
 
-function notificationCount(){
-
-    return request("GET","notificationCount");
-
+function notificationCount() {
+  return request("GET", "notificationCount");
 }
-
 
 /*==========================================================
-  HEALTH CHECK
+  HEALTH CHECK & SYSTEM INFO
 ==========================================================*/
 
-async function pingServer(){
-
-    try{
-
-        const result=await request("GET","systemInfo");
-
-        return{
-
-            success:true,
-
-            server:result
-
-        };
-
-    }
-
-    catch(error){
-
-        return{
-
-            success:false,
-
-            message:error.message
-
-        };
-
-    }
-
-}
-
-
-/*==========================================================
-  VERSION
-==========================================================*/
-
-function apiVersion(){
-
-    return{
-
-        version:"3.0",
-
-        platform:"Google Apps Script",
-
-        client:"Pause & Play"
-
+async function pingServer() {
+  try {
+    const result = await request("GET", "systemInfo");
+    return {
+      success: true,
+      server: result
     };
-
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message
+    };
+  }
 }
-                                                  }
+
+function apiVersion() {
+  return {
+    version: "3.0",
+    platform: "Google Apps Script",
+    client: "Pause & Play"
+  };
+}
