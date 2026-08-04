@@ -319,3 +319,32 @@ function apiVersion() {
     client: "Pause & Play"
   };
 }
+// Generic request handler
+async function request(method, action, data = {}) {
+  const payload = { action: action, ...data };
+
+  try {
+    const response = await fetch(API.URL, {
+      method: "POST", // Apps Script POST accepts request body
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      redirect: "follow",
+      body: JSON.stringify(payload)
+    });
+
+    return await response.json();
+  } catch (err) {
+    console.error("API Request Error:", err);
+    return { success: false, message: "Network error or server unreachable." };
+  }
+}
+
+// Login function using request helper
+async function login(username, password, role) {
+  return await request("POST", "login", {
+    username: username,
+    password: password,
+    role: role
+  });
+}
