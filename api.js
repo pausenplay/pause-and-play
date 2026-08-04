@@ -70,16 +70,20 @@ async function apiGet(action, params = {}) {
 /*==========================================================*
 * POST REQUEST
 *==========================================================*/
-async function apiPost(action, data = {}) {
-    data.action = action;
-    const response = await fetch(API.URL, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-    });
-    return parseResponse(response);
+async function apiPost(data) {
+  const url = 'https://script.google.com/macros/s/AKfycbzSpiMEBHgiq9iGzou2beyjRejwVvmqbhZ7KNbogG53oZD6eKmKsP5ZP4jCiu-bhpPLug/exec';
+
+  const response = await fetch(url, {
+    method: 'POST',
+    // MUST be text/plain to avoid CORS preflight OPTIONS check
+    headers: {
+      'Content-Type': 'text/plain;charset=utf-8',
+    },
+    redirect: 'follow',
+    body: JSON.stringify(data),
+  });
+
+  return await response.json();
 }
 /*==========================================================
   SAFE REQUEST
