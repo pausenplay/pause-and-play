@@ -12,7 +12,7 @@
 ==========================================================*/
 
 const API = {
-  URL: "https://script.google.com/macros/s/AKfycbzSpiMEBHgiq9iGzou2beyjRejwVvmqbhZ7KNbogG53oZD6eKmKsP5ZP4jCiu-bhpPLug/exec",
+  URL: "https://script.google.com/macros/s/AKfycbw_2ACh6Ia5tBjepRVnaqsGwi8N9pVdSFf4HQOjVz5g9K8iSKgtzENTv4-Yyk3J_sCDEg/exec",
   TIMEOUT: 30000
 };
 
