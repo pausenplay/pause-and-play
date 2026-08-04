@@ -3,658 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pause & Play | Gym Management System</title>
-    <meta
-        name="description"
-        content="Pause & Play Gym Management System">
-    <meta
-        name="theme-color"
-        content="#007AFF">
-    <meta
-        name="apple-mobile-web-app-capable"
-        content="yes">
-    <meta
-        name="apple-mobile-web-app-status-bar-style"
-        content="default">
-    <meta
-        name="apple-mobile-web-app-title"
-        content="Pause & Play">
-    <!-- ===========================
-         FAVICON
-    ============================ -->
-    <link
-        rel="icon"
-        href="assets/logo.png">
-    <!-- ===========================
-         CSS
-    ============================ -->
-    <link
-        rel="stylesheet"
-        href="style.css">
-    <!-- ===========================
-         GOOGLE FONTS
-    ============================ -->
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com">
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
+    <meta name="description" content="Pause & Play Gym Management System">
+    <meta name="theme-color" content="#007AFF">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pause & Play">
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <!-- FAVICON -->
+    <link rel="icon" href="assets/logo.png">
 
-    <!-- ===========================
-         BOXICONS
-    ============================ -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
 
-    <link
-        href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-        rel="stylesheet">
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
+    <!-- BOXICONS -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 
 <body class="login-page">
 
-<!-- ===========================
-     PAGE LOADER
-=========================== -->
+    <!-- PAGE LOADER -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+    </div>
 
-<div
-    class="loader"
-    id="loader">
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
 
-    <div class="spinner"></div>
+    <!-- LOGIN WRAPPER -->
+    <div class="login-wrapper fade-in">
 
-</div>
+        <!-- LEFT PANEL (FORM) -->
+        <div class="login-left">
+            <img src="assets/logo.png" class="login-logo" alt="Logo">
+            <h1 class="login-title">Pause & Play</h1>
+            <p class="login-subtitle">Professional Gym Management System</p>
 
-<!-- ===========================
-     TOAST
-=========================== -->
-
-<div
-    class="toast-container"
-    id="toastContainer"></div>
-
-<!-- ===========================
-     LOGIN WRAPPER
-=========================== -->
-
-<div class="login-wrapper fade-in">
-
-    <!-- =======================
-         LEFT SIDE
-    ======================== -->
-
-    <div class="login-left">
-
-        <img
-            src="assets/logo.png"
-            class="login-logo"
-            alt="Logo">
-
-        <h1 class="login-title">
-            Pause & Play
-        </h1>
-
-        <p class="login-subtitle">
-
-            Professional Gym Management System
-
-        </p>
-
-        <!-- ===================
-             LOGIN FORM
-        ==================== -->
-
-        <form
-            id="loginForm"
-            class="login-form"
-            autocomplete="off">
-
-            <div class="input-group">
-
-                <label class="label">
-
-                    Username
-
-                </label>
-
-                <input
-
-                    id="username"
-
-                    class="input"
-
-                    type="text"
-
-                    placeholder="Enter username"
-
-                    required>
-
-            </div>
-
-            <div class="input-group">
-
-                <label class="label">
-
-                    Password
-
-                </label>
-
-                <div style="position:relative;">
-
-                    <input
-
-                        id="password"
-
-                        class="input"
-
-                        type="password"
-
-                        placeholder="Enter password"
-
-                        required>
-
-                    <button
-
-                        type="button"
-
-                        id="togglePassword"
-
-                        style="
-                        position:absolute;
-                        right:16px;
-                        top:50%;
-                        transform:translateY(-50%);
-                        background:none;
-                        cursor:pointer;">
-
-                        <i class="bx bx-show"></i>
-
-                    </button>
-
+            <form id="loginForm" class="login-form" autocomplete="off">
+                <div class="input-group">
+                    <label class="label">Username</label>
+                    <input id="username" class="input" type="text" placeholder="Enter username" required>
                 </div>
 
-            </div>
+                <div class="input-group">
+                    <label class="label">Password</label>
+                    <div style="position:relative;">
+                        <input id="password" class="input" type="password" placeholder="Enter password" required>
+                        <button type="button" id="togglePassword" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer;">
+                            <i class="bx bx-show"></i>
+                        </button>
+                    </div>
+                </div>
 
-            <div
-                class="flex-between mb-2">
+                <div class="flex-between mb-2">
+                    <label class="flex" style="gap:8px; align-items:center;">
+                        <input id="rememberMe" type="checkbox"> Remember Me
+                    </label>
+                    <a href="#">Forgot Password?</a>
+                </div>
 
-                <label
-                    class="flex"
-                    style="gap:8px;align-items:center;">
+                <div class="input-group">
+                    <label class="label">Login As</label>
+                    <select id="loginRole" class="input">
+                        <option value="OWNER">Owner</option>
+                        <option value="STAFF">Staff</option>
+                    </select>
+                </div>
 
-                    <input
-                        id="rememberMe"
-                        type="checkbox">
-
-                    Remember Me
-
-                </label>
-
-                <a
-                    href="#">
-
-                    Forgot Password?
-
-                </a>
-
-            </div>
-
-            <!-- ===========================
-                 LOGIN ROLE
-            ============================ -->
-
-            <div class="input-group">
-
-                <label class="label">
-
-                    Login As
-
-                </label>
-
-                <select
-                    id="loginRole"
-                    class="input">
-
-                    <option value="OWNER">
-                        Owner
-                    </option>
-
-                    <option value="STAFF">
-                        Staff
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <!-- ===========================
-                 LOGIN BUTTON
-            ============================ -->
-
-            <button
-                type="submit"
-                class="login-btn">
-
-                <i class='bx bx-lock-alt'></i>
-
-                Login
-
-            </button>
-
-
-            <!-- ===========================
-                 QUICK ACTIONS
-            ============================ -->
-
-            <div
-                class="flex-between mt-3">
-
-                <button
-                    type="button"
-                    id="billingShortcut"
-                    class="btn btn-outline">
-
-                    <i class='bx bx-receipt'></i>
-
-                    Billing
-
+                <button type="submit" class="login-btn">
+                    <i class="bx bx-lock-alt"></i> Login
                 </button>
 
-                <button
-                    type="button"
-                    id="scannerShortcut"
-                    class="btn btn-outline">
+                <div class="flex-between mt-3">
+                    <button type="button" id="billingShortcut" class="btn btn-outline">
+                        <i class="bx bx-receipt"></i> Billing
+                    </button>
+                    <button type="button" id="scannerShortcut" class="btn btn-outline">
+                        <i class="bx bx-qr-scan"></i> QR Scanner
+                    </button>
+                </div>
+            </form>
 
-                    <i class='bx bx-qr-scan'></i>
+            <div style="margin-top:40px; color:#8E8E93; font-size:14px;">
+                © 2026 Pause & Play Gym Management System
+            </div>
+        </div>
 
-                    QR Scanner
+        <!-- RIGHT PANEL (PROMO & PAYMENT) -->
+        <div class="login-right">
+            <div>
+                <img src="assets/logo.png" style="width:120px; margin:auto; margin-bottom:30px;" alt="Logo">
+                <h2>Welcome Back</h2>
+                <p>Manage members, attendance, billing, reports and complete gym operations from one dashboard.</p>
+                <img src="assets/QR.jpeg" style="width:240px; margin:auto; margin-top:45px; border-radius:20px; background:#fff; padding:12px;" alt="Payment QR">
+                <div style="margin-top:35px;">
+                    <small style="color:#fff;">Scan QR for UPI Payment</small>
+                </div>
+            </div>
+        </div>
 
+    </div>
+
+    <!-- MODAL CONTAINER -->
+    <div id="modal" class="modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="modalTitle">Message</h3>
+                <button id="closeModal">
+                    <i class="bx bx-x"></i>
                 </button>
-
             </div>
-
-
-        </form>
-
-
-        <!-- ===========================
-             LOGIN FOOTER
-        ============================ -->
-
-        <div
-            style="
-            margin-top:40px;
-            color:#8E8E93;
-            font-size:14px;">
-
-            © 2026 Pause & Play Gym Management System
-
-        </div>
-
-    </div>
-
-
-
-    <!-- ===================================================
-         RIGHT PANEL
-    ==================================================== -->
-
-    <div class="login-right">
-
-        <div>
-
-            <img
-
-                src="assets/logo.png"
-
-                style="
-                width:120px;
-                margin:auto;
-                margin-bottom:30px;"
-
-                alt="Logo">
-
-
-            <h2>
-
-                Welcome Back
-
-            </h2>
-
-
-            <p>
-
-                Manage members, attendance, billing,
-                reports and complete gym operations
-                from one dashboard.
-
-            </p>
-
-
-            <img
-
-                src="assets/QR.jpeg"
-
-                style="
-                width:240px;
-                margin:auto;
-                margin-top:45px;
-                border-radius:20px;
-                background:#fff;
-                padding:12px;"
-
-                alt="Payment QR">
-
-
-            <div
-                style="margin-top:35px;">
-
-                <small
-                    style="color:#fff;">
-
-                    Scan QR for UPI Payment
-
-                </small>
-
+            <div id="modalBody" class="modal-body"></div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="modalOk">OK</button>
             </div>
-
         </div>
-
     </div>
 
-</div>
+    <!-- JAVASCRIPT FILES -->
+    <script src="api.js"></script>
+    <script src="app.js"></script>
 
+    <!-- INITIALIZATION & HANDLERS -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Hide Loader
+            setTimeout(() => {
+                const loader = document.getElementById("loader");
+                if (loader) loader.classList.add("hidden");
+            }, 600);
 
-<!-- ===========================
-     MODAL CONTAINER
-=========================== -->
-
-<div
-    id="modal"
-    class="modal">
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <h3 id="modalTitle">
-
-                Message
-
-            </h3>
-
-            <button
-                id="closeModal">
-
-                <i class='bx bx-x'></i>
-
-            </button>
-
-        </div>
-
-        <div
-            id="modalBody"
-            class="modal-body">
-
-        </div>
-
-        <div class="modal-footer">
-
-            <button
-                class="btn btn-primary"
-                id="modalOk">
-
-                OK
-
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-<!-- ==========================================================
-     JAVASCRIPT FILES
-=========================================================== -->
-
-<script src="api.js"></script>
-<script src="app.js"></script>
-
-<!-- ==========================================================
-     LOGIN INITIALIZATION
-=========================================================== -->
-
-<script>
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    /* ==========================================
-       Hide Loader
-    ========================================== */
-
-    setTimeout(() => {
-
-        const loader = document.getElementById("loader");
-
-        if(loader){
-
-            loader.classList.add("hidden");
-
-        }
-
-    },600);
-
-
-    /* ==========================================
-       Password Show / Hide
-    ========================================== */
-
-    const password=document.getElementById("password");
-    const toggle=document.getElementById("togglePassword");
-
-    if(toggle){
-
-        toggle.onclick=()=>{
-
-            if(password.type==="password"){
-
-                password.type="text";
-
-                toggle.innerHTML="<i class='bx bx-hide'></i>";
-
-            }else{
-
-                password.type="password";
-
-                toggle.innerHTML="<i class='bx bx-show'></i>";
-
+            // Password Show / Hide Toggle
+            const password = document.getElementById("password");
+            const toggle = document.getElementById("togglePassword");
+            if (toggle) {
+                toggle.onclick = () => {
+                    if (password.type === "password") {
+                        password.type = "text";
+                        toggle.innerHTML = "<i class='bx bx-hide'></i>";
+                    } else {
+                        password.type = "password";
+                        toggle.innerHTML = "<i class='bx bx-show'></i>";
+                    }
+                };
             }
 
-        }
-
-    }
-
-
-    /* ==========================================
-       Billing Shortcut
-    ========================================== */
-
-    const billingBtn=document.getElementById("billingShortcut");
-
-    if(billingBtn){
-
-        billingBtn.onclick=()=>{
-
-            window.open(
-
-                "billing.html",
-
-                "_blank"
-
-            );
-
-        }
-
-    }
-
-
-    /* ==========================================
-       QR Scanner Shortcut
-    ========================================== */
-
-    const scannerBtn=document.getElementById("scannerShortcut");
-
-    if(scannerBtn){
-
-        scannerBtn.onclick=()=>{
-
-            window.location.href="scanner.html";
-
-        }
-
-    }
-
-
-    /* ==========================================
-       Remember Username
-    ========================================== */
-
-    const savedUser=localStorage.getItem("gym_username");
-
-    if(savedUser){
-
-        document.getElementById("username").value=savedUser;
-
-        document.getElementById("rememberMe").checked=true;
-
-    }
-
-
-    /* ==========================================
-       Login
-    ========================================== */
-
-    document
-    .getElementById("loginForm")
-    .addEventListener("submit",loginUser);
-
-});
-
-
-/* ==========================================================
-   LOGIN FUNCTION
-=========================================================== */
-
-async function loginUser(e){
-
-    e.preventDefault();
-
-    const username=document
-    .getElementById("username")
-    .value
-    .trim();
-
-    const password=document
-    .getElementById("password")
-    .value
-    .trim();
-
-    const role=document
-    .getElementById("loginRole")
-    .value;
-
-    if(username===""){
-
-        alert("Enter Username");
-
-        return;
-
-    }
-
-    if(password===""){
-
-        alert("Enter Password");
-
-        return;
-
-    }
-
-    try{
-
-        const result=await login(
-
-            username,
-
-            password,
-
-            role
-
-        );
-
-        if(result.success){
-
-            if(document
-            .getElementById("rememberMe")
-            .checked){
-
-                localStorage.setItem(
-
-                    "gym_username",
-
-                    username
-
-                );
-
-            }else{
-
-                localStorage.removeItem(
-
-                    "gym_username"
-
-                );
-
+            // Shortcuts
+            const billingBtn = document.getElementById("billingShortcut");
+            if (billingBtn) {
+                billingBtn.onclick = () => window.open("billing.html", "_blank");
             }
 
-            sessionStorage.setItem(
+            const scannerBtn = document.getElementById("scannerShortcut");
+            if (scannerBtn) {
+                scannerBtn.onclick = () => window.location.href = "scanner.html";
+            }
 
-                "gym_user",
+            // Load Saved Username
+            const savedUser = localStorage.getItem("gym_username");
+            if (savedUser) {
+                document.getElementById("username").value = savedUser;
+                document.getElementById("rememberMe").checked = true;
+            }
 
-                JSON.stringify(result.user)
+            // Form Submit Listener
+            document.getElementById("loginForm").addEventListener("submit", loginUser);
+        });
 
-            );
+        async function loginUser(e) {
+            e.preventDefault();
 
-            window.location.href="dashboard.html";
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const role = document.getElementById("loginRole").value;
 
+            if (!username) return alert("Enter Username");
+            if (!password) return alert("Enter Password");
+
+            try {
+                const result = await login(username, password, role);
+
+                if (result && result.success) {
+                    if (document.getElementById("rememberMe").checked) {
+                        localStorage.setItem("gym_username", username);
+                    } else {
+                        localStorage.removeItem("gym_username");
+                    }
+
+                    const sessionUserData = result.user || { username: result.username, role: result.role, token: result.token };
+                    sessionStorage.setItem("gym_user", JSON.stringify(sessionUserData));
+
+                    window.location.href = "dashboard.html";
+                } else {
+                    alert(result.message || "Invalid Username or Password");
+                }
+            } catch (err) {
+                console.error("Login Error:", err);
+                alert("Unable to connect to server.");
+            }
         }
-
-        else{
-
-            alert(result.message);
-
-        }
-
-    }
-
-    catch(err){
-
-        console.error(err);
-
-        alert("Unable to connect server.");
-
-    }
-
-}
-
-</script>
-
+    </script>
 </body>
 </html>
