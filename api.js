@@ -1,5 +1,5 @@
 /*==========================================================
-  Pause & Play Gym Management System
+  Pause & Play Management System
   File      : api.js
   Version   : 3.0
   Purpose   : Central API Client
@@ -107,11 +107,6 @@ function deleteStaff(username) {
 
 function getStaffList() {
   return request("GET", "staffList");
-}
-// Helper to retrieve current user from session storage
-function currentUser() {
-  const user = sessionStorage.getItem("gym_user");
-  return user ? JSON.parse(user) : null;
 }
 /*==========================================================
   MEMBERS MANAGEMENT
