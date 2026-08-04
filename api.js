@@ -169,7 +169,7 @@ async function request(method, action, data = {}) {
 
 function login(username, password) {
 
-    return request("POST", "login", {
+    return request("GET", "login", {
 
         username,
 
