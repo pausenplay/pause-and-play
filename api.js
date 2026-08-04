@@ -13,7 +13,7 @@
 
 const API = {
 
-    URL: "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL_HERE",
+    URL: "https://script.google.com/macros/s/AKfycbwVVpKy9oZBYJGpN9u-iLn2tXF8b489ZceBbE_N1FFBs9mXvzCWiyaUcc0Mkm-qKcs9Uw/exec",
 
     TIMEOUT: 30000
 
