@@ -1,213 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pause & Play Gaming Cafe Management System</title>
-    <meta name="description" content="Pause & Play Gaming Cafe Management System">
-    <meta name="theme-color" content="#007AFF">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Pause & Play">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pause & Play Management System</title>
+  <meta name="description" content="Pause & Play Management System">
+  <meta name="theme-color" content="#007AFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Pause & Play">
 
-    <!-- FAVICON -->
-    <link rel="icon" href="assets/logo.png">
+  <!-- Favicon -->
+  <link rel="icon" href="assets/logo.png">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
 
-    <!-- GOOGLE FONTS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- BOXICONS -->
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <!-- Google Fonts & Boxicons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 
 <body class="login-page">
 
-    <!-- PAGE LOADER -->
-    <div class="loader" id="loader">
-        <div class="spinner"></div>
-    </div>
+  <!-- Page Loader -->
+  <div class="loader" id="loader">
+    <div class="spinner"></div>
+  </div>
 
-    <!-- TOAST CONTAINER -->
-    <div class="toast-container" id="toastContainer"></div>
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
 
-    <!-- LOGIN WRAPPER -->
-    <div class="login-wrapper fade-in">
+  <!-- Main Login Layout Wrapper -->
+  <div class="login-wrapper fade-in">
 
-        <!-- LEFT PANEL (FORM) -->
-        <div class="login-left">
-            <img src="assets/logo.png" class="login-logo" alt="Logo">
-            <h1 class="login-title">Pause & Play</h1>
-            <p class="login-subtitle">Professional Gym Management System</p>
+    <!-- Left Panel (Login Form) -->
+    <div class="login-left">
+      <img src="assets/logo.png" class="login-logo" alt="Logo">
+      <h1 class="login-title">Pause & Play</h1>
+      <p class="login-subtitle">Professional Management System</p>
 
-            <form id="loginForm" class="login-form" autocomplete="off">
-                <div class="input-group">
-                    <label class="label">Username</label>
-                    <input id="username" class="input" type="text" placeholder="Enter username" required>
-                </div>
-
-                <div class="input-group">
-                    <label class="label">Password</label>
-                    <div style="position:relative;">
-                        <input id="password" class="input" type="password" placeholder="Enter password" required>
-                        <button type="button" id="togglePassword" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer;">
-                            <i class="bx bx-show"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="flex-between mb-2">
-                    <label class="flex" style="gap:8px; align-items:center;">
-                        <input id="rememberMe" type="checkbox"> Remember Me
-                    </label>
-                    <a href="#">Forgot Password?</a>
-                </div>
-
-                <div class="input-group">
-                    <label class="label">Login As</label>
-                    <select id="loginRole" class="input">
-                        <option value="OWNER">Owner</option>
-                        <option value="STAFF">Staff</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="login-btn">
-                    <i class="bx bx-lock-alt"></i> Login
-                </button>
-
-                <div class="flex-between mt-3">
-                    <button type="button" id="billingShortcut" class="btn btn-outline">
-                        <i class="bx bx-receipt"></i> Billing
-                    </button>
-                    <button type="button" id="scannerShortcut" class="btn btn-outline">
-                        <i class="bx bx-qr-scan"></i> QR Scanner
-                    </button>
-                </div>
-            </form>
-
-            <div style="margin-top:40px; color:#8E8E93; font-size:14px;">
-                © 2026 Pause & Play Gym Management System
-            </div>
+      <form id="loginForm" class="login-form" autocomplete="off">
+        <div class="input-group">
+          <label class="label">Username</label>
+          <input id="username" class="input" type="text" placeholder="Enter username" required>
         </div>
 
-        <!-- RIGHT PANEL (PROMO & PAYMENT) -->
-        <div class="login-right">
-            <div>
-                <img src="assets/logo.png" style="width:120px; margin:auto; margin-bottom:30px;" alt="Logo">
-                <h2>Welcome Back</h2>
-                <p>Manage members, attendance, billing, reports and complete gym operations from one dashboard.</p>
-                <img src="assets/QR.jpeg" style="width:240px; margin:auto; margin-top:45px; border-radius:20px; background:#fff; padding:12px;" alt="Payment QR">
-                <div style="margin-top:35px;">
-                    <small style="color:#fff;">Scan QR for UPI Payment</small>
-                </div>
-            </div>
+        <div class="input-group">
+          <label class="label">Password</label>
+          <div style="position:relative;">
+            <input id="password" class="input" type="password" placeholder="Enter password" required>
+            <button type="button" id="togglePassword" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer;">
+              <i class="bx bx-show"></i>
+            </button>
+          </div>
         </div>
 
-    </div>
-
-    <!-- MODAL CONTAINER -->
-    <div id="modal" class="modal">
-        <div class="modal-box">
-            <div class="modal-header">
-                <h3 id="modalTitle">Message</h3>
-                <button id="closeModal">
-                    <i class="bx bx-x"></i>
-                </button>
-            </div>
-            <div id="modalBody" class="modal-body"></div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" id="modalOk">OK</button>
-            </div>
+        <div class="flex-between mb-2">
+          <label class="flex" style="gap:8px; align-items:center;">
+            <input id="rememberMe" type="checkbox"> Remember Me
+          </label>
+          <a href="#">Forgot Password?</a>
         </div>
+
+        <div class="input-group">
+          <label class="label">Login As</label>
+          <select id="loginRole" class="input">
+            <option value="OWNER">Owner</option>
+            <option value="STAFF">Staff</option>
+          </select>
+        </div>
+
+        <button type="submit" class="login-btn">
+          <i class="bx bx-lock-alt"></i> Login
+        </button>
+
+        <div class="flex-between mt-3">
+          <button type="button" id="billingShortcut" class="btn btn-outline">
+            <i class="bx bx-receipt"></i> Billing
+          </button>
+          <button type="button" id="scannerShortcut" class="btn btn-outline">
+            <i class="bx bx-qr-scan"></i> QR Scanner
+          </button>
+        </div>
+      </form>
+
+      <div style="margin-top:40px; color:#8E8E93; font-size:14px;">
+        © 2026 Pause & Play Management System
+      </div>
     </div>
 
-    <!-- JAVASCRIPT FILES -->
-    <script src="api.js"></script>
-    <script src="app.js"></script>
+    <!-- Right Panel (Promo & Payment) -->
+    <div class="login-right">
+      <div>
+        <img src="assets/logo.png" style="width:120px; margin:auto; margin-bottom:30px;" alt="Logo">
+        <h2>Welcome Back</h2>
+        <p>Manage members, attendance, billing, reports, and operations from one dashboard.</p>
+        <img src="assets/QR.jpeg" style="width:240px; margin:auto; margin-top:45px; border-radius:20px; background:#fff; padding:12px;" alt="Payment QR">
+        <div style="margin-top:35px;">
+          <small style="color:#fff;">Scan QR for UPI Payment</small>
+        </div>
+      </div>
+    </div>
 
-    <!-- INITIALIZATION & HANDLERS -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // Hide Loader
-            setTimeout(() => {
-                const loader = document.getElementById("loader");
-                if (loader) loader.classList.add("hidden");
-            }, 600);
+  </div>
 
-            // Password Show / Hide Toggle
-            const password = document.getElementById("password");
-            const toggle = document.getElementById("togglePassword");
-            if (toggle) {
-                toggle.onclick = () => {
-                    if (password.type === "password") {
-                        password.type = "text";
-                        toggle.innerHTML = "<i class='bx bx-hide'></i>";
-                    } else {
-                        password.type = "password";
-                        toggle.innerHTML = "<i class='bx bx-show'></i>";
-                    }
-                };
-            }
+  <!-- Modal Container -->
+  <div id="modal" class="modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modalTitle">Message</h3>
+        <button id="closeModal">
+          <i class="bx bx-x"></i>
+        </button>
+      </div>
+      <div id="modalBody" class="modal-body"></div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="modalOk">OK</button>
+      </div>
+    </div>
+  </div>
 
-            // Shortcuts
-            const billingBtn = document.getElementById("billingShortcut");
-            if (billingBtn) {
-                billingBtn.onclick = () => window.open("billing.html", "_blank");
-            }
+  <!-- JavaScript Files -->
+  <script src="api.js"></script>
+  <script src="app.js"></script>
 
-            const scannerBtn = document.getElementById("scannerShortcut");
-            if (scannerBtn) {
-                scannerBtn.onclick = () => window.location.href = "scanner.html";
-            }
+  <!-- Script Initialization and Handlers -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Hide Loader
+      setTimeout(() => {
+        const loader = document.getElementById("loader");
+        if (loader) loader.classList.add("hidden");
+      }, 600);
 
-            // Load Saved Username
-            const savedUser = localStorage.getItem("gym_username");
-            if (savedUser) {
-                document.getElementById("username").value = savedUser;
-                document.getElementById("rememberMe").checked = true;
-            }
+      // Password Show / Hide Toggle
+      const password = document.getElementById("password");
+      const toggle = document.getElementById("togglePassword");
+      if (toggle) {
+        toggle.onclick = () => {
+          if (password.type === "password") {
+            password.type = "text";
+            toggle.innerHTML = "<i class='bx bx-hide'></i>";
+          } else {
+            password.type = "password";
+            toggle.innerHTML = "<i class='bx bx-show'></i>";
+          }
+        };
+      }
 
-            // Form Submit Listener
-            document.getElementById("loginForm").addEventListener("submit", loginUser);
-        });
+      // Quick Action Shortcuts
+      const billingBtn = document.getElementById("billingShortcut");
+      if (billingBtn) {
+        billingBtn.onclick = () => window.open("billing.html", "_blank");
+      }
 
-        async function loginUser(e) {
-            e.preventDefault();
+      const scannerBtn = document.getElementById("scannerShortcut");
+      if (scannerBtn) {
+        scannerBtn.onclick = () => window.location.href = "scanner.html";
+      }
 
-            const username = document.getElementById("username").value.trim();
-            const password = document.getElementById("password").value.trim();
-            const role = document.getElementById("loginRole").value;
+      // Load Saved Username
+      const savedUser = localStorage.getItem("gym_username");
+      if (savedUser) {
+        document.getElementById("username").value = savedUser;
+        document.getElementById("rememberMe").checked = true;
+      }
 
-            if (!username) return alert("Enter Username");
-            if (!password) return alert("Enter Password");
+      // Form Submit Handler
+      document.getElementById("loginForm").addEventListener("submit", loginUser);
+    });
 
-            try {
-                const result = await login(username, password, role);
+    async function loginUser(e) {
+      e.preventDefault();
 
-                if (result && result.success) {
-                    if (document.getElementById("rememberMe").checked) {
-                        localStorage.setItem("gym_username", username);
-                    } else {
-                        localStorage.removeItem("gym_username");
-                    }
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const role = document.getElementById("loginRole").value;
 
-                    const sessionUserData = result.user || { username: result.username, role: result.role, token: result.token };
-                    sessionStorage.setItem("gym_user", JSON.stringify(sessionUserData));
+      if (!username) return alert("Enter Username");
+      if (!password) return alert("Enter Password");
 
-                    window.location.href = "dashboard.html";
-                } else {
-                    alert(result.message || "Invalid Username or Password");
-                }
-            } catch (err) {
-                console.error("Login Error:", err);
-                alert("Unable to connect to server.");
-            }
+      try {
+        const result = await login(username, password, role);
+
+        if (result && result.success) {
+          if (document.getElementById("rememberMe").checked) {
+            localStorage.setItem("gym_username", username);
+          } else {
+            localStorage.removeItem("gym_username");
+          }
+
+          const sessionUserData = result.user || { username: result.username, role: result.role, token: result.token };
+          sessionStorage.setItem("gym_user", JSON.stringify(sessionUserData));
+          localStorage.setItem("loggedIn", "true");
+
+          window.location.href = "dashboard.html";
+        } else {
+          alert(result.message || "Invalid Username or Password");
         }
-    </script>
+      } catch (err) {
+        console.error("Login Error:", err);
+        alert("Unable to connect to server.");
+      }
+    }
+  </script>
 </body>
 </html>
