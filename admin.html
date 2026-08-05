@@ -2,377 +2,211 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | Pause & Play</title>
-  
-  <!-- Boxicons for iOS-Style Visual Icons -->
-  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <title>Pause & Play Management System</title>
+  <meta name="description" content="Pause & Play Management System">
+  <meta name="theme-color" content="#007AFF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Pause & Play">
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/logo.png">
+
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="style.css">
 
-  <style>
-    :root {
-      --ios-bg: #F2F2F7;
-      --ios-card-bg: rgba(255, 255, 255, 0.82);
-      --ios-blur: blur(20px);
-      --ios-border: rgba(255, 255, 255, 0.5);
-      --ios-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.06);
-      --ios-radius: 20px;
-      --ios-blue: #007AFF;
-      --ios-green: #34C759;
-      --ios-orange: #FF9500;
-      --ios-red: #FF3B30;
-      --ios-text: #1C1C1E;
-      --ios-text-sub: #8E8E93;
-    }
-
-    body.dark {
-      --ios-bg: #000000;
-      --ios-card-bg: rgba(28, 28, 30, 0.82);
-      --ios-border: rgba(255, 255, 255, 0.1);
-      --ios-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-      --ios-text: #FFFFFF;
-      --ios-text-sub: #8E8E93;
-    }
-
-    body {
-      background-color: var(--ios-bg);
-      color: var(--ios-text);
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-      margin: 0;
-      padding-bottom: 85px;
-    }
-
-    /* Top Bar Header */
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 24px;
-      background: var(--ios-card-bg);
-      backdrop-filter: var(--ios-blur);
-      -webkit-backdrop-filter: var(--ios-blur);
-      border-bottom: 1px solid var(--ios-border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .topbar .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 700;
-      font-size: 1.1rem;
-    }
-
-    .topbar .logo img {
-      border-radius: 10px;
-      object-fit: cover;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .btn-ios {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--ios-card-bg);
-      border: 1px solid var(--ios-border);
-      color: var(--ios-text);
-      padding: 8px 14px;
-      border-radius: 12px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      backdrop-filter: var(--ios-blur);
-      transition: all 0.2s ease;
-    }
-
-    .btn-ios:active {
-      transform: scale(0.96);
-    }
-
-    .btn-ios.primary {
-      background: var(--ios-blue);
-      color: #FFFFFF;
-      border: none;
-    }
-
-    .btn-ios.danger {
-      color: var(--ios-red);
-    }
-
-    /* Layout & Cards */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 24px 16px;
-    }
-
-    .page-title {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      letter-spacing: -0.5px;
-    }
-
-    .ios-card {
-      background: var(--ios-card-bg);
-      backdrop-filter: var(--ios-blur);
-      -webkit-backdrop-filter: var(--ios-blur);
-      border: 1px solid var(--ios-border);
-      box-shadow: var(--ios-shadow);
-      border-radius: var(--ios-radius);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    /* Metrics Grid */
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    .metric-card h3 {
-      margin: 0;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--ios-text-sub);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .metric-card h1 {
-      margin: 12px 0 0 0;
-      font-size: 32px;
-      font-weight: 800;
-      letter-spacing: -1px;
-    }
-
-    /* Quick Action Shortcuts Grid */
-    .actions-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 14px;
-    }
-
-    .action-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px 12px;
-      border-radius: var(--ios-radius);
-      background: var(--ios-card-bg);
-      border: 1px solid var(--ios-border);
-      color: var(--ios-text);
-      cursor: pointer;
-      gap: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      text-decoration: none;
-      box-shadow: var(--ios-shadow);
-      transition: all 0.2s ease;
-    }
-
-    .action-card i {
-      font-size: 28px;
-      color: var(--ios-blue);
-    }
-
-    .action-card:active {
-      transform: scale(0.95);
-    }
-
-    /* iOS Mobile Bottom Bar */
-    .ios-tab-bar {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 65px;
-      background: var(--ios-card-bg);
-      backdrop-filter: var(--ios-blur);
-      -webkit-backdrop-filter: var(--ios-blur);
-      border-top: 1px solid var(--ios-border);
-      justify-content: space-around;
-      align-items: center;
-      z-index: 1000;
-      padding-bottom: 12px;
-    }
-
-    .tab-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: var(--ios-text-sub);
-      text-decoration: none;
-      font-size: 10px;
-      gap: 3px;
-    }
-
-    .tab-item i {
-      font-size: 22px;
-    }
-
-    .tab-item.active {
-      color: var(--ios-blue);
-    }
-
-    @media (max-width: 768px) {
-      .ios-tab-bar {
-        display: flex;
-      }
-      .actions-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-  </style>
-
-  <!-- Inline Auth Check -->
-  <script>
-    if (localStorage.getItem("loggedIn") !== "true" && !sessionStorage.getItem("gym_user")) {
-      location.href = "login.html";
-    }
-  </script>
+  <!-- Google Fonts & Boxicons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
-<body>
 
-  <!-- Top Header Navigation -->
-  <header class="topbar">
-    <div class="logo">
-      <img src="assets/logo.png" height="38" alt="Pause & Play Logo" onerror="this.style.display='none'">
-      <span>Pause & Play</span>
+<body class="login-page">
+
+  <!-- Page Loader -->
+  <div class="loader" id="loader">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Main Login Layout Wrapper -->
+  <div class="login-wrapper fade-in">
+
+    <!-- Left Panel (Login Form) -->
+    <div class="login-left">
+      <img src="assets/logo.png" class="login-logo" alt="Logo">
+      <h1 class="login-title">Pause & Play</h1>
+      <p class="login-subtitle">Professional Management System</p>
+
+      <form id="loginForm" class="login-form" autocomplete="off">
+        <div class="input-group">
+          <label class="label">Username</label>
+          <input id="username" class="input" type="text" placeholder="Enter username" required>
+        </div>
+
+        <div class="input-group">
+          <label class="label">Password</label>
+          <div style="position:relative;">
+            <input id="password" class="input" type="password" placeholder="Enter password" required>
+            <button type="button" id="togglePassword" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer;">
+              <i class="bx bx-show"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex-between mb-2">
+          <label class="flex" style="gap:8px; align-items:center;">
+            <input id="rememberMe" type="checkbox"> Remember Me
+          </label>
+          <a href="#">Forgot Password?</a>
+        </div>
+
+        <div class="input-group">
+          <label class="label">Login As</label>
+          <select id="loginRole" class="input">
+            <option value="OWNER">Owner</option>
+            <option value="STAFF">Staff</option>
+          </select>
+        </div>
+
+        <button type="submit" class="login-btn">
+          <i class="bx bx-lock-alt"></i> Login
+        </button>
+
+        <div class="flex-between mt-3">
+          <button type="button" id="billingShortcut" class="btn btn-outline">
+            <i class="bx bx-receipt"></i> Billing
+          </button>
+          <button type="button" id="scannerShortcut" class="btn btn-outline">
+            <i class="bx bx-qr-scan"></i> QR Scanner
+          </button>
+        </div>
+      </form>
+
+      <div style="margin-top:40px; color:#8E8E93; font-size:14px;">
+        © 2026 Pause & Play Management System
+      </div>
     </div>
 
-    <div class="header-actions">
-      <button class="btn-ios primary" onclick="window.open('billing.html', '_blank')">
-        <i class='bx bx-credit-card'></i> Billing
-      </button>
-      <button class="btn-ios danger" onclick="logout()">
-        <i class='bx bx-log-out'></i> Logout
-      </button>
-    </div>
-  </header>
-
-  <!-- Main Container -->
-  <div class="container">
-    <h1 class="page-title">Dashboard</h1>
-
-    <!-- Metrics Cards -->
-    <div class="metrics-grid">
-      <div class="ios-card metric-card">
-        <h3>Total Members</h3>
-        <h1 id="total">0</h1>
-      </div>
-
-      <div class="ios-card metric-card">
-        <h3>Active Members</h3>
-        <h1 id="active" style="color: var(--ios-green);">0</h1>
-      </div>
-
-      <div class="ios-card metric-card">
-        <h3>Today's Attendance</h3>
-        <h1 id="today" style="color: var(--ios-blue);">0</h1>
-      </div>
-
-      <div class="ios-card metric-card">
-        <h3>Expired Members</h3>
-        <h1 id="expired" style="color: var(--ios-red);">0</h1>
+    <!-- Right Panel (Promo & Payment) -->
+    <div class="login-right">
+      <div>
+        <img src="assets/logo.png" style="width:120px; margin:auto; margin-bottom:30px;" alt="Logo">
+        <h2>Welcome Back</h2>
+        <p>Manage members, attendance, billing, reports, and operations from one dashboard.</p>
+        <img src="assets/QR.jpeg" style="width:240px; margin:auto; margin-top:45px; border-radius:20px; background:#fff; padding:12px;" alt="Payment QR">
+        <div style="margin-top:35px;">
+          <small style="color:#fff;">Scan QR for UPI Payment</small>
+        </div>
       </div>
     </div>
 
-    <!-- Navigation Shortcuts -->
-    <div class="actions-grid">
-      <button class="action-card" onclick="location.href='addmember.html'">
-        <i class='bx bx-user-plus'></i>
-        <span>Add Member</span>
-      </button>
+  </div>
 
-      <button class="action-card" onclick="location.href='members.html'">
-        <i class='bx bx-group'></i>
-        <span>Members</span>
-      </button>
-
-      <button class="action-card" onclick="location.href='scanner.html'">
-        <i class='bx bx-qr-scan'></i>
-        <span>Scan QR</span>
-      </button>
-
-      <button class="action-card" onclick="location.href='attendance.html'">
-        <i class='bx bx-calendar-check'></i>
-        <span>Attendance</span>
-      </button>
-
-      <button class="action-card" onclick="location.href='reports.html'">
-        <i class='bx bx-bar-chart-alt-2'></i>
-        <span>Reports</span>
-      </button>
-
-      <button class="action-card" onclick="location.href='settings.html'">
-        <i class='bx bx-cog'></i>
-        <span>Settings</span>
-      </button>
+  <!-- Modal Container -->
+  <div id="modal" class="modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modalTitle">Message</h3>
+        <button id="closeModal">
+          <i class="bx bx-x"></i>
+        </button>
+      </div>
+      <div id="modalBody" class="modal-body"></div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="modalOk">OK</button>
+      </div>
     </div>
   </div>
 
-  <!-- Mobile Bottom Tab Navigation -->
-  <nav class="ios-tab-bar">
-    <a href="dashboard.html" class="tab-item active">
-      <i class='bx bx-home-alt'></i>
-      <span>Home</span>
-    </a>
-    <a href="members.html" class="tab-item">
-      <i class='bx bx-group'></i>
-      <span>Members</span>
-    </a>
-    <a href="attendance.html" class="tab-item">
-      <i class='bx bx-calendar'></i>
-      <span>Attendance</span>
-    </a>
-    <a href="billing.html" class="tab-item">
-      <i class='bx bx-receipt'></i>
-      <span>Billing</span>
-    </a>
-  </nav>
-
-  <!-- External JavaScript Files -->
+  <!-- JavaScript Files -->
   <script src="api.js"></script>
   <script src="app.js"></script>
 
+  <!-- Script Initialization and Handlers -->
   <script>
-    async function loadDashboard() {
+    document.addEventListener("DOMContentLoaded", () => {
+      // Hide Loader
+      setTimeout(() => {
+        const loader = document.getElementById("loader");
+        if (loader) loader.classList.add("hidden");
+      }, 600);
+
+      // Password Show / Hide Toggle
+      const password = document.getElementById("password");
+      const toggle = document.getElementById("togglePassword");
+      if (toggle) {
+        toggle.onclick = () => {
+          if (password.type === "password") {
+            password.type = "text";
+            toggle.innerHTML = "<i class='bx bx-hide'></i>";
+          } else {
+            password.type = "password";
+            toggle.innerHTML = "<i class='bx bx-show'></i>";
+          }
+        };
+      }
+
+      // Quick Action Shortcuts
+      const billingBtn = document.getElementById("billingShortcut");
+      if (billingBtn) {
+        billingBtn.onclick = () => window.open("billing.html", "_blank");
+      }
+
+      const scannerBtn = document.getElementById("scannerShortcut");
+      if (scannerBtn) {
+        scannerBtn.onclick = () => window.location.href = "scanner.html";
+      }
+
+      // Load Saved Username
+      const savedUser = localStorage.getItem("gym_username");
+      if (savedUser) {
+        document.getElementById("username").value = savedUser;
+        document.getElementById("rememberMe").checked = true;
+      }
+
+      // Form Submit Handler
+      document.getElementById("loginForm").addEventListener("submit", loginUser);
+    });
+
+    async function loginUser(e) {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const role = document.getElementById("loginRole").value;
+
+      if (!username) return alert("Enter Username");
+      if (!password) return alert("Enter Password");
+
       try {
-        let d = await getDashboard();
-        if (d) {
-          document.getElementById("total").innerText = d.total || 0;
-          document.getElementById("active").innerText = d.active || 0;
-          document.getElementById("today").innerText = d.today || 0;
-          document.getElementById("expired").innerText = d.expired || 0;
+        const result = await login(username, password, role);
+
+        if (result && result.success) {
+          if (document.getElementById("rememberMe").checked) {
+            localStorage.setItem("gym_username", username);
+          } else {
+            localStorage.removeItem("gym_username");
+          }
+
+          const sessionUserData = result.user || { username: result.username, role: result.role, token: result.token };
+          sessionStorage.setItem("gym_user", JSON.stringify(sessionUserData));
+          localStorage.setItem("loggedIn", "true");
+
+          window.location.href = "dashboard.html";
+        } else {
+          alert(result.message || "Invalid Username or Password");
         }
       } catch (err) {
-        console.error("Error loading dashboard data:", err);
+        console.error("Login Error:", err);
+        alert("Unable to connect to server.");
       }
     }
-
-    function logout() {
-      if (confirm("Are you sure you want to logout?")) {
-        localStorage.removeItem("loggedIn");
-        sessionStorage.clear();
-        location.href = "login.html";
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", loadDashboard);
   </script>
 </body>
 </html>
