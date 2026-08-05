@@ -1,144 +1,378 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Pause & Play</title>
+  
+  <!-- Boxicons for iOS-Style Visual Icons -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 
-<meta charset="UTF-8">
+  <style>
+    :root {
+      --ios-bg: #F2F2F7;
+      --ios-card-bg: rgba(255, 255, 255, 0.82);
+      --ios-blur: blur(20px);
+      --ios-border: rgba(255, 255, 255, 0.5);
+      --ios-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.06);
+      --ios-radius: 20px;
+      --ios-blue: #007AFF;
+      --ios-green: #34C759;
+      --ios-orange: #FF9500;
+      --ios-red: #FF3B30;
+      --ios-text: #1C1C1E;
+      --ios-text-sub: #8E8E93;
+    }
 
-<meta name="viewport" content="width=device-width,initial-scale=1">
+    body.dark {
+      --ios-bg: #000000;
+      --ios-card-bg: rgba(28, 28, 30, 0.82);
+      --ios-border: rgba(255, 255, 255, 0.1);
+      --ios-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      --ios-text: #FFFFFF;
+      --ios-text-sub: #8E8E93;
+    }
 
-<title>Dashboard</title>
+    body {
+      background-color: var(--ios-bg);
+      color: var(--ios-text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding-bottom: 85px;
+    }
 
-<link rel="stylesheet" href="style.css">
+    /* Top Bar Header */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px;
+      background: var(--ios-card-bg);
+      backdrop-filter: var(--ios-blur);
+      -webkit-backdrop-filter: var(--ios-blur);
+      border-bottom: 1px solid var(--ios-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
+    .topbar .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .topbar .logo img {
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-ios {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--ios-card-bg);
+      border: 1px solid var(--ios-border);
+      color: var(--ios-text);
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: var(--ios-blur);
+      transition: all 0.2s ease;
+    }
+
+    .btn-ios:active {
+      transform: scale(0.96);
+    }
+
+    .btn-ios.primary {
+      background: var(--ios-blue);
+      color: #FFFFFF;
+      border: none;
+    }
+
+    .btn-ios.danger {
+      color: var(--ios-red);
+    }
+
+    /* Layout & Cards */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: -0.5px;
+    }
+
+    .ios-card {
+      background: var(--ios-card-bg);
+      backdrop-filter: var(--ios-blur);
+      -webkit-backdrop-filter: var(--ios-blur);
+      border: 1px solid var(--ios-border);
+      box-shadow: var(--ios-shadow);
+      border-radius: var(--ios-radius);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .metric-card h3 {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ios-text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .metric-card h1 {
+      margin: 12px 0 0 0;
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    /* Quick Action Shortcuts Grid */
+    .actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 14px;
+    }
+
+    .action-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 12px;
+      border-radius: var(--ios-radius);
+      background: var(--ios-card-bg);
+      border: 1px solid var(--ios-border);
+      color: var(--ios-text);
+      cursor: pointer;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: var(--ios-shadow);
+      transition: all 0.2s ease;
+    }
+
+    .action-card i {
+      font-size: 28px;
+      color: var(--ios-blue);
+    }
+
+    .action-card:active {
+      transform: scale(0.95);
+    }
+
+    /* iOS Mobile Bottom Bar */
+    .ios-tab-bar {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 65px;
+      background: var(--ios-card-bg);
+      backdrop-filter: var(--ios-blur);
+      -webkit-backdrop-filter: var(--ios-blur);
+      border-top: 1px solid var(--ios-border);
+      justify-content: space-around;
+      align-items: center;
+      z-index: 1000;
+      padding-bottom: 12px;
+    }
+
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--ios-text-sub);
+      text-decoration: none;
+      font-size: 10px;
+      gap: 3px;
+    }
+
+    .tab-item i {
+      font-size: 22px;
+    }
+
+    .tab-item.active {
+      color: var(--ios-blue);
+    }
+
+    @media (max-width: 768px) {
+      .ios-tab-bar {
+        display: flex;
+      }
+      .actions-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+
+  <!-- Inline Auth Check -->
+  <script>
+    if (localStorage.getItem("loggedIn") !== "true" && !sessionStorage.getItem("gym_user")) {
+      location.href = "login.html";
+    }
+  </script>
 </head>
-
 <body>
 
-<script>
+  <!-- Top Header Navigation -->
+  <header class="topbar">
+    <div class="logo">
+      <img src="assets/logo.png" height="38" alt="Pause & Play Logo" onerror="this.style.display='none'">
+      <span>Pause & Play</span>
+    </div>
 
-if(localStorage.getItem("loggedIn")!="true"){
+    <div class="header-actions">
+      <button class="btn-ios primary" onclick="window.open('billing.html', '_blank')">
+        <i class='bx bx-credit-card'></i> Billing
+      </button>
+      <button class="btn-ios danger" onclick="logout()">
+        <i class='bx bx-log-out'></i> Logout
+      </button>
+    </div>
+  </header>
 
-location.href="login.html";
+  <!-- Main Container -->
+  <div class="container">
+    <h1 class="page-title">Dashboard</h1>
 
-}
+    <!-- Metrics Cards -->
+    <div class="metrics-grid">
+      <div class="ios-card metric-card">
+        <h3>Total Members</h3>
+        <h1 id="total">0</h1>
+      </div>
 
-</script>
+      <div class="ios-card metric-card">
+        <h3>Active Members</h3>
+        <h1 id="active" style="color: var(--ios-green);">0</h1>
+      </div>
 
-<header class="topbar">
+      <div class="ios-card metric-card">
+        <h3>Today's Attendance</h3>
+        <h1 id="today" style="color: var(--ios-blue);">0</h1>
+      </div>
 
-<div class="logo">
+      <div class="ios-card metric-card">
+        <h3>Expired Members</h3>
+        <h1 id="expired" style="color: var(--ios-red);">0</h1>
+      </div>
+    </div>
 
-<img src="assets/logo.png" height="45">
+    <!-- Navigation Shortcuts -->
+    <div class="actions-grid">
+      <button class="action-card" onclick="location.href='addmember.html'">
+        <i class='bx bx-user-plus'></i>
+        <span>Add Member</span>
+      </button>
 
-<span>Pause & Play</span>
+      <button class="action-card" onclick="location.href='members.html'">
+        <i class='bx bx-group'></i>
+        <span>Members</span>
+      </button>
 
-</div>
+      <button class="action-card" onclick="location.href='scanner.html'">
+        <i class='bx bx-qr-scan'></i>
+        <span>Scan QR</span>
+      </button>
 
-<div>
+      <button class="action-card" onclick="location.href='attendance.html'">
+        <i class='bx bx-calendar-check'></i>
+        <span>Attendance</span>
+      </button>
 
-<button onclick="window.open('billing.html','_blank')">
-💳 Billing
-</button>
+      <button class="action-card" onclick="location.href='reports.html'">
+        <i class='bx bx-bar-chart-alt-2'></i>
+        <span>Reports</span>
+      </button>
 
-<button onclick="logout()">
-Logout
-</button>
+      <button class="action-card" onclick="location.href='settings.html'">
+        <i class='bx bx-cog'></i>
+        <span>Settings</span>
+      </button>
+    </div>
+  </div>
 
-</div>
+  <!-- Mobile Bottom Tab Navigation -->
+  <nav class="ios-tab-bar">
+    <a href="dashboard.html" class="tab-item active">
+      <i class='bx bx-home-alt'></i>
+      <span>Home</span>
+    </a>
+    <a href="members.html" class="tab-item">
+      <i class='bx bx-group'></i>
+      <span>Members</span>
+    </a>
+    <a href="attendance.html" class="tab-item">
+      <i class='bx bx-calendar'></i>
+      <span>Attendance</span>
+    </a>
+    <a href="billing.html" class="tab-item">
+      <i class='bx bx-receipt'></i>
+      <span>Billing</span>
+    </a>
+  </nav>
 
-</header>
+  <!-- External JavaScript Files -->
+  <script src="api.js"></script>
+  <script src="app.js"></script>
 
-<div class="container">
+  <script>
+    async function loadDashboard() {
+      try {
+        let d = await getDashboard();
+        if (d) {
+          document.getElementById("total").innerText = d.total || 0;
+          document.getElementById("active").innerText = d.active || 0;
+          document.getElementById("today").innerText = d.today || 0;
+          document.getElementById("expired").innerText = d.expired || 0;
+        }
+      } catch (err) {
+        console.error("Error loading dashboard data:", err);
+      }
+    }
 
-<h1>Dashboard</h1>
+    function logout() {
+      if (confirm("Are you sure you want to logout?")) {
+        localStorage.removeItem("loggedIn");
+        sessionStorage.clear();
+        location.href = "login.html";
+      }
+    }
 
-<div class="grid">
-
-<div class="card">
-<h3>Total Members</h3>
-<h1 id="total">0</h1>
-</div>
-
-<div class="card">
-<h3>Active Members</h3>
-<h1 id="active">0</h1>
-</div>
-
-<div class="card">
-<h3>Today's Attendance</h3>
-<h1 id="today">0</h1>
-</div>
-
-<div class="card">
-<h3>Expired Members</h3>
-<h1 id="expired">0</h1>
-</div>
-
-</div>
-
-<br>
-
-<div class="grid">
-
-<button onclick="location.href='addmember.html'">
-➕ Add Member
-</button>
-
-<button onclick="location.href='members.html'">
-👥 Members
-</button>
-
-<button onclick="location.href='scanner.html'">
-📷 Scan QR
-</button>
-
-<button onclick="location.href='attendance.html'">
-📅 Attendance
-</button>
-
-<button onclick="location.href='reports.html'">
-📊 Reports
-</button>
-
-<button onclick="location.href='settings.html'">
-⚙ Settings
-</button>
-
-</div>
-
-</div>
-
-<script src="api.js"></script>
-
-<script>
-
-async function loadDashboard(){
-
-let d=await getDashboard();
-
-total.innerHTML=d.total||0;
-
-active.innerHTML=d.active||0;
-
-today.innerHTML=d.today||0;
-
-expired.innerHTML=d.expired||0;
-
-}
-
-function logout(){
-
-localStorage.removeItem("loggedIn");
-
-location.href="login.html";
-
-}
-
-loadDashboard();
-
-</script>
-
+    document.addEventListener("DOMContentLoaded", loadDashboard);
+  </script>
 </body>
-
 </html>
