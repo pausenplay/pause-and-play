@@ -1,8 +1,8 @@
 /*==========================================================
   Pause & Play Management System
   File      : api.js
-  Version   : 3.0
-  Purpose   : Central API Client
+  Version   : 3.1
+  Purpose   : Central API Client (Google Apps Script Backend)
 ==========================================================*/
 
 "use strict";
@@ -22,53 +22,68 @@ const API = {
 
 async function parseResponse(response) {
   if (!response.ok) {
-    throw new Error("HTTP " + response.status);
+    throw new Error(`HTTP Error ${response.status}: ${response.statusText}`);
   }
   return await response.json();
 }
 
 async function apiGet(action, params = {}) {
-  params.action = action;
-  const query = new URLSearchParams(params);
+  const queryParams = new URLSearchParams({ action, ...params });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), API.TIMEOUT);
 
-  const response = await fetch(`${API.URL}?${query.toString()}`, {
-    method: "GET",
-    cache: "no-store"
-  });
-
-  return parseResponse(response);
+  try {
+    const response = await fetch(`${API.URL}?${queryParams.toString()}`, {
+      method: "GET",
+      cache: "no-store",
+      signal: controller.signal
+    });
+    return await parseResponse(response);
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 async function apiPost(action, data = {}) {
-  // Pass the action parameter inside the POST JSON payload
   const payload = { action, ...data };
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), API.TIMEOUT);
 
-  const response = await fetch(API.URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "text/plain;charset=utf-8"
-    },
-    redirect: "follow",
-    body: JSON.stringify(payload)
-  });
-
-  return parseResponse(response);
+  try {
+    const response = await fetch(API.URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      redirect: "follow",
+      signal: controller.signal,
+      body: JSON.stringify(payload)
+    });
+    return await parseResponse(response);
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 async function request(method, action, data = {}) {
   try {
-    if (method.toUpperCase() === "GET") {
+    const httpMethod = method.toUpperCase();
+    if (httpMethod === "GET") {
       return await apiGet(action, data);
     }
-    if (method.toUpperCase() === "POST") {
+    if (httpMethod === "POST") {
       return await apiPost(action, data);
     }
-    throw new Error("Invalid HTTP Method");
+    throw new Error("Invalid HTTP Method specified.");
   } catch (error) {
-    console.error("API Request Error:", error);
+    console.error(`API Error [${action}]:`, error);
+    let message = error.message || "Network error or server unreachable.";
+    if (error.name === "AbortError") {
+      message = "Request timed out. Please check your network connection.";
+    }
     return {
       success: false,
-      message: error.message
+      message: message
     };
   }
 }
@@ -77,8 +92,8 @@ async function request(method, action, data = {}) {
   AUTHENTICATION & STAFF MANAGEMENT
 ==========================================================*/
 
-function login(username, password) {
-  return request("POST", "login", { username, password });
+function login(username, password, role = "STAFF") {
+  return request("POST", "login", { username, password, role });
 }
 
 function logout(token) {
@@ -108,6 +123,7 @@ function deleteStaff(username) {
 function getStaffList() {
   return request("GET", "staffList");
 }
+
 /*==========================================================
   MEMBERS MANAGEMENT
 ==========================================================*/
@@ -313,37 +329,8 @@ async function pingServer() {
 
 function apiVersion() {
   return {
-    version: "3.0",
+    version: "3.1",
     platform: "Google Apps Script",
-    client: "Pause & Play"
+    client: "Pause & Play Management System"
   };
-}
-// Generic request handler
-async function request(method, action, data = {}) {
-  const payload = { action: action, ...data };
-
-  try {
-    const response = await fetch(API.URL, {
-      method: "POST", // Apps Script POST accepts request body
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
-      redirect: "follow",
-      body: JSON.stringify(payload)
-    });
-
-    return await response.json();
-  } catch (err) {
-    console.error("API Request Error:", err);
-    return { success: false, message: "Network error or server unreachable." };
-  }
-}
-
-// Login function using request helper
-async function login(username, password, role) {
-  return await request("POST", "login", {
-    username: username,
-    password: password,
-    role: role
-  });
 }
