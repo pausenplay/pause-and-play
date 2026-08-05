@@ -1,144 +1,487 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | Pause & Play</title>
+  
+  <!-- Boxicons for iOS-style icons -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  
+  <!-- Shared App Styles -->
+  <link rel="stylesheet" href="style.css" />
 
-<meta charset="UTF-8">
+  <style>
+    /* iOS Custom Dashboard UI Overlays */
+    :root {
+      --ios-bg: #F2F2F7;
+      --ios-card-bg: rgba(255, 255, 255, 0.85);
+      --ios-blur: blur(20px);
+      --ios-border: rgba(255, 255, 255, 0.5);
+      --ios-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.06);
+      --ios-radius: 20px;
+      --ios-blue: #007AFF;
+      --ios-green: #34C759;
+      --ios-orange: #FF9500;
+      --ios-purple: #AF52DE;
+      --ios-text: #1C1C1E;
+      --ios-text-sub: #8E8E93;
+    }
 
-<meta name="viewport" content="width=device-width,initial-scale=1">
+    body.dark {
+      --ios-bg: #000000;
+      --ios-card-bg: rgba(28, 28, 30, 0.85);
+      --ios-border: rgba(255, 255, 255, 0.1);
+      --ios-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      --ios-text: #FFFFFF;
+      --ios-text-sub: #8E8E93;
+    }
 
-<title>Dashboard</title>
+    body {
+      background-color: var(--ios-bg);
+      color: var(--ios-text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding-bottom: 80px; /* Space for mobile tab bar */
+    }
 
-<link rel="stylesheet" href="style.css">
+    /* Layout Structure */
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+    }
 
+    .main-content {
+      flex: 1;
+      padding: 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* iOS Glassmorphism Card Wrapper */
+    .ios-card {
+      background: var(--ios-card-bg);
+      backdrop-filter: var(--ios-blur);
+      -webkit-backdrop-filter: var(--ios-blur);
+      border: 1px solid var(--ios-border);
+      box-shadow: var(--ios-shadow);
+      border-radius: var(--ios-radius);
+      padding: 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .ios-card:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Header Bar */
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .user-greeting {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--ios-blue), var(--ios-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    /* Metrics Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .stat-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: #fff;
+    }
+
+    .stat-icon.blue { background: var(--ios-blue); }
+    .stat-icon.green { background: var(--ios-green); }
+    .stat-icon.orange { background: var(--ios-orange); }
+    .stat-icon.purple { background: var(--ios-purple); }
+
+    .stat-info h3 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .stat-info p {
+      margin: 2px 0 0 0;
+      color: var(--ios-text-sub);
+      font-size: 13px;
+    }
+
+    /* Quick Actions Row */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 12px;
+      border-radius: 16px;
+      background: var(--ios-card-bg);
+      border: 1px solid var(--ios-border);
+      color: var(--ios-text);
+      cursor: pointer;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .action-btn i {
+      font-size: 26px;
+      color: var(--ios-blue);
+    }
+
+    .action-btn:active {
+      scale: 0.96;
+    }
+
+    /* Table & Details Grid */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 992px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* iOS Table Styling */
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--ios-border);
+      font-size: 14px;
+    }
+
+    th {
+      color: var(--ios-text-sub);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .badge.active { background: rgba(52, 199, 89, 0.15); color: var(--ios-green); }
+    .badge.pending { background: rgba(255, 149, 0, 0.15); color: var(--ios-orange); }
+
+    /* iOS Mobile Tab Bar */
+    .ios-tab-bar {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 65px;
+      background: var(--ios-card-bg);
+      backdrop-filter: var(--ios-blur);
+      -webkit-backdrop-filter: var(--ios-blur);
+      border-top: 1px solid var(--ios-border);
+      justify-content: space-around;
+      align-items: center;
+      z-index: 1000;
+      padding-bottom: 10px;
+    }
+
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--ios-text-sub);
+      text-decoration: none;
+      font-size: 10px;
+      gap: 3px;
+    }
+
+    .tab-item i {
+      font-size: 22px;
+    }
+
+    .tab-item.active {
+      color: var(--ios-blue);
+    }
+
+    @media (max-width: 768px) {
+      .ios-tab-bar {
+        display: flex;
+      }
+      .main-content {
+        padding: 16px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<script>
+  <div class="dashboard-container">
+    
+    <!-- Main Content Area -->
+    <main class="main-content">
+      
+      <!-- Top Header / Welcome -->
+      <div class="dashboard-header">
+        <div class="user-greeting">
+          <div class="avatar-circle" id="userAvatar">P</div>
+          <div>
+            <h2 style="margin: 0; font-size: 20px;" id="userName">Welcome Back</h2>
+            <span style="font-size: 13px; color: var(--ios-text-sub);" id="userRole">Owner</span>
+          </div>
+        </div>
 
-if(localStorage.getItem("loggedIn")!="true"){
+        <div style="display: flex; gap: 10px;">
+          <button class="action-btn" onclick="toggleTheme()" style="padding: 10px; border-radius: 50%;">
+            <i class='bx bx-moon'></i>
+          </button>
+          <button class="action-btn" onclick="logout()" style="padding: 10px; border-radius: 50%;">
+            <i class='bx bx-log-out' style="color: #FF3B30;"></i>
+          </button>
+        </div>
+      </div>
 
-location.href="login.html";
+      <!-- Quick Metrics Grid -->
+      <div class="stats-grid">
+        <div class="ios-card stat-card">
+          <div class="stat-icon blue"><i class='bx bx-user'></i></div>
+          <div class="stat-info">
+            <h3 id="statTotalMembers">0</h3>
+            <p>Total Members</p>
+          </div>
+        </div>
 
-}
+        <div class="ios-card stat-card">
+          <div class="stat-icon green"><i class='bx bx-check-circle'></i></div>
+          <div class="stat-info">
+            <h3 id="statActiveToday">0</h3>
+            <p>Active Today</p>
+          </div>
+        </div>
 
-</script>
+        <div class="ios-card stat-card">
+          <div class="stat-icon orange"><i class='bx bx-time'></i></div>
+          <div class="stat-info">
+            <h3 id="statPendingDues">₹0</h3>
+            <p>Pending Dues</p>
+          </div>
+        </div>
 
-<header class="topbar">
+        <div class="ios-card stat-card">
+          <div class="stat-icon purple"><i class='bx bx-wallet'></i></div>
+          <div class="stat-info">
+            <h3 id="statMonthlyRev">₹0</h3>
+            <p>This Month</p>
+          </div>
+        </div>
+      </div>
 
-<div class="logo">
+      <!-- iOS Quick Action Shortcuts -->
+      <div class="quick-actions">
+        <a href="members.html" class="action-btn">
+          <i class='bx bx-user-plus'></i>
+          <span>Add Member</span>
+        </a>
+        <a href="attendance.html" class="action-btn">
+          <i class='bx bx-calendar-check'></i>
+          <span>Attendance</span>
+        </a>
+        <a href="billing.html" class="action-btn">
+          <i class='bx bx-receipt'></i>
+          <span>Billing</span>
+        </a>
+        <a href="scanner.html" class="action-btn">
+          <i class='bx bx-qr-scan'></i>
+          <span>Scanner</span>
+        </a>
+      </div>
 
-<img src="assets/logo.png" height="45">
+      <!-- Detail Grid Section -->
+      <div class="content-grid">
+        
+        <!-- Recent Members Card -->
+        <div class="ios-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px;">
+            <h3 style="margin:0; font-size: 16px;">Recent Members</h3>
+            <a href="members.html" style="color: var(--ios-blue); font-size: 13px; text-decoration: none;">View All</a>
+          </div>
 
-<span>Pause & Play</span>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Plan</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="recentMembersTable">
+                <tr>
+                  <td colspan="3" style="text-align:center; color: var(--ios-text-sub);">Loading data...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-</div>
+        <!-- System Overview Widget -->
+        <div class="ios-card">
+          <h3 style="margin-top:0; font-size: 16px; margin-bottom: 16px;">Live Status</h3>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="display:flex; justify-size: space-between; justify-content: space-between;">
+              <span style="color: var(--ios-text-sub);">Live Time</span>
+              <strong id="dashClock">--:--:--</strong>
+            </div>
+            <div style="display:flex; justify-content: space-between;">
+              <span style="color: var(--ios-text-sub);">Today's Date</span>
+              <strong id="dashDate">-- --- ----</strong>
+            </div>
+            <div style="display:flex; justify-content: space-between;">
+              <span style="color: var(--ios-text-sub);">App Version</span>
+              <strong>v2.0</strong>
+            </div>
+          </div>
+        </div>
 
-<div>
+      </div>
 
-<button onclick="window.open('billing.html','_blank')">
-💳 Billing
-</button>
+    </main>
+  </div>
 
-<button onclick="logout()">
-Logout
-</button>
+  <!-- Mobile Bottom Tab Navigation -->
+  <nav class="ios-tab-bar">
+    <a href="dashboard.html" class="tab-item active">
+      <i class='bx bx-home-alt'></i>
+      <span>Home</span>
+    </a>
+    <a href="members.html" class="tab-item">
+      <i class='bx bx-group'></i>
+      <span>Members</span>
+    </a>
+    <a href="attendance.html" class="tab-item">
+      <i class='bx bx-calendar'></i>
+      <span>Attendance</span>
+    </a>
+    <a href="billing.html" class="tab-item">
+      <i class='bx bx-credit-card'></i>
+      <span>Billing</span>
+    </a>
+  </nav>
 
-</div>
+  <!-- External App Scripts -->
+  <script src="api.js"></script>
+  <script src="app.js"></script>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Protect module access
+      if (typeof protect === "function") protect("dashboard");
 
-</header>
+      // Initialize Clocks
+      if (typeof liveClock === "function") liveClock("dashClock");
+      if (typeof liveDate === "function") liveDate("dashDate");
 
-<div class="container">
+      // Set user avatar initial
+      const user = currentUser();
+      if (user && user.username) {
+        document.getElementById("userAvatar").textContent = user.username.charAt(0).toUpperCase();
+      }
 
-<h1>Dashboard</h1>
+      // Load Dashboard Metrics
+      loadDashboardData();
+    });
 
-<div class="grid">
+    async function loadDashboardData() {
+      try {
+        // Fetch data via Api wrapper
+        const res = await Api.get("getDashboardStats");
+        if (res && res.success) {
+          document.getElementById("statTotalMembers").textContent = res.totalMembers || 0;
+          document.getElementById("statActiveToday").textContent = res.activeToday || 0;
+          document.getElementById("statPendingDues").textContent = money(res.pendingDues || 0);
+          document.getElementById("statMonthlyRev").textContent = money(res.monthlyRevenue || 0);
 
-<div class="card">
-<h3>Total Members</h3>
-<h1 id="total">0</h1>
-</div>
+          renderRecentMembers(res.recentMembers || []);
+        }
+      } catch (err) {
+        DEV.error("Failed to load dashboard statistics:", err);
+      }
+    }
 
-<div class="card">
-<h3>Active Members</h3>
-<h1 id="active">0</h1>
-</div>
+    function renderRecentMembers(members) {
+      const tbody = document.getElementById("recentMembersTable");
+      if (!members || members.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color: var(--ios-text-sub);">No recent members found</td></tr>`;
+        return;
+      }
 
-<div class="card">
-<h3>Today's Attendance</h3>
-<h1 id="today">0</h1>
-</div>
-
-<div class="card">
-<h3>Expired Members</h3>
-<h1 id="expired">0</h1>
-</div>
-
-</div>
-
-<br>
-
-<div class="grid">
-
-<button onclick="location.href='addmember.html'">
-➕ Add Member
-</button>
-
-<button onclick="location.href='members.html'">
-👥 Members
-</button>
-
-<button onclick="location.href='scanner.html'">
-📷 Scan QR
-</button>
-
-<button onclick="location.href='attendance.html'">
-📅 Attendance
-</button>
-
-<button onclick="location.href='reports.html'">
-📊 Reports
-</button>
-
-<button onclick="location.href='settings.html'">
-⚙ Settings
-</button>
-
-</div>
-
-</div>
-
-<script src="api.js"></script>
-
-<script>
-
-async function loadDashboard(){
-
-let d=await getDashboard();
-
-total.innerHTML=d.total||0;
-
-active.innerHTML=d.active||0;
-
-today.innerHTML=d.today||0;
-
-expired.innerHTML=d.expired||0;
-
-}
-
-function logout(){
-
-localStorage.removeItem("loggedIn");
-
-location.href="login.html";
-
-}
-
-loadDashboard();
-
-</script>
-
+      tbody.innerHTML = members.map(m => `
+        <tr>
+          <td><strong>${m.name || 'N/A'}</strong></td>
+          <td>${m.plan || 'Standard'}</td>
+          <td><span class="badge ${m.status === 'Active' ? 'active' : 'pending'}">${m.status || 'Active'}</span></td>
+        </tr>
+      `).join('');
+    }
+  </script>
 </body>
-
 </html>
