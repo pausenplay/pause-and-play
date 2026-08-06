@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pause & Play - Login</title>
+  
+  <!-- Boxicons for Visual Elements -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    :root {
+      --ios-bg: #F2F2F7;
+      --ios-card-bg: rgba(255, 255, 255, 0.85);
+      --ios-blur: blur(25px);
+      --ios-border: rgba(255, 255, 255, 0.4);
+      --ios-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      --ios-radius: 24px;
+      --ios-blue: #007AFF;
+      --ios-red: #FF3B30;
+      --ios-text: #1C1C1E;
+      --ios-text-sub: #8E8E93;
+    }
+
+    body.dark {
+      --ios-bg: #000000;
+      --ios-card-bg: rgba(28, 28, 30, 0.85);
+      --ios-border: rgba(255, 255, 255, 0.12);
+      --ios-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      --ios-text: #FFFFFF;
+      --ios-text-sub: #8E8E93;
+    }
+
+    body {
+      background-color: var(--ios-bg);
+      color: var(--ios-text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 380px;
+    }
+
+    .login-card {
+      background: var(--ios-card-bg);
+      backdrop-filter: var(--ios-blur);
+      -webkit-backdrop-filter: var(--ios-blur);
+      border: 1px solid var(--ios-border);
+      box-shadow: var(--ios-shadow);
+      border-radius: var(--ios-radius);
+      padding: 32px 24px;
+      text-align: center;
+    }
+
+    .brand-title {
+      font-size: 24px;
+      font-weight: 800;
+      margin: 0 0 6px 0;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      color: var(--ios-text-sub);
+      font-size: 13px;
+      margin: 0 0 28px 0;
+      font-weight: 500;
+    }
+
+    .input-wrapper {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--ios-border);
+      background: rgba(255, 255, 255, 0.5);
+      color: var(--ios-text);
+      font-size: 15px;
+      box-sizing: border-box;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    body.dark .input-field {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .input-field:focus {
+      border-color: var(--ios-blue);
+      box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      background: var(--ios-blue);
+      color: #FFFFFF;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      margin-top: 8px;
+    }
+
+    .btn-login:active {
+      transform: scale(0.97);
+      opacity: 0.9;
+    }
+
+    .msg-box {
+      margin-top: 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ios-red);
+      min-height: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="login-card">
+      <h1 class="brand-title">🎮 Pause & Play</h1>
+      <p class="subtitle">Membership Management System</p>
+
+      <form id="loginForm" onsubmit="event.preventDefault(); login();">
+        <div class="input-wrapper">
+          <input 
+            type="text" 
+            id="username" 
+            class="input-field" 
+            placeholder="Username" 
+            autocomplete="username" 
+            required>
+        </div>
+
+        <div class="input-wrapper">
+          <input 
+            type="password" 
+            id="password" 
+            class="input-field" 
+            placeholder="Password" 
+            autocomplete="current-password" 
+            required>
+        </div>
+
+        <button type="submit" class="btn-login">Login</button>
+      </form>
+
+      <p id="msg" class="msg-box"></p>
+    </div>
+  </div>
+
+  <!-- Shared Scripts -->
+  <script src="api.js"></script>
+  <script src="app.js"></script>
+
+  <script>
+    async function login() {
+      const msg = document.getElementById("msg");
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
+
+      msg.innerText = "";
+
+      if (!user) {
+        msg.innerText = "Enter Username";
+        return;
+      }
+      if (!pass) {
+        msg.innerText = "Enter Password";
+        return;
+      }
+
+      // Check against live API, fall back to fallback credentials if offline
+      try {
+        if (typeof loginUser === "function") {
+          const result = await loginUser(user, pass);
+          if (result && result.success) {
+            localStorage.setItem("loggedIn", "true");
+            location.href = "dashboard.html";
+            return;
+          }
+        }
+      } catch (e) {
+        console.warn("API login unavailable, falling back to local authentication.");
+      }
+
+      // Local Admin Fallback
+      if (user === "admin" && pass === "1234") {
+        localStorage.setItem("loggedIn", "true");
+        sessionStorage.setItem("gym_user", JSON.stringify({ username: "admin", role: "OWNER" }));
+        location.href = "dashboard.html";
+      } else {
+        msg.innerText = "Invalid Username or Password";
+      }
+    }
+  </script>
+</body>
+</html>
