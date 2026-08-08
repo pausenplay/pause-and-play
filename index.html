@@ -191,15 +191,15 @@
       font-size: 12px;
       font-weight: 600;
       color: var(--accent-cyan);
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .hero-title {
-      font-size: clamp(36px, 6.5vw, 80px);
+      font-size: clamp(38px, 6.5vw, 80px);
       font-weight: 900;
       letter-spacing: -2px;
       line-height: 1.05;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       background: var(--hero-title-grad);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -214,12 +214,12 @@
     }
 
     /* ==========================================
-       4. SLIDER SECTION (STRICT 4:3 LANDSCAPE ASPECT RATIO)
+       4. STRICT 4:3 LANDSCAPE ASPECT RATIO SLIDER
        ========================================== */
     .slider-section {
       position: relative;
       width: 100%;
-      max-width: 960px; /* Perfectly balances 4:3 ratio on large screens */
+      max-width: 900px; /* Optimal desktop max-width for 4:3 view */
       margin: 0 auto 50px;
       padding: 0 20px;
     }
@@ -227,7 +227,7 @@
     .slider-container {
       position: relative;
       width: 100%;
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 4 / 3; /* Enforces strict 4:3 Landscape Ratio */
       border-radius: 20px;
       overflow: hidden;
       background: #000;
@@ -265,11 +265,11 @@
     .slide-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.92) 100%);
+      background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.92) 100%);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: clamp(20px, 4vw, 40px);
+      padding: clamp(20px, 4vw, 36px);
       pointer-events: none;
     }
 
@@ -288,7 +288,7 @@
     }
 
     .slide-content h2 {
-      font-size: clamp(22px, 3.5vw, 38px);
+      font-size: clamp(22px, 3.5vw, 36px);
       font-weight: 800;
       color: #FFFFFF;
       margin-bottom: 6px;
@@ -296,10 +296,10 @@
     }
 
     .slide-content p {
-      font-size: clamp(12px, 1.3vw, 14.5px);
+      font-size: clamp(12px, 1.3vw, 14px);
       color: rgba(255, 255, 255, 0.88);
       max-width: 680px;
-      line-height: 1.5;
+      line-height: 1.45;
     }
 
     .slider-arrow {
@@ -310,9 +310,9 @@
       height: 42px;
       border-radius: 50%;
       background: rgba(0, 0, 0, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: #FFF;
-      font-size: 24px;
+      font-size: 22px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -328,8 +328,8 @@
       border-color: var(--accent-cyan);
     }
 
-    .slider-arrow.prev { left: 16px; }
-    .slider-arrow.next { right: 16px; }
+    .slider-arrow.prev { left: 14px; }
+    .slider-arrow.next { right: 14px; }
 
     .slider-dots {
       position: absolute;
@@ -345,8 +345,8 @@
     }
 
     .dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.35);
       transition: all 0.3s ease;
@@ -360,24 +360,24 @@
     }
 
     /* ==========================================
-       5. LOCATION & CONTACT (WHITE CARDS)
+       5. LOCATION & CONTACT
        ========================================== */
     .content-section {
-      padding: 40px 20px 80px;
-      max-width: 960px;
+      padding: 50px 20px 80px;
+      max-width: 1200px;
       margin: 0 auto;
     }
 
     .grid-3 {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
     }
 
     .card {
       background: var(--bg-card);
       border-radius: 16px;
-      padding: 24px;
+      padding: 28px;
       color: #1D1D1F;
       box-shadow: 0 10px 30px rgba(0,0,0,0.05);
       transition: transform 0.2s ease;
@@ -388,12 +388,12 @@
     .card i {
       font-size: 28px;
       color: var(--accent-cyan);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       display: inline-block;
     }
 
     .card h3 {
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 700;
       margin-bottom: 6px;
       color: #1D1D1F;
@@ -492,7 +492,7 @@
   </header>
 
   <!-- ==========================================
-       1. PLAYSTATION 5 SLIDER (10 IMAGES: Assets 2)
+       1. PLAYSTATION 5 SLIDER (10 Photos: Assets 2)
        ========================================== -->
   <section class="slider-section" id="ps5-zone">
     <div class="slider-container">
@@ -500,9 +500,20 @@
       <button class="slider-arrow next" onclick="scrollSlider('track-1', 1)"><i class="bx bx-chevron-right"></i></button>
       
       <div class="slider-track" id="track-1">
-        <!-- Image 1 -->
+        <!-- Photo 1 -->
         <div class="slide-item">
           <img src="Assets 2/ps1.jpg" alt="PS5 Station 1" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'">
+          <div class="slide-overlay">
+            <span class="slide-header-tag">01. PLAYSTATION 5 ARENA</span>
+            <div class="slide-content">
+              <h2>Next-Gen Console Experience</h2>
+              <p>Step into next-gen console gaming at Pause & Play with our ultimate PlayStation 5 setups. Experience high-octane battle matches in Tekken 8, dominate the pitch in EA Sports FC 24, or plunge into epic, cinematic storylines with God of War Ragnarök and Marvel's Spider-Man 2. Played on stunning 4K ultra-HD large displays, every title comes to life with breathtaking clarity and ultra-smooth performance. Combined with DualSense wireless controllers offering immersive haptic feedback and dynamic triggers, our premium PS5 lounge delivers an unparalleled local multiplayer and solo gaming experience for you and your friends.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 2 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps2.jpg" alt="PS5 Station 2" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'">
           <div class="slide-overlay">
             <span class="slide-header-tag">01. PLAYSTATION 5 ARENA</span>
             <div class="slide-content">
@@ -511,49 +522,101 @@
             </div>
           </div>
         </div>
-        <!-- Image 2 -->
-        <div class="slide-item">
-          <img src="Assets 2/ps2.jpg" alt="PS5 Station 2" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'">
-          <div class="slide-overlay">
-            <span class="slide-header-tag">01. PLAYSTATION 5 ARENA</span>
-            <div class="slide-content">
-              <h2>Next-Gen Console Gaming</h2>
-              <p>Step into next-gen console gaming at Pause & Play with our ultimate PlayStation 5 setups. Experience high-octane battle matches in Tekken 8, dominate the pitch in EA Sports FC 24, or plunge into epic storylines.</p>
-            </div>
-          </div>
-        </div>
-        <!-- Image 3 -->
+        <!-- Photo 3 -->
         <div class="slide-item">
           <img src="Assets 2/ps3.jpg" alt="PS5 Station 3" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'">
           <div class="slide-overlay">
             <span class="slide-header-tag">01. PLAYSTATION 5 ARENA</span>
             <div class="slide-content">
-              <h2>Immersive 4K Displays</h2>
-              <p>Played on stunning 4K ultra-HD displays, every title comes to life with breathtaking clarity, HDR colors, and ultra-smooth performance.</p>
+              <h2>4K Ultra-HD Visuals</h2>
+              <p>Played on stunning 4K ultra-HD large displays, every title comes to life with breathtaking clarity and ultra-smooth 120 FPS performance.</p>
             </div>
           </div>
         </div>
-        <!-- Image 4 -->
-        <div class="slide-item"><img src="Assets 2/ps4.jpg" alt="PS5 Station 4" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'"></div>
-        <!-- Image 5 -->
-        <div class="slide-item"><img src="Assets 2/ps5.jpg" alt="PS5 Station 5" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'"></div>
-        <!-- Image 6 -->
-        <div class="slide-item"><img src="Assets 2/ps6.jpg" alt="PS5 Station 6" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'"></div>
-        <!-- Image 7 -->
-        <div class="slide-item"><img src="Assets 2/ps7.jpg" alt="PS5 Station 7" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'"></div>
-        <!-- Image 8 -->
-        <div class="slide-item"><img src="Assets 2/ps8.jpg" alt="PS5 Station 8" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'"></div>
-        <!-- Image 9 -->
-        <div class="slide-item"><img src="Assets 2/ps9.jpg" alt="PS5 Station 9" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'"></div>
-        <!-- Image 10 -->
-        <div class="slide-item"><img src="Assets 2/ps10.jpg" alt="PS5 Station 10" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'"></div>
+        <!-- Photo 4 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps4.jpg" alt="PS5 Station 4" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'">
+          <div class="slide-overlay">
+            <span class="slide-header-tag">01. PLAYSTATION 5 ARENA</span>
+            <div class="slide-content">
+              <h2>DualSense Wireless Immersion</h2>
+              <p>Immersive haptic feedback and dynamic triggers let you feel every gear shift, kick, and strike in real-time.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 5 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps5.jpg" alt="PS5 Station 5" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'">
+          <div class="slide-overlay">
+            <span class="slide-header-tag">01. PLAYSTATION 5 ARENA</span>
+            <div class="slide-content">
+              <h2>Cinematic Storytelling</h2>
+              <p>Plunge into epic story modes with God of War Ragnarök and Marvel's Spider-Man 2 in maximum high-fidelity display.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 6 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps6.jpg" alt="PS5 Station 6" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'">
+          <div class="slide-overlay">
+            <span class="slide-header-tag">01. PLAYSTATION 5 ARENA</span>
+            <div class="slide-content">
+              <h2>EA Sports FC 24 Tournaments</h2>
+              <p>Dominate the pitch and compete with local squad players on low-latency competitive setups.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 7 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps7.jpg" alt="PS5 Station 7" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'">
+          <div class="slide-overlay">
+            <span class="slide-header-tag">01. PLAYSTATION 5 ARENA</span>
+            <div class="slide-content">
+              <h2>Tekken 8 Fighting Zone</h2>
+              <p>Master intense martial arts fight combos with responsive controllers and ultra-low input lag setups.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 8 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps8.jpg" alt="PS5 Station 8" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'">
+          <div class="slide-overlay">
+            <span class="slide-header-tag">01. PLAYSTATION 5 ARENA</span>
+            <div class="slide-content">
+              <h2>Comfortable Couch Gaming</h2>
+              <p>Plush seating and spacious gaming bays make multi-hour couch sessions effortless and comfortable.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 9 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps9.jpg" alt="PS5 Station 9" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'">
+          <div class="slide-overlay">
+            <span class="slide-header-tag">01. PLAYSTATION 5 ARENA</span>
+            <div class="slide-content">
+              <h2>Pro Console Rigs</h2>
+              <p>Engineered for gamers seeking premium console performance in a stylish lounge environment.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 10 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps10.jpg" alt="PS5 Station 10" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'">
+          <div class="slide-overlay">
+            <span class="slide-header-tag">01. PLAYSTATION 5 ARENA</span>
+            <div class="slide-content">
+              <h2>Unmatched Lounge Experience</h2>
+              <p>Gather your friends, select your favorite title, and experience Jaunpur's premier PS5 gaming setup.</p>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="slider-dots" id="dots-track-1"></div>
     </div>
   </section>
 
   <!-- ==========================================
-       2. PC GAMING SLIDER (4 IMAGES: Assets 1)
+       2. PC GAMING SLIDER (4 Photos: Assets 1)
        ========================================== -->
   <section class="slider-section" id="pc-zone">
     <div class="slider-container">
@@ -561,35 +624,57 @@
       <button class="slider-arrow next" onclick="scrollSlider('track-2', 1)"><i class="bx bx-chevron-right"></i></button>
 
       <div class="slider-track" id="track-2">
+        <!-- Photo 1 -->
         <div class="slide-item">
-          <img src="Assets 1/game1.jpg" alt="PC Gaming 1" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200'">
+          <img src="Assets 1/game1.jpg" alt="PC Station 1" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200'">
           <div class="slide-overlay">
             <span class="slide-header-tag">02. PC ESPORTS ZONE</span>
             <div class="slide-content">
               <h2>Pro PC Gaming Rigs</h2>
-              <p>Our PC gaming zone delivers the ultimate high-performance experience. Gear up for tactical 5v5 action in Counter-Strike 2, or immerse yourself in stealthy assassinations in Hitman 2. Jump into firefights in Call of Duty: Modern Warfare 3 or explore GTA 5.</p>
+              <p>At Pause & Play, our PC gaming zone delivers the ultimate high-performance experience for casual players and hardcore competitors alike. Gear up for high-stakes, tactical 5v5 action in Counter-Strike 2, or immerse yourself in the stealthy, world-spanning assassinations of Hitman 2. If fast-paced adrenaline is your style, jump straight into intense tactical firefights with Call of Duty: Modern Warfare 3, or explore the massive, action-packed open world of GTA 5. Equipped with ultra-fast refresh rate monitors, top-tier mechanical peripherals, and zero-latency networking, our pro-grade setups ensure flawless performance, maximum FPS, and total victory every round.</p>
             </div>
           </div>
         </div>
+        <!-- Photo 2 -->
         <div class="slide-item">
-          <img src="Assets 1/game2.jpg" alt="PC Gaming 2" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200'">
+          <img src="Assets 1/game2.jpg" alt="PC Station 2" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200'">
           <div class="slide-overlay">
             <span class="slide-header-tag">02. PC ESPORTS ZONE</span>
             <div class="slide-content">
-              <h2>Maximum FPS Performance</h2>
-              <p>Equipped with top-tier hardware to guarantee ultra-high frame rates, zero lag, and competitive advantage for every round you play.</p>
+              <h2>Counter-Strike 2 Tactical Action</h2>
+              <p>Gear up for high-stakes, tactical 5v5 action on ultra-fast refresh rate monitors and mechanical keyboards.</p>
             </div>
           </div>
         </div>
-        <div class="slide-item"><img src="Assets 1/game3.jpg" alt="PC Gaming 3" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200'"></div>
-        <div class="slide-item"><img src="Assets 1/game4.jpg" alt="PC Gaming 4" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200'"></div>
+        <!-- Photo 3 -->
+        <div class="slide-item">
+          <img src="Assets 1/game3.jpg" alt="PC Station 3" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200'">
+          <div class="slide-overlay">
+            <span class="slide-header-tag">02. PC ESPORTS ZONE</span>
+            <div class="slide-content">
+              <h2>COD: Modern Warfare 3 Firefights</h2>
+              <p>Jump into fast-paced firefights with zero-latency networking and high FPS performance.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 4 -->
+        <div class="slide-item">
+          <img src="Assets 1/game4.jpg" alt="PC Station 4" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200'">
+          <div class="slide-overlay">
+            <span class="slide-header-tag">02. PC ESPORTS ZONE</span>
+            <div class="slide-content">
+              <h2>GTA 5 & Hitman 2 High-FPS Gaming</h2>
+              <p>Explore massive open worlds or stealth assassinations with smooth graphics and top-tier GPU power.</p>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="slider-dots" id="dots-track-2"></div>
     </div>
   </section>
 
   <!-- ==========================================
-       3. LOGITECH G29 STEERING RIG SLIDER (3 IMAGES: Assets 4)
+       3. LOGITECH G29 STEERING RIG SLIDER (3 Photos: Assets 4)
        ========================================== -->
   <section class="slider-section" id="steering-rig">
     <div class="slider-container">
@@ -597,34 +682,46 @@
       <button class="slider-arrow next" onclick="scrollSlider('track-3', 1)"><i class="bx bx-chevron-right"></i></button>
 
       <div class="slider-track" id="track-3">
+        <!-- Photo 1 -->
         <div class="slide-item">
-          <img src="Assets 4/photo1.jpg" alt="Racing Rig 1" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1586182987320-4f376d39d787?w=1200'">
+          <img src="Assets 4/photo1.jpg" alt="Steering Rig 1" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1586182987320-4f376d39d787?w=1200'">
           <div class="slide-overlay">
             <span class="slide-header-tag">03. RACING SIMULATOR</span>
             <div class="slide-content">
               <h2>Logitech G29 Steering Rig</h2>
-              <p>Take the wheel and feel every turn with our official Logitech G29 Driving Force Steering Wheel setup. Built for true racing enthusiasts with dual-motor force feedback and stainless steel pedals. Conquer open-road speed in Forza Horizon or master Euro Truck Simulator.</p>
+              <p>Take the wheel and feel every turn at Pause & Play with our official Logitech G29 Driving Force Steering Wheel setup for PlayStation and PC. Designed for true racing enthusiasts, this pro-tier rig features dual-motor force feedback, helical gearing, and stainless steel pedals that make every drift and braking point feel startlingly real. Conquer open-road speed in Forza Horizon, master precision heavy-vehicle transport across Europe in Euro Truck Simulator, or tear through the streets of Los Santos in GTA V. Combined with our high-refresh displays and immersive seating, it delivers an unbeatable, full-throttle simulator experience.</p>
             </div>
           </div>
         </div>
+        <!-- Photo 2 -->
         <div class="slide-item">
-          <img src="Assets 4/photo2.jpg" alt="Racing Rig 2" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200'">
+          <img src="Assets 4/photo2.jpg" alt="Steering Rig 2" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200'">
           <div class="slide-overlay">
             <span class="slide-header-tag">03. RACING SIMULATOR</span>
             <div class="slide-content">
-              <h2>Full-Throttle Realism</h2>
-              <p>Feel true force feedback gear mechanics and responsive pedal tension for an authentic, high-speed driving setup.</p>
+              <h2>Forza Horizon Open-Road Speed</h2>
+              <p>Conquer dynamic weather and high-speed cornering with realistic dual-motor force feedback tension.</p>
             </div>
           </div>
         </div>
-        <div class="slide-item"><img src="Assets 4/photo3.jpg" alt="Racing Rig 3" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1586182987320-4f376d39d787?w=1200'"></div>
+        <!-- Photo 3 -->
+        <div class="slide-item">
+          <img src="Assets 4/photo3.jpg" alt="Steering Rig 3" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1586182987320-4f376d39d787?w=1200'">
+          <div class="slide-overlay">
+            <span class="slide-header-tag">03. RACING SIMULATOR</span>
+            <div class="slide-content">
+              <h2>Euro Truck Simulator Precision</h2>
+              <p>Master precision heavy-vehicle transport and manual shifter handling across Europe's highway networks.</p>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="slider-dots" id="dots-track-3"></div>
     </div>
   </section>
 
   <!-- ==========================================
-       4. INSIDE VIEW SLIDER (4 IMAGES: Assets 3)
+       4. INSIDE VIEW SLIDER (4 Photos: Assets 3)
        ========================================== -->
   <section class="slider-section" id="inside-view">
     <div class="slider-container">
@@ -632,19 +729,50 @@
       <button class="slider-arrow next" onclick="scrollSlider('track-4', 1)"><i class="bx bx-chevron-right"></i></button>
 
       <div class="slider-track" id="track-4">
+        <!-- Photo 1 -->
         <div class="slide-item">
           <img src="Assets 3/view1.jpg" alt="Inside View 1" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200'">
           <div class="slide-overlay">
             <span class="slide-header-tag">04. AMBIENT LOUNGE</span>
             <div class="slide-content">
-              <h2>Inside Pause & Play</h2>
-              <p>Designed for comfort during extended gaming sessions with full air-conditioning, custom ambient lighting, and refreshment support.</p>
+              <h2>Inside Pause & Play Arena</h2>
+              <p>Designed for multi-hour gaming comfort with full air-conditioning, custom ambient RGB lighting, ergonomic seating, and refreshment support right to your station.</p>
             </div>
           </div>
         </div>
-        <div class="slide-item"><img src="Assets 3/view2.jpg" alt="Inside View 2" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200'"></div>
-        <div class="slide-item"><img src="Assets 3/view3.jpg" alt="Inside View 3" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200'"></div>
-        <div class="slide-item"><img src="Assets 3/view4.jpg" alt="Inside View 4" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200'"></div>
+        <!-- Photo 2 -->
+        <div class="slide-item">
+          <img src="Assets 3/view2.jpg" alt="Inside View 2" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200'">
+          <div class="slide-overlay">
+            <span class="slide-header-tag">04. AMBIENT LOUNGE</span>
+            <div class="slide-content">
+              <h2>Custom RGB Atmosphere</h2>
+              <p>Immerse yourself in sleek, futuristic interior lighting designed to make every session feel special.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 3 -->
+        <div class="slide-item">
+          <img src="Assets 3/view3.jpg" alt="Inside View 3" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200'">
+          <div class="slide-overlay">
+            <span class="slide-header-tag">04. AMBIENT LOUNGE</span>
+            <div class="slide-content">
+              <h2>Full Climate Control</h2>
+              <p>Stay cool and comfortable with continuous air-conditioning regardless of how intense the battle gets.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 4 -->
+        <div class="slide-item">
+          <img src="Assets 3/view4.jpg" alt="Inside View 4" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200'">
+          <div class="slide-overlay">
+            <span class="slide-header-tag">04. AMBIENT LOUNGE</span>
+            <div class="slide-content">
+              <h2>Food & Drinks Support</h2>
+              <p>Enjoy quick snacks and cold beverages served directly to your desk without stepping away from the game.</p>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="slider-dots" id="dots-track-4"></div>
     </div>
@@ -652,9 +780,9 @@
 
   <!-- Location Section -->
   <section class="content-section" id="location">
-    <div style="text-align:center; margin-bottom: 30px;">
+    <div style="text-align:center; margin-bottom: 40px;">
       <span style="font-size:11px; font-weight:800; color:var(--accent-cyan); letter-spacing:2px; text-transform:uppercase;">FIND US</span>
-      <h2 style="font-size:30px; font-weight:800; margin-top: 4px;">Location & Contact</h2>
+      <h2 style="font-size:32px; font-weight:800; margin-top: 4px;">Location & Contact</h2>
     </div>
     <div class="grid-3">
       <div class="card">
@@ -736,7 +864,6 @@
         themeIcon.className = theme === "light" ? "bx bx-sun" : "bx bx-moon";
       }
 
-      // Initialize Slider Navigation Dots
       document.querySelectorAll('.slider-track').forEach(track => {
         const dotsContainer = document.getElementById(`dots-${track.id}`);
         const slides = track.querySelectorAll('.slide-item');
