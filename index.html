@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Pause & Play - Premium Gaming Cafe</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -14,11 +15,9 @@
        1. SYSTEM CONFIGURATION & THEMING VARIABLES
        ========================================== */
     :root {
-      /* Dark Theme Default */
       --bg-dark: #090A0F;
       --bg-card: rgba(18, 20, 29, 0.7);
-      --bg-card-hover: rgba(28, 31, 46, 0.85);
-      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.15);
       --glass-blur: blur(16px);
       
       --accent-blue: #007AFF;
@@ -29,22 +28,16 @@
       --text-main: #F5F5F7;
       --text-sub: #9E9EA7;
       --hero-title-grad: linear-gradient(180deg, #FFFFFF 0%, #A1A1A6 100%);
-      
       --gradient-rgb: linear-gradient(135deg, var(--accent-blue), var(--accent-purple), var(--accent-pink));
       --radius-lg: 24px;
-      --radius-md: 16px;
-      --radius-sm: 10px;
     }
 
-    /* Light Theme Overrides */
     [data-theme="light"] {
       --bg-dark: #F2F2F7;
-      --bg-card: rgba(255, 255, 255, 0.8);
-      --bg-card-hover: rgba(255, 255, 255, 0.95);
-      --glass-border: rgba(0, 0, 0, 0.08);
-      
+      --bg-card: rgba(255, 255, 255, 0.85);
+      --glass-border: rgba(0, 0, 0, 0.1);
       --text-main: #1C1C1E;
-      --text-sub: #6E6E73;
+      --text-sub: #48484A;
       --hero-title-grad: linear-gradient(180deg, #1C1C1E 0%, #48484A 100%);
     }
 
@@ -64,7 +57,6 @@
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    /* Scroll Progress Bar */
     #progress-bar {
       position: fixed;
       top: 0;
@@ -90,11 +82,11 @@
       justify-content: space-between;
       padding: 0 clamp(20px, 5vw, 60px);
       z-index: 1000;
-      transition: background 0.3s ease, backdrop-filter 0.3s ease, border 0.3s ease;
+      transition: background 0.3s ease, backdrop-filter 0.3s ease;
     }
 
     .navbar.scrolled {
-      background: rgba(9, 10, 15, 0.75);
+      background: rgba(9, 10, 15, 0.85);
       backdrop-filter: var(--glass-blur);
       -webkit-backdrop-filter: var(--glass-blur);
       border-bottom: 1px solid var(--glass-border);
@@ -114,10 +106,7 @@
       text-decoration: none;
     }
 
-    .nav-brand i {
-      color: var(--accent-cyan);
-      font-size: 28px;
-    }
+    .nav-brand i { color: var(--accent-cyan); font-size: 28px; }
 
     .nav-links {
       display: flex;
@@ -130,18 +119,17 @@
       color: var(--text-sub);
       text-decoration: none;
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
       padding: 8px 14px;
       border-radius: 20px;
       transition: all 0.25s ease;
     }
 
-    .nav-links a:hover, .nav-links a.active {
+    .nav-links a:hover {
       color: var(--text-main);
       background: rgba(255, 255, 255, 0.1);
     }
 
-    /* Theme Toggle Switch */
     .theme-toggle-btn {
       background: var(--bg-card);
       border: 1px solid var(--glass-border);
@@ -155,11 +143,6 @@
       cursor: pointer;
       font-size: 20px;
       transition: all 0.3s ease;
-    }
-
-    .theme-toggle-btn:hover {
-      transform: scale(1.08);
-      border-color: var(--accent-cyan);
     }
 
     .btn-nav-login {
@@ -178,7 +161,6 @@
       background: var(--accent-blue);
       border-color: var(--accent-blue);
       color: #FFF;
-      box-shadow: 0 0 20px rgba(0, 122, 255, 0.4);
     }
 
     /* ==========================================
@@ -186,13 +168,14 @@
        ========================================== */
     .hero {
       position: relative;
-      min-height: 100vh;
+      height: 100vh;
+      width: 100vw;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 120px 20px 60px;
+      padding: 0 20px;
       overflow: hidden;
     }
 
@@ -220,11 +203,11 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 16px;
+      padding: 8px 18px;
       background: var(--bg-card);
       border: 1px solid var(--glass-border);
       border-radius: 30px;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       color: var(--accent-cyan);
       margin-bottom: 24px;
@@ -245,7 +228,6 @@
       font-size: clamp(16px, 2.5vw, 22px);
       color: var(--text-sub);
       margin-bottom: 36px;
-      font-weight: 400;
     }
 
     .btn-cta {
@@ -260,42 +242,146 @@
       border-radius: 16px;
       text-decoration: none;
       box-shadow: 0 10px 30px rgba(112, 0, 255, 0.35);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease;
     }
 
-    .btn-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 40px rgba(112, 0, 255, 0.5);
-    }
+    .btn-cta:hover { transform: translateY(-2px); }
 
     /* ==========================================
-       4. CAROUSELS & SECTIONS
+       4. FULL SCREEN SLIDER SYSTEM (100VH x 100VW)
        ========================================== */
-    section {
-      padding: clamp(60px, 8vw, 100px) clamp(20px, 5vw, 60px);
-      max-width: 1300px;
-      margin: 0 auto;
+    .fullscreen-section {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: #000;
     }
 
-    .section-header {
-      text-align: center;
-      margin-bottom: 48px;
+    .slider-track {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
     }
 
-    .section-tag {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--accent-cyan);
-      margin-bottom: 8px;
+    .slider-track::-webkit-scrollbar { display: none; }
+
+    .slide-item {
+      flex: 0 0 100vw;
+      width: 100vw;
+      height: 100vh;
+      scroll-snap-align: start;
+      position: relative;
+    }
+
+    .slide-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
       display: block;
     }
 
-    .section-title {
-      font-size: clamp(28px, 4vw, 42px);
+    .slide-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.85) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(90px, 10vh, 120px) clamp(20px, 5vw, 60px) clamp(40px, 8vh, 80px);
+      pointer-events: none;
+    }
+
+    .slide-header-tag {
+      font-size: 12px;
       font-weight: 800;
-      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-cyan);
+      background: rgba(0, 0, 0, 0.6);
+      padding: 6px 16px;
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      align-self: flex-start;
+      border: 1px solid var(--glass-border);
+    }
+
+    .slide-content h2 {
+      font-size: clamp(28px, 5vw, 54px);
+      font-weight: 900;
+      color: #FFFFFF;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+      margin-bottom: 8px;
+    }
+
+    .slide-content p {
+      font-size: clamp(14px, 2vw, 18px);
+      color: rgba(255, 255, 255, 0.85);
+      max-width: 650px;
+    }
+
+    .slider-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #FFF;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+    }
+
+    .slider-arrow:hover {
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+    }
+
+    .slider-arrow.prev { left: 20px; }
+    .slider-arrow.next { right: 20px; }
+
+    .slider-dots {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .dot.active {
+      width: 28px;
+      border-radius: 10px;
+      background: var(--accent-cyan);
+    }
+
+    /* Content & Footer */
+    .content-section {
+      padding: clamp(60px, 8vw, 100px) clamp(20px, 5vw, 60px);
+      max-width: 1300px;
+      margin: 0 auto;
     }
 
     .grid-3 {
@@ -310,67 +396,8 @@
       backdrop-filter: var(--glass-blur);
       border-radius: var(--radius-lg);
       padding: 28px;
-      transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
     }
 
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(0, 240, 255, 0.3);
-      background: var(--bg-card-hover);
-    }
-
-    /* Smooth Sliding Carousels */
-    .carousel-container {
-      position: relative;
-      overflow: hidden;
-      padding: 10px 0 20px;
-    }
-
-    .carousel-track {
-      display: flex;
-      gap: 20px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      padding-bottom: 10px;
-      scrollbar-width: none; /* Firefox */
-    }
-
-    .carousel-track::-webkit-scrollbar {
-      display: none; /* Chrome, Safari, Opera */
-    }
-
-    .carousel-card {
-      flex: 0 0 clamp(240px, 30vw, 320px);
-      scroll-snap-align: start;
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      background: var(--bg-card);
-      border: 1px solid var(--glass-border);
-      transition: transform 0.3s ease;
-    }
-
-    .carousel-card:hover {
-      transform: scale(1.02);
-    }
-
-    .carousel-img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .carousel-card-title {
-      padding: 16px;
-      font-weight: 700;
-      font-size: 16px;
-      text-align: center;
-    }
-
-    /* ==========================================
-       5. UTILITY & FLOATING ACTIONS
-       ========================================== */
     .floating-actions {
       position: fixed;
       bottom: 24px;
@@ -393,11 +420,6 @@
       font-size: 26px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
       text-decoration: none;
-      transition: transform 0.2s ease;
-    }
-
-    .btn-float:hover {
-      transform: scale(1.1);
     }
 
     #backToTop {
@@ -406,7 +428,7 @@
       border: 1px solid var(--glass-border);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s ease, transform 0.2s ease;
+      transition: opacity 0.3s ease;
     }
 
     #backToTop.visible {
@@ -414,28 +436,14 @@
       pointer-events: auto;
     }
 
-    .mobile-sticky-cta {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: var(--bg-card);
-      backdrop-filter: blur(10px);
-      padding: 12px 20px;
-      border-top: 1px solid var(--glass-border);
-      z-index: 998;
-    }
-
     @media (max-width: 768px) {
       .nav-links { display: none; }
-      .mobile-sticky-cta { display: block; }
+      .slider-arrow { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Progress Bar -->
   <div id="progress-bar"></div>
 
   <!-- Navbar -->
@@ -444,15 +452,14 @@
       <i class="bx bx-game"></i> PAUSE & PLAY
     </a>
     <ul class="nav-links">
-      <li><a href="#pc-games">PC Games</a></li>
-      <li><a href="#ps-games">PlayStation</a></li>
-      <li><a href="#inside-1">Inside View</a></li>
-      <li><a href="#inside-2">Arena Highlights</a></li>
+      <li><a href="#ps5-zone">PlayStation 5</a></li>
+      <li><a href="#pc-zone">PC Gaming</a></li>
+      <li><a href="#steering-rig">Steering Rig</a></li>
+      <li><a href="#inside-view">Inside View</a></li>
       <li><a href="#location">Location</a></li>
     </ul>
     
     <div style="display: flex; align-items: center; gap: 12px;">
-      <!-- Theme Switcher Button -->
       <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
         <i class="bx bx-moon" id="themeIcon"></i>
       </button>
@@ -473,115 +480,129 @@
     </a>
   </header>
 
-  <!-- Section 1: PC Games (Assets 1) -->
-  <section id="pc-games">
-    <div class="section-header">
-      <span class="section-tag">PC Gaming Zone</span>
-      <h2 class="section-title">PC Games Collection</h2>
-    </div>
-    <div class="carousel-container">
-      <div class="carousel-track">
-        <div class="carousel-card">
-          <img src="Assets 1/game1.jpg" alt="PC Game 1" class="carousel-img" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500'">
-          <div class="carousel-card-title">Valorant</div>
+  <!-- ==========================================
+       SLIDER 1: PLAYSTATION 5
+       ========================================== -->
+  <section class="fullscreen-section" id="ps5-zone">
+    <button class="slider-arrow prev" onclick="scrollSlider('track-1', -1)"><i class="bx bx-chevron-left"></i></button>
+    <button class="slider-arrow next" onclick="scrollSlider('track-1', 1)"><i class="bx bx-chevron-right"></i></button>
+    
+    <div class="slider-track" id="track-1">
+      <div class="slide-item">
+        <img src="Assets 2/ps1.jpg" alt="PlayStation 5 Lounge" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1600'">
+        <div class="slide-overlay">
+          <span class="slide-header-tag">01. PlayStation 5 Arena</span>
+          <div class="slide-content">
+            <h2>PS5 Next-Gen Console Zone</h2>
+            <p>Step into next-gen console gaming with our ultimate PlayStation 5 setups. Experience high-octane battle matches in Tekken 8, dominate the pitch in EA Sports FC 24, or plunge into epic story modes with God of War Ragnarök and Marvel's Spider-Man 2 on stunning 4K displays with DualSense controllers.</p>
+          </div>
         </div>
-        <div class="carousel-card">
-          <img src="Assets 1/game2.jpg" alt="PC Game 2" class="carousel-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=500'">
-          <div class="carousel-card-title">GTA V</div>
-        </div>
-        <div class="carousel-card">
-          <img src="Assets 1/game3.jpg" alt="PC Game 3" class="carousel-img" onerror="this.src='https://images.unsplash.com/photo-1586182987320-4f376d39d787?w=500'">
-          <div class="carousel-card-title">Counter-Strike 2</div>
-        </div>
-        <div class="carousel-card">
-          <img src="Assets 1/game4.jpg" alt="PC Game 4" class="carousel-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=500'">
-          <div class="carousel-card-title">Cyberpunk 2077</div>
+      </div>
+      <div class="slide-item">
+        <img src="Assets 2/ps2.jpg" alt="PS5 Multiplayer" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1600'">
+        <div class="slide-overlay">
+          <span class="slide-header-tag">01. PlayStation 5 Arena</span>
+          <div class="slide-content">
+            <h2>Local Multiplayer Battles</h2>
+            <p>Bring your friends for high-stakes 4K multiplayer action. Dynamic triggers, haptic feedback, and plush seating deliver an unbeatable local multiplayer experience.</p>
+          </div>
         </div>
       </div>
     </div>
+    <div class="slider-dots" id="dots-track-1"></div>
   </section>
 
-  <!-- Section 2: Popular Playstation Games (Assets 2) -->
-  <section id="ps-games">
-    <div class="section-header">
-      <span class="section-tag">Console Zone</span>
-      <h2 class="section-title">Popular PlayStation Games</h2>
-    </div>
-    <div class="carousel-container">
-      <div class="carousel-track">
-        <div class="carousel-card">
-          <img src="Assets 2/ps1.jpg" alt="PS Game 1" class="carousel-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500'">
-          <div class="carousel-card-title">Tekken 8</div>
+  <!-- ==========================================
+       SLIDER 2: PC GAMING
+       ========================================== -->
+  <section class="fullscreen-section" id="pc-zone">
+    <button class="slider-arrow prev" onclick="scrollSlider('track-2', -1)"><i class="bx bx-chevron-left"></i></button>
+    <button class="slider-arrow next" onclick="scrollSlider('track-2', 1)"><i class="bx bx-chevron-right"></i></button>
+
+    <div class="slider-track" id="track-2">
+      <div class="slide-item">
+        <img src="Assets 1/game1.jpg" alt="PC Gaming Setup" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1600'">
+        <div class="slide-overlay">
+          <span class="slide-header-tag">02. PC Esports Zone</span>
+          <div class="slide-content">
+            <h2>Pro PC Gaming Rigs</h2>
+            <p>Our PC gaming zone delivers the ultimate high-performance experience. Gear up for tactical 5v5 action in Counter-Strike 2, or immerse yourself in stealthy assassinations in Hitman 2. Jump into firefights in Call of Duty: Modern Warfare 3 or explore GTA 5 on high refresh rate monitors with zero-latency mechanical peripherals.</p>
+          </div>
         </div>
-        <div class="carousel-card">
-          <img src="Assets 2/ps2.jpg" alt="PS Game 2" class="carousel-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=500'">
-          <div class="carousel-card-title">EA Sports FC 24</div>
-        </div>
-        <div class="carousel-card">
-          <img src="Assets 2/ps3.jpg" alt="PS Game 3" class="carousel-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=500'">
-          <div class="carousel-card-title">God of War Ragnarök</div>
-        </div>
-        <div class="carousel-card">
-          <img src="Assets 2/ps4.jpg" alt="PS Game 4" class="carousel-img" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500'">
-          <div class="carousel-card-title">Spider-Man 2</div>
+      </div>
+      <div class="slide-item">
+        <img src="Assets 1/game2.jpg" alt="PC Gaming Battle Station" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1600'">
+        <div class="slide-overlay">
+          <span class="slide-header-tag">02. PC Esports Zone</span>
+          <div class="slide-content">
+            <h2>Maximum FPS Performance</h2>
+            <p>Equipped with top-tier hardware to guarantee ultra-high frame rates, zero lag, and competitive advantage for every round you play.</p>
+          </div>
         </div>
       </div>
     </div>
+    <div class="slider-dots" id="dots-track-2"></div>
   </section>
 
-  <!-- Section 3: Inside Pause & Play (Assets 3) -->
-  <section id="inside-1">
-    <div class="section-header">
-      <span class="section-tag">Ambience</span>
-      <h2 class="section-title">Inside Pause & Play</h2>
-    </div>
-    <div class="carousel-container">
-      <div class="carousel-track">
-        <div class="carousel-card">
-          <img src="Assets 3/view1.jpg" alt="Inside View 1" class="carousel-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800'">
-          <div class="carousel-card-title">High-End PC setups</div>
+  <!-- ==========================================
+       SLIDER 3: LOGITECH G29 STEERING RIG
+       ========================================== -->
+  <section class="fullscreen-section" id="steering-rig">
+    <button class="slider-arrow prev" onclick="scrollSlider('track-3', -1)"><i class="bx bx-chevron-left"></i></button>
+    <button class="slider-arrow next" onclick="scrollSlider('track-3', 1)"><i class="bx bx-chevron-right"></i></button>
+
+    <div class="slider-track" id="track-3">
+      <div class="slide-item">
+        <img src="Assets 4/photo1.jpg" alt="Logitech G29 Steering Setup" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1586182987320-4f376d39d787?w=1600'">
+        <div class="slide-overlay">
+          <span class="slide-header-tag">03. Racing Simulator</span>
+          <div class="slide-content">
+            <h2>Logitech G29 Steering Rig</h2>
+            <p>Take the wheel and feel every turn with our official Logitech G29 Driving Force Steering Wheel setup. Built for true racing enthusiasts with dual-motor force feedback and stainless steel pedals. Conquer open-road speed in Forza Horizon, master heavy transport in Euro Truck Simulator, or tear through GTA V streets.</p>
+          </div>
         </div>
-        <div class="carousel-card">
-          <img src="Assets 3/view2.jpg" alt="Inside View 2" class="carousel-img" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800'">
-          <div class="carousel-card-title">PS5 Lounge Area</div>
-        </div>
-        <div class="carousel-card">
-          <img src="Assets 3/view3.jpg" alt="Inside View 3" class="carousel-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800'">
-          <div class="carousel-card-title">RGB Ambience</div>
+      </div>
+      <div class="slide-item">
+        <img src="Assets 4/photo2.jpg" alt="Racing Rig Simulator" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1600'">
+        <div class="slide-overlay">
+          <span class="slide-header-tag">03. Racing Simulator</span>
+          <div class="slide-content">
+            <h2>Full-Throttle Realism</h2>
+            <p>Feel true force feedback gear mechanics and responsive pedal tension for an authentic, high-speed driving setup.</p>
+          </div>
         </div>
       </div>
     </div>
+    <div class="slider-dots" id="dots-track-3"></div>
   </section>
 
-  <!-- Section 4: Inside Pause & Play Highlights (Assets 4) -->
-  <section id="inside-2">
-    <div class="section-header">
-      <span class="section-tag">Gallery</span>
-      <h2 class="section-title">Cafe Highlights</h2>
-    </div>
-    <div class="carousel-container">
-      <div class="carousel-track">
-        <div class="carousel-card">
-          <img src="Assets 4/photo1.jpg" alt="Highlight 1" class="carousel-img" onerror="this.src='https://images.unsplash.com/photo-1586182987320-4f376d39d787?w=800'">
-          <div class="carousel-card-title">Esports Arena Setup</div>
-        </div>
-        <div class="carousel-card">
-          <img src="Assets 4/photo2.jpg" alt="Highlight 2" class="carousel-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800'">
-          <div class="carousel-card-title">Snack & Refreshment Bar</div>
-        </div>
-        <div class="carousel-card">
-          <img src="Assets 4/photo3.jpg" alt="Highlight 3" class="carousel-img" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800'">
-          <div class="carousel-card-title">Comfort Gaming Seating</div>
+  <!-- ==========================================
+       INSIDE VIEW & ARENA HIGHLIGHTS
+       ========================================== -->
+  <section class="fullscreen-section" id="inside-view">
+    <button class="slider-arrow prev" onclick="scrollSlider('track-4', -1)"><i class="bx bx-chevron-left"></i></button>
+    <button class="slider-arrow next" onclick="scrollSlider('track-4', 1)"><i class="bx bx-chevron-right"></i></button>
+
+    <div class="slider-track" id="track-4">
+      <div class="slide-item">
+        <img src="Assets 3/view1.jpg" alt="Inside Pause & Play" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1600'">
+        <div class="slide-overlay">
+          <span class="slide-header-tag">04. Ambient Lounge</span>
+          <div class="slide-content">
+            <h2>Inside Pause & Play</h2>
+            <p>Designed for comfort during extended gaming sessions with full air-conditioning, custom ambient lighting, and refreshment support.</p>
+          </div>
         </div>
       </div>
     </div>
+    <div class="slider-dots" id="dots-track-4"></div>
   </section>
 
-  <!-- Location & Contact Section -->
-  <section id="location">
-    <div class="section-header">
-      <span class="section-tag">Find Us</span>
-      <h2 class="section-title">Location & Contact</h2>
+  <!-- Location Section -->
+  <section class="content-section" id="location">
+    <div style="text-align:center; margin-bottom: 40px;">
+      <span style="font-size:12px; font-weight:800; color:var(--accent-cyan); letter-spacing:2px; text-transform:uppercase;">Find Us</span>
+      <h2 style="font-size:36px; font-weight:800;">Location & Contact</h2>
     </div>
     <div class="grid-3">
       <div class="card">
@@ -610,7 +631,7 @@
   </section>
 
   <!-- Footer -->
-  <footer style="padding: 40px clamp(20px, 5vw, 60px); border-top: 1px solid var(--glass-border); text-align: center; color: var(--text-sub); font-size: 13px;">
+  <footer style="padding: 40px; border-top: 1px solid var(--glass-border); text-align: center; color: var(--text-sub); font-size: 13px;">
     © 2026 Pause & Play Gaming Cafe - Jaunpur. All Rights Reserved.
   </footer>
 
@@ -624,14 +645,6 @@
     </a>
   </div>
 
-  <!-- Mobile Sticky CTA -->
-  <div class="mobile-sticky-cta">
-    <a href="https://wa.me/919670020400?text=I%20want%20to%20book%20a%20session" class="btn-cta" style="width: 100%; justify-content: center;" target="_blank">
-      Book Session Now
-    </a>
-  </div>
-
-  <!-- JavaScript for Interaction & Theme Switcher -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const navbar = document.getElementById("navbar");
@@ -640,25 +653,16 @@
       const themeToggle = document.getElementById("themeToggle");
       const themeIcon = document.getElementById("themeIcon");
 
-      // Scroll Handler
       window.addEventListener("scroll", () => {
         const scrollTop = window.scrollY;
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercent = (scrollTop / docHeight) * 100;
+        progressBar.style.width = `${(scrollTop / docHeight) * 100}%`;
 
-        progressBar.style.width = `${scrollPercent}%`;
+        if (scrollTop > 50) navbar.classList.add("scrolled");
+        else navbar.classList.remove("scrolled");
 
-        if (scrollTop > 50) {
-          navbar.classList.add("scrolled");
-        } else {
-          navbar.classList.remove("scrolled");
-        }
-
-        if (scrollTop > 400) {
-          backToTop.classList.add("visible");
-        } else {
-          backToTop.classList.remove("visible");
-        }
+        if (scrollTop > 400) backToTop.classList.add("visible");
+        else backToTop.classList.remove("visible");
       });
 
       backToTop.addEventListener("click", (e) => {
@@ -666,26 +670,48 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
 
-      // Light / Dark Theme Toggle
       const savedTheme = localStorage.getItem("theme") || "dark";
       setTheme(savedTheme);
 
       themeToggle.addEventListener("click", () => {
         const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
-        const newTheme = currentTheme === "dark" ? "light" : "dark";
-        setTheme(newTheme);
+        setTheme(currentTheme === "dark" ? "light" : "dark");
       });
 
       function setTheme(theme) {
         document.documentElement.setAttribute("data-theme", theme);
         localStorage.setItem("theme", theme);
-        if (theme === "light") {
-          themeIcon.className = "bx bx-sun";
-        } else {
-          themeIcon.className = "bx bx-moon";
-        }
+        themeIcon.className = theme === "light" ? "bx bx-sun" : "bx bx-moon";
       }
+
+      document.querySelectorAll('.slider-track').forEach(track => {
+        const dotsContainer = document.getElementById(`dots-${track.id}`);
+        const slides = track.querySelectorAll('.slide-item');
+        
+        if (dotsContainer) {
+          slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = `dot ${index === 0 ? 'active' : ''}`;
+            dotsContainer.appendChild(dot);
+          });
+        }
+
+        track.addEventListener('scroll', () => {
+          const slideIndex = Math.round(track.scrollLeft / window.innerWidth);
+          const dots = dotsContainer.querySelectorAll('.dot');
+          dots.forEach((dot, idx) => {
+            dot.classList.toggle('active', idx === slideIndex);
+          });
+        });
+      });
     });
+
+    function scrollSlider(trackId, direction) {
+      const track = document.getElementById(trackId);
+      if (track) {
+        track.scrollBy({ left: direction * window.innerWidth, behavior: 'smooth' });
+      }
+    }
   </script>
 </body>
 </html>
