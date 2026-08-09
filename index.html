@@ -11,9 +11,6 @@
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 
   <style>
-    /* ==========================================
-       1. SYSTEM CONFIGURATION & THEMING VARIABLES
-       ========================================== */
     :root {
       --bg-dark: #07080C;
       --bg-card: #FFFFFF;
@@ -29,7 +26,6 @@
       --text-sub: #A1A1A6;
       --hero-title-grad: linear-gradient(180deg, #FFFFFF 0%, #B0B0B8 100%);
       --gradient-rgb: linear-gradient(135deg, var(--accent-blue), var(--accent-purple), var(--accent-pink));
-      --radius-lg: 20px;
     }
 
     [data-theme="light"] {
@@ -60,6 +56,846 @@
 
     #progress-bar {
       position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: var(--gradient-rgb);
+      width: 0%;
+      z-index: 1001;
+      transition: width 0.1s linear;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(20px, 4vw, 60px);
+      z-index: 1000;
+      transition: background 0.3s ease, backdrop-filter 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      background: rgba(7, 8, 12, 0.85);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+
+    .nav-brand i { color: var(--accent-cyan); font-size: 24px; }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-sub);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 20px;
+      transition: all 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .theme-toggle-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-nav-login {
+      border: 1px solid var(--glass-border);
+      background: #000000;
+      color: #FFFFFF;
+      padding: 8px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      padding: 110px 20px 40px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent-cyan);
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-size: clamp(38px, 6.5vw, 80px);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 12px;
+      background: var(--hero-title-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(15px, 2vw, 19px);
+      color: var(--text-sub);
+      font-weight: 600;
+    }
+
+    /* Details Section */
+    .zone-container {
+      max-width: 900px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+    }
+
+    .zone-info-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(10px);
+    }
+
+    .zone-tag {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .zone-title {
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .zone-desc {
+      color: var(--text-sub);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    /* 4:3 Aspect Ratio Slider */
+    .slider-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+
+    .slider-track {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .slider-track::-webkit-scrollbar { display: none; }
+
+    .slide-item {
+      flex: 0 0 100%;
+      width: 100%;
+      height: 100%;
+      scroll-snap-align: start;
+      position: relative;
+    }
+
+    .slide-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    .slide-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: clamp(20px, 4vw, 30px);
+      pointer-events: none;
+    }
+
+    .slide-caption-box {
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 12px 18px;
+      border-radius: 12px;
+      max-width: 90%;
+    }
+
+    .slide-caption-box h3 {
+      font-size: clamp(14px, 2vw, 18px);
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 2px;
+    }
+
+    .slide-caption-box p {
+      font-size: clamp(11px, 1.3vw, 13px);
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.35;
+    }
+
+    .slider-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #FFF;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+    }
+
+    .slider-arrow:hover {
+      background: var(--accent-cyan);
+      color: #000;
+    }
+
+    .slider-arrow.prev { left: 14px; }
+    .slider-arrow.next { right: 14px; }
+
+    .slider-dots {
+      position: absolute;
+      bottom: 12px;
+      right: 20px;
+      display: flex;
+      gap: 6px;
+      z-index: 10;
+      max-width: 50%;
+      overflow-x: auto;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .dot.active {
+      width: 18px;
+      border-radius: 10px;
+      background: var(--accent-cyan);
+    }
+
+    /* Cards & Floating */
+    .content-section {
+      padding: 40px 20px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 28px;
+      color: #1D1D1F;
+    }
+
+    .floating-actions {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 999;
+    }
+
+    .btn-float {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #25D366;
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      text-decoration: none;
+    }
+
+    #backToTop {
+      background: rgba(18, 20, 29, 0.8);
+      color: #FFF;
+      border: 1px solid var(--glass-border);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    #backToTop.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .slider-arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="progress-bar"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <a href="#" class="nav-brand">
+      <i class="bx bx-game"></i> PAUSE & PLAY
+    </a>
+    <ul class="nav-links">
+      <li><a href="#ps5-zone">PlayStation 5</a></li>
+      <li><a href="#pc-zone">PC Gaming</a></li>
+      <li><a href="#steering-rig">Steering Rig</a></li>
+      <li><a href="#inside-view">Inside View</a></li>
+      <li><a href="#location">Location</a></li>
+    </ul>
+    
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+        <i class="bx bx-moon" id="themeIcon"></i>
+      </button>
+      <a href="https://wa.me/919670020400" target="_blank" class="btn-nav-login">Book Now</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-badge">
+      <i class="bx bxs-zap"></i> Jaunpur's First Premium Gaming Cafe
+    </div>
+    <h1 class="hero-title">PAUSE & PLAY<br>GAMING CAFE</h1>
+    <p class="hero-subtitle">Play • Compete • Relax</p>
+  </header>
+
+  <!-- ==========================================
+       1. PLAYSTATION 5 ZONE
+       ========================================== -->
+  <section class="zone-container" id="ps5-zone">
+    <!-- Detail Box Before Slider -->
+    <div class="zone-info-box">
+      <span class="zone-tag">01. PLAYSTATION 5 ARENA</span>
+      <h2 class="zone-title">Next-Gen Console Gaming Experience</h2>
+      <p class="zone-desc">
+        Step into next-gen console gaming at Pause & Play with our ultimate PlayStation 5 setups. Experience high-octane battle matches in Tekken 8, dominate the pitch in EA Sports FC 24, or plunge into epic, cinematic storylines with God of War Ragnarök and Marvel's Spider-Man 2. Played on stunning 4K ultra-HD large displays, every title comes to life with breathtaking clarity and ultra-smooth performance. Combined with DualSense wireless controllers offering immersive haptic feedback and dynamic triggers, our premium PS5 lounge delivers an unparalleled local multiplayer and solo gaming experience for you and your friends.
+      </p>
+    </div>
+
+    <!-- 11 Photos Slider -->
+    <div class="slider-container">
+      <button class="slider-arrow prev" onclick="scrollSlider('track-1', -1)"><i class="bx bx-chevron-left"></i></button>
+      <button class="slider-arrow next" onclick="scrollSlider('track-1', 1)"><i class="bx bx-chevron-right"></i></button>
+      
+      <div class="slider-track" id="track-1">
+        <!-- Photo 1 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps1.jpg" alt="PS5 Photo 1" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - PS5 Station 1 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 1.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 2 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps2.jpg" alt="PS5 Photo 2" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - PS5 Station 2 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 2.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 3 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps3.jpg" alt="PS5 Photo 3" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - PS5 Station 3 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 3.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 4 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps4.jpg" alt="PS5 Photo 4" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - PS5 Station 4 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 4.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 5 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps5.jpg" alt="PS5 Photo 5" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - PS5 Station 5 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 5.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 6 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps6.jpg" alt="PS5 Photo 6" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - PS5 Station 6 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 6.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 7 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps7.jpg" alt="PS5 Photo 7" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - PS5 Station 7 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 7.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 8 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps8.jpg" alt="PS5 Photo 8" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - PS5 Station 8 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 8.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 9 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps9.jpg" alt="PS5 Photo 9" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - PS5 Station 9 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 9.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 10 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps10.jpg" alt="PS5 Photo 10" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - PS5 Station 10 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 10.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 11 -->
+        <div class="slide-item">
+          <img src="Assets 2/ps11.jpg" alt="PS5 Photo 11" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - PS5 Station 11 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 11.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slider-dots" id="dots-track-1"></div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       2. PC GAMING ZONE
+       ========================================== -->
+  <section class="zone-container" id="pc-zone">
+    <!-- Detail Box Before Slider -->
+    <div class="zone-info-box">
+      <span class="zone-tag">02. PC ESPORTS ARENA</span>
+      <h2 class="zone-title">High-FPS Competitive PC Gaming</h2>
+      <p class="zone-desc">
+        At Pause & Play, our PC gaming zone delivers the ultimate high-performance experience for casual players and hardcore competitors alike. Gear up for high-stakes, tactical 5v5 action in Counter-Strike 2, or immerse yourself in the stealthy, world-spanning assassinations of Hitman 2. If fast-paced adrenaline is your style, jump straight into intense tactical firefights with Call of Duty: Modern Warfare 3, or explore the massive, action-packed open world of GTA 5. Equipped with ultra-fast refresh rate monitors, top-tier mechanical peripherals, and zero-latency networking, our pro-grade setups ensure flawless performance, maximum FPS, and total victory every round.
+      </p>
+    </div>
+
+    <!-- 4 Photos Slider -->
+    <div class="slider-container">
+      <button class="slider-arrow prev" onclick="scrollSlider('track-2', -1)"><i class="bx bx-chevron-left"></i></button>
+      <button class="slider-arrow next" onclick="scrollSlider('track-2', 1)"><i class="bx bx-chevron-right"></i></button>
+
+      <div class="slider-track" id="track-2">
+        <!-- Photo 1 -->
+        <div class="slide-item">
+          <img src="Assets 1/game1.jpg" alt="PC Photo 1" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - PC Rig 1 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 1.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 2 -->
+        <div class="slide-item">
+          <img src="Assets 1/game2.jpg" alt="PC Photo 2" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - PC Rig 2 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 2.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 3 -->
+        <div class="slide-item">
+          <img src="Assets 1/game3.jpg" alt="PC Photo 3" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - PC Rig 3 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 3.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 4 -->
+        <div class="slide-item">
+          <img src="Assets 1/game4.jpg" alt="PC Photo 4" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - PC Rig 4 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 4.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slider-dots" id="dots-track-2"></div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       3. LOGITECH G29 STEERING RIG ZONE
+       ========================================== -->
+  <section class="zone-container" id="steering-rig">
+    <!-- Detail Box Before Slider -->
+    <div class="zone-info-box">
+      <span class="zone-tag">03. RACING SIMULATOR</span>
+      <h2 class="zone-title">Logitech G29 Driving Force Simulator</h2>
+      <p class="zone-desc">
+        Take the wheel and feel every turn at Pause & Play with our official Logitech G29 Driving Force Steering Wheel setup for PlayStation and PC. Designed for true racing enthusiasts, this pro-tier rig features dual-motor force feedback, helical gearing, and stainless steel pedals that make every drift and braking point feel startlingly real. Conquer open-road speed in Forza Horizon, master precision heavy-vehicle transport across Europe in Euro Truck Simulator, or tear through the streets of Los Santos in GTA V. Combined with our high-refresh displays and immersive seating, it delivers an unbeatable, full-throttle simulator experience.
+      </p>
+    </div>
+
+    <!-- 4 Photos Slider -->
+    <div class="slider-container">
+      <button class="slider-arrow prev" onclick="scrollSlider('track-3', -1)"><i class="bx bx-chevron-left"></i></button>
+      <button class="slider-arrow next" onclick="scrollSlider('track-3', 1)"><i class="bx bx-chevron-right"></i></button>
+
+      <div class="slider-track" id="track-3">
+        <!-- Photo 1 -->
+        <div class="slide-item">
+          <img src="Assets 4/photo1.jpg" alt="Steering Photo 1" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1586182987320-4f376d39d787?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - Steering Rig 1 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 1.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 2 -->
+        <div class="slide-item">
+          <img src="Assets 4/photo2.jpg" alt="Steering Photo 2" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - Steering Rig 2 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 2.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 3 -->
+        <div class="slide-item">
+          <img src="Assets 4/photo3.jpg" alt="Steering Photo 3" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1586182987320-4f376d39d787?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - Steering Rig 3 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 3.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 4 -->
+        <div class="slide-item">
+          <img src="Assets 4/photo4.jpg" alt="Steering Photo 4" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - Steering Rig 4 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 4.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slider-dots" id="dots-track-3"></div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       4. INSIDE VIEW ZONE
+       ========================================== -->
+  <section class="zone-container" id="inside-view">
+    <!-- Detail Box Before Slider -->
+    <div class="zone-info-box">
+      <span class="zone-tag">04. AMBIENT LOUNGE</span>
+      <h2 class="zone-title">Inside Pause & Play Arena</h2>
+      <p class="zone-desc">
+        Designed for multi-hour gaming comfort with full air-conditioning, custom ambient RGB lighting, ergonomic seating, and refreshment support right to your station. Gather your squad for intense local multiplayer sessions or relax in our premium gaming lounge environment.
+      </p>
+    </div>
+
+    <!-- 4 Photos Slider -->
+    <div class="slider-container">
+      <button class="slider-arrow prev" onclick="scrollSlider('track-4', -1)"><i class="bx bx-chevron-left"></i></button>
+      <button class="slider-arrow next" onclick="scrollSlider('track-4', 1)"><i class="bx bx-chevron-right"></i></button>
+
+      <div class="slider-track" id="track-4">
+        <!-- Photo 1 -->
+        <div class="slide-item">
+          <img src="Assets 3/view1.jpg" alt="Inside Photo 1" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - Lounge View 1 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 1.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 2 -->
+        <div class="slide-item">
+          <img src="Assets 3/view2.jpg" alt="Inside Photo 2" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - Lounge View 2 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 2.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 3 -->
+        <div class="slide-item">
+          <img src="Assets 3/view3.jpg" alt="Inside Photo 3" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - Lounge View 3 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 3.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Photo 4 -->
+        <div class="slide-item">
+          <img src="Assets 3/view4.jpg" alt="Inside Photo 4" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1200'">
+          <div class="slide-overlay">
+            <div class="slide-caption-box">
+              <h3>Caption Line 1 - Lounge View 4 Title</h3>
+              <p>Caption Line 2 - Write your description or feature detail here for photo 4.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slider-dots" id="dots-track-4"></div>
+    </div>
+  </section>
+
+  <!-- Location Section -->
+  <section class="content-section" id="location">
+    <div style="text-align:center; margin-bottom: 40px;">
+      <span style="font-size:11px; font-weight:800; color:var(--accent-cyan); letter-spacing:2px; text-transform:uppercase;">FIND US</span>
+      <h2 style="font-size:32px; font-weight:800; margin-top: 4px;">Location & Contact</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <i class="bx bx-map-pin" style="font-size: 28px; color: var(--accent-cyan);"></i>
+        <h3>Address</h3>
+        <p style="color: #6E6E73; font-size: 13px;">
+          Beside Tip-Top Chinese, In front of State Bank Of India,<br>
+          Bhandari Station Road, Jaunpur - 1
+        </p>
+      </div>
+      <div class="card">
+        <i class="bx bx-phone" style="font-size: 28px; color: var(--accent-cyan);"></i>
+        <h3>Call Us</h3>
+        <p style="color: #6E6E73; font-size: 13px;">
+          <a href="tel:9670020400" style="color:#1D1D1F; font-weight:600; text-decoration: none;">+91 9670020400</a>
+        </p>
+      </div>
+      <div class="card">
+        <i class="bx bxl-whatsapp" style="font-size: 28px; color: var(--accent-cyan);"></i>
+        <h3>WhatsApp</h3>
+        <p style="color: #6E6E73; font-size: 13px;">
+          <a href="https://wa.me/919670020400?text=Hi%2C%20I%20want%20to%20know%20more%20about%20Pause%20%26%20Play" target="_blank" style="color:var(--accent-cyan); font-weight:600; text-decoration: none;">Chat on WhatsApp</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="padding: 30px; text-align: center; color: var(--text-sub); font-size: 12px; border-top: 1px solid var(--glass-border);">
+    © 2026 Pause & Play Gaming Cafe - Jaunpur. All Rights Reserved.
+  </footer>
+
+  <!-- Floating Action Buttons -->
+  <div class="floating-actions">
+    <a href="#" id="backToTop" class="btn-float" aria-label="Back to top">
+      <i class="bx bx-chevron-up"></i>
+    </a>
+    <a href="https://wa.me/919670020400" class="btn-float" target="_blank" aria-label="WhatsApp Contact">
+      <i class="bx bxl-whatsapp"></i>
+    </a>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const navbar = document.getElementById("navbar");
+      const progressBar = document.getElementById("progress-bar");
+      const backToTop = document.getElementById("backToTop");
+      const themeToggle = document.getElementById("themeToggle");
+      const themeIcon = document.getElementById("themeIcon");
+
+      window.addEventListener("scroll", () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        progressBar.style.width = `${(scrollTop / docHeight) * 100}%`;
+
+        if (scrollTop > 50) navbar.classList.add("scrolled");
+        else navbar.classList.remove("scrolled");
+
+        if (scrollTop > 400) backToTop.classList.add("visible");
+        else backToTop.classList.remove("visible");
+      });
+
+      backToTop.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      setTheme(savedTheme);
+
+      themeToggle.addEventListener("click", () => {
+        const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+        setTheme(currentTheme === "dark" ? "light" : "dark");
+      });
+
+      function setTheme(theme) {
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
+        themeIcon.className = theme === "light" ? "bx bx-sun" : "bx bx-moon";
+      }
+
+      // Initialize Slider Dots and Smooth Sync
+      document.querySelectorAll('.slider-track').forEach(track => {
+        const dotsContainer = document.getElementById(`dots-${track.id}`);
+        const slides = track.querySelectorAll('.slide-item');
+        
+        if (dotsContainer) {
+          dotsContainer.innerHTML = '';
+          slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = `dot ${index === 0 ? 'active' : ''}`;
+            dotsContainer.appendChild(dot);
+          });
+        }
+
+        track.addEventListener('scroll', () => {
+          const slideWidth = track.offsetWidth;
+          const slideIndex = Math.round(track.scrollLeft / slideWidth);
+          const dots = dotsContainer ? dotsContainer.querySelectorAll('.dot') : [];
+          dots.forEach((dot, idx) => {
+            dot.classList.toggle('active', idx === slideIndex);
+          });
+        });
+      });
+    });
+
+    function scrollSlider(trackId, direction) {
+      const track = document.getElementById(trackId);
+      if (track) {
+        track.scrollBy({ left: direction * track.offsetWidth, behavior: 'smooth' });
+      }
+    }
+  </script>
+</body>
+</html>
       top: 0;
       left: 0;
       height: 3px;
