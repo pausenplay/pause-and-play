@@ -187,10 +187,10 @@
       font-weight: 600;
     }
 
-    /* Details Section */
+    /* Zone Layout */
     .zone-container {
       max-width: 900px;
-      margin: 0 auto 60px;
+      margin: 0 auto 80px;
       padding: 0 20px;
     }
 
@@ -199,7 +199,7 @@
       border: 1px solid var(--glass-border);
       border-radius: 16px;
       padding: 24px 28px;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
       backdrop-filter: blur(10px);
     }
 
@@ -225,17 +225,17 @@
       line-height: 1.7;
     }
 
-      /* 16:9 Aspect Ratio Widescreen Slider */
-      .slider-container {
-        position: relative;
-        width: 100%;
-        aspect-ratio: 16 / 9; /* Updated to 16:9 for full Widescreen view */
-        border-radius: 20px;
-        overflow: hidden;
-        background: #000;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-      }    
-
+    /* 16:9 Seamless Viewport-Integrated Slider */
+    .slider-container {
+      position: relative;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      aspect-ratio: 16 / 9;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      overflow: hidden;
+    }
 
     .slider-track {
       display: flex;
@@ -264,53 +264,55 @@
       object-fit: cover;
       object-position: center;
       display: block;
-      transition: transform 0.6s ease;
+      cursor: pointer;
     }
 
     .slide-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%);
+      background: linear-gradient(180deg, rgba(0,0,0,0) 40%, var(--bg-dark) 100%);
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding: clamp(20px, 4vw, 30px);
+      padding: clamp(20px, 6vw, 60px);
       pointer-events: none;
     }
 
     .slide-caption-box {
       background: rgba(0, 0, 0, 0.65);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 12px 18px;
+      padding: 14px 20px;
       border-radius: 12px;
-      max-width: 90%;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
     }
 
     .slide-caption-box h3 {
-      font-size: clamp(14px, 2vw, 18px);
+      font-size: clamp(15px, 2.2vw, 20px);
       font-weight: 700;
       color: #FFFFFF;
-      margin-bottom: 2px;
+      margin-bottom: 4px;
     }
 
     .slide-caption-box p {
-      font-size: clamp(11px, 1.3vw, 13px);
-      color: rgba(255, 255, 255, 0.8);
-      line-height: 1.35;
+      font-size: clamp(12px, 1.4vw, 14px);
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.4;
     }
 
     .slider-arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      width: 42px;
-      height: 42px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
-      background: rgba(0, 0, 0, 0.65);
+      background: rgba(0, 0, 0, 0.6);
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: #FFF;
-      font-size: 22px;
+      font-size: 26px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -325,17 +327,18 @@
       color: #000;
     }
 
-    .slider-arrow.prev { left: 14px; }
-    .slider-arrow.next { right: 14px; }
+    .slider-arrow.prev { left: 24px; }
+    .slider-arrow.next { right: 24px; }
 
     .slider-dots {
       position: absolute;
-      bottom: 12px;
-      right: 20px;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
       gap: 6px;
       z-index: 10;
-      max-width: 50%;
+      max-width: 80%;
       overflow-x: auto;
     }
 
@@ -451,11 +454,8 @@
     <p class="hero-subtitle">Play • Compete • Relax</p>
   </header>
 
-  <!-- ==========================================
-       1. PLAYSTATION 5 ZONE (11 Photos Slider)
-       ========================================== -->
+  <!-- 1. PLAYSTATION 5 ZONE -->
   <section class="zone-container" id="ps5-zone">
-    <!-- Detail Box Before Slider -->
     <div class="zone-info-box">
       <span class="zone-tag">01. PLAYSTATION 5 ARENA</span>
       <h2 class="zone-title">Next-Gen Console Gaming Experience</h2>
@@ -464,13 +464,11 @@
       </p>
     </div>
 
-    <!-- 11 Photos Slider with exact requested game descriptions -->
     <div class="slider-container">
       <button class="slider-arrow prev" onclick="scrollSlider('track-1', -1)"><i class="bx bx-chevron-left"></i></button>
       <button class="slider-arrow next" onclick="scrollSlider('track-1', 1)"><i class="bx bx-chevron-right"></i></button>
       
       <div class="slider-track" id="track-1">
-        <!-- Photo 1: MK11 -->
         <div class="slide-item">
           <img src="Assets 2/ps1.jpg" alt="Mortal Kombat 11" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'">
           <div class="slide-overlay">
@@ -480,7 +478,6 @@
             </div>
           </div>
         </div>
-        <!-- Photo 2: Tekken 8 -->
         <div class="slide-item">
           <img src="Assets 2/ps2.jpg" alt="Tekken 8" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'">
           <div class="slide-overlay">
@@ -490,7 +487,6 @@
             </div>
           </div>
         </div>
-        <!-- Photo 3: Rocket League -->
         <div class="slide-item">
           <img src="Assets 2/ps3.jpg" alt="Rocket League" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'">
           <div class="slide-overlay">
@@ -500,7 +496,6 @@
             </div>
           </div>
         </div>
-        <!-- Photo 4: WWE 2K25 -->
         <div class="slide-item">
           <img src="Assets 2/ps4.jpg" alt="WWE 2K25" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'">
           <div class="slide-overlay">
@@ -510,7 +505,6 @@
             </div>
           </div>
         </div>
-        <!-- Photo 5: EA Sports FC 26 -->
         <div class="slide-item">
           <img src="Assets 2/ps5.jpg" alt="EA Sports FC 26" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'">
           <div class="slide-overlay">
@@ -520,7 +514,6 @@
             </div>
           </div>
         </div>
-        <!-- Photo 6: Maximum Football -->
         <div class="slide-item">
           <img src="Assets 2/ps6.jpg" alt="Maximum Football" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'">
           <div class="slide-overlay">
@@ -530,7 +523,6 @@
             </div>
           </div>
         </div>
-        <!-- Photo 7: PUBG Battlegrounds -->
         <div class="slide-item">
           <img src="Assets 2/ps7.jpg" alt="PUBG Battlegrounds" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'">
           <div class="slide-overlay">
@@ -540,7 +532,6 @@
             </div>
           </div>
         </div>
-        <!-- Photo 8: Fortnite -->
         <div class="slide-item">
           <img src="Assets 2/ps8.jpg" alt="Fortnite" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'">
           <div class="slide-overlay">
@@ -550,7 +541,6 @@
             </div>
           </div>
         </div>
-        <!-- Photo 9: Delta Force -->
         <div class="slide-item">
           <img src="Assets 2/ps9.jpg" alt="Delta Force" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'">
           <div class="slide-overlay">
@@ -560,7 +550,6 @@
             </div>
           </div>
         </div>
-        <!-- Photo 10: The First Descendant -->
         <div class="slide-item">
           <img src="Assets 2/ps10.jpg" alt="The First Descendant" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1200'">
           <div class="slide-overlay">
@@ -570,7 +559,6 @@
             </div>
           </div>
         </div>
-        <!-- Photo 11: Grounded -->
         <div class="slide-item">
           <img src="Assets 2/ps11.jpg" alt="Grounded" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=1200'">
           <div class="slide-overlay">
@@ -585,11 +573,8 @@
     </div>
   </section>
 
-  <!-- ==========================================
-       2. PC GAMING ZONE (4 Photos Slider)
-       ========================================== -->
+  <!-- 2. PC GAMING ZONE -->
   <section class="zone-container" id="pc-zone">
-    <!-- Detail Box Before Slider -->
     <div class="zone-info-box">
       <span class="zone-tag">02. PC ESPORTS ARENA</span>
       <h2 class="zone-title">High-FPS Competitive PC Gaming</h2>
@@ -598,7 +583,6 @@
       </p>
     </div>
 
-    <!-- 4 Photos Slider -->
     <div class="slider-container">
       <button class="slider-arrow prev" onclick="scrollSlider('track-2', -1)"><i class="bx bx-chevron-left"></i></button>
       <button class="slider-arrow next" onclick="scrollSlider('track-2', 1)"><i class="bx bx-chevron-right"></i></button>
@@ -645,11 +629,8 @@
     </div>
   </section>
 
-  <!-- ==========================================
-       3. LOGITECH G29 STEERING RIG ZONE (4 Photos Slider)
-       ========================================== -->
+  <!-- 3. LOGITECH G29 STEERING RIG ZONE -->
   <section class="zone-container" id="steering-rig">
-    <!-- Detail Box Before Slider -->
     <div class="zone-info-box">
       <span class="zone-tag">03. RACING SIMULATOR</span>
       <h2 class="zone-title">Logitech G29 Driving Force Simulator</h2>
@@ -658,13 +639,11 @@
       </p>
     </div>
 
-    <!-- 4 Photos Slider with Asphalt Legends included -->
     <div class="slider-container">
       <button class="slider-arrow prev" onclick="scrollSlider('track-3', -1)"><i class="bx bx-chevron-left"></i></button>
       <button class="slider-arrow next" onclick="scrollSlider('track-3', 1)"><i class="bx bx-chevron-right"></i></button>
 
       <div class="slider-track" id="track-3">
-        <!-- Asphalt Legends Slide -->
         <div class="slide-item">
           <img src="Assets 4/photo1.jpg" alt="Asphalt Legends" class="slide-img" onerror="this.src='https://images.unsplash.com/photo-1586182987320-4f376d39d787?w=1200'">
           <div class="slide-overlay">
@@ -706,11 +685,8 @@
     </div>
   </section>
 
-  <!-- ==========================================
-       4. INSIDE VIEW ZONE (4 Photos Slider)
-       ========================================== -->
+  <!-- 4. INSIDE VIEW ZONE -->
   <section class="zone-container" id="inside-view">
-    <!-- Detail Box Before Slider -->
     <div class="zone-info-box">
       <span class="zone-tag">04. AMBIENT LOUNGE</span>
       <h2 class="zone-title">Inside Pause & Play Arena</h2>
@@ -719,7 +695,6 @@
       </p>
     </div>
 
-    <!-- 4 Photos Slider -->
     <div class="slider-container">
       <button class="slider-arrow prev" onclick="scrollSlider('track-4', -1)"><i class="bx bx-chevron-left"></i></button>
       <button class="slider-arrow next" onclick="scrollSlider('track-4', 1)"><i class="bx bx-chevron-right"></i></button>
@@ -852,7 +827,7 @@
         themeIcon.className = theme === "light" ? "bx bx-sun" : "bx bx-moon";
       }
 
-      // Initialize Slider Dots and Smooth Sync
+      // Initialize Slider Dots & Sync
       document.querySelectorAll('.slider-track').forEach(track => {
         const dotsContainer = document.getElementById(`dots-${track.id}`);
         const slides = track.querySelectorAll('.slide-item');
@@ -873,6 +848,17 @@
           dots.forEach((dot, idx) => {
             dot.classList.toggle('active', idx === slideIndex);
           });
+        });
+      });
+
+      // Click to open image in Fullscreen
+      document.querySelectorAll('.slide-img').forEach(img => {
+        img.addEventListener('click', () => {
+          if (img.requestFullscreen) {
+            img.requestFullscreen();
+          } else if (img.webkitRequestFullscreen) {
+            img.webkitRequestFullscreen();
+          }
         });
       });
     });
