@@ -2,752 +2,1030 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title id="pageTitle">Pause & Play Billing V4</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title id="pageTitle">Pause & Play Billing</title>
 <style>
 :root {
     --bg-main: #f4f6f9;
     --bg-card: #ffffff;
-    --primary-color: #6366f1;
-    --primary-glow: rgba(99, 102, 241, 0.15);
     --text-main: #1c1c1e;
-    --text-muted: #8e8e93;
-    --border-color: #e5e5ea;
+    --text-muted: #6e6e73;
+    --border-color: #d1d1d6;
     --input-bg: #f2f2f7;
-    
-    /* iOS Inspired Palettes */
     --ios-green: #34c759;
     --ios-red: #ff3b30;
     --ios-blue: #007aff;
+    --key-bg: #ffffff;
+    --key-shadow: rgba(0,0,0,0.15);
 }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+[data-theme="dark"] {
+    --bg-main: #121212;
+    --bg-card: #1e1e1e;
+    --text-main: #f5f5f7;
+    --text-muted: #a1a1a6;
+    --border-color: #333336;
+    --input-bg: #2c2c2e;
+    --key-bg: #3a3a3c;
+    --key-shadow: rgba(0,0,0,0.4);
 }
 
-body{
-    background: var(--bg-main);
-    color: var(--text-main);
-    padding:30px 15px;
-    line-height: 1.5;
-}
+*{ margin:0; padding:0; box-sizing:border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; touch-action: manipulation; }
+body{ background: var(--bg-main); color: var(--text-main); padding: 10px; line-height: 1.4; transition: background 0.3s, color 0.3s; padding-bottom: 280px; }
 
 .container{
-    max-width:1100px;
-    margin:auto;
-    background: var(--bg-card);
-    padding:40px;
-    border-radius:30px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
-    border: 1px solid var(--border-color);
+    max-width:100%; margin:auto; background: var(--bg-card); padding:16px 12px;
+    border-radius:18px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); border: 1px solid var(--border-color);
+    position: relative;
 }
+
+.theme-switch-wrapper {
+    position: absolute;
+    top: 16px;
+    right: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.theme-switch {
+    display: inline-block;
+    height: 24px;
+    position: relative;
+    width: 46px;
+}
+.theme-switch input { display:none; }
+.slider {
+    background-color: #ccc;
+    bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0;
+    transition: .4s; border-radius: 34px;
+}
+.slider:before {
+    background-color: #fff; bottom: 3px; content: ""; height: 18px;
+    left: 3px; position: absolute; transition: .4s; width: 18px; border-radius: 50%;
+}
+input:checked + .slider { background-color: var(--ios-blue); }
+input:checked + .slider:before { transform: translateX(22px); }
 
 .page{ display:none; }
-.page.active{ display:block; animation: fadeIn 0.4s ease-out; }
+.page.active{ display:block; animation: fadeIn 0.2s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+.header{ text-align:center; margin-bottom:12px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+.title{ font-size:24px; font-weight:900; letter-spacing: -0.5px; }
+.subtitle{ color: var(--text-muted); font-size:9px; margin-top:2px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
 
-.header{
-    text-align:center;
-    margin-bottom:35px;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 30px;
-}
-
-.title{
-    font-size:36px;
-    font-weight:800;
-    letter-spacing: -0.5px;
-}
-
-.subtitle{
-    color: var(--text-muted);
-    font-size:13px;
-    margin-top:6px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.info-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
-    margin-top:25px;
-}
-
+.info-grid{ display:flex; flex-direction:column; gap:8px; }
 .input{
-    width:100%;
-    padding:16px 20px;
-    border: 1px solid var(--border-color);
-    border-radius:14px;
-    font-size:16px;
-    font-weight:500;
-    background: var(--input-bg);
-    color: var(--text-main);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    width:100%; padding:12px; border: 1px solid var(--border-color); border-radius:10px;
+    font-size:15px; font-weight:600; background: var(--input-bg); color: var(--text-main); outline: none;
 }
+.input:focus, .input.active-keyboard { border-color: var(--ios-blue); box-shadow: 0 0 0 2px rgba(0,122,255,0.2); }
 
-.input:focus{
-    outline: none;
-    border-color: var(--ios-blue);
-    background: #ffffff;
-    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
-}
+.date-box { margin: 10px 0; font-size: 12px; font-weight: 700; color: var(--text-muted); text-align: center; }
 
-.section-title{
-    color: var(--text-main);
-    padding: 16px 0;
-    margin-top: 40px;
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-    border-bottom: 1px solid var(--border-color);
-}
+.master-bar { display: flex; gap: 8px; margin-bottom: 12px; background: var(--input-bg); padding: 6px; border-radius: 12px; border: 1px solid var(--border-color); }
+.select-input { flex: 1; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; font-weight: 700; background: var(--bg-card); color: var(--text-main); outline: none; width: 100%; }
 
-/* APPLE HOURLY CARDS */
-.cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-    gap: 24px;
-    margin-top: 24px;
-}
+.items-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
 
-.game-card {
-    background: #ffffff;
-    border-radius: 24px;
-    padding: 24px;
+.game-card-row {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    padding: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+    gap: 10px;
+}
+
+.card-particular { display: flex; flex-direction: column; justify-content: center; width: 65%; }
+.card-particular .game-title { font-size: 16px; font-weight: 900; color: var(--text-main); letter-spacing: 0.2px; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-particular .game-meta { font-size: 11px; font-weight: 700; color: var(--text-muted); margin-top: 2px; }
+
+.mobile-card-header { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+.mobile-card-middle { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 6px; }
+.mobile-card-footer { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 6px; margin-top: 4px; }
+
+.card-qty-group { display: flex; align-items: center; gap: 6px; }
+.btn-minus { width: 36px; height: 36px; background: #ff3b30; color: #fff; border: none; border-radius: 8px; font-size: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.qty-display-box { width: 36px; height: 36px; border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-bg); font-size: 15px; font-weight: bold; display: flex; align-items: center; justify-content: center; color: var(--text-main); }
+.btn-plus { width: 36px; height: 36px; background: #34c759; color: #fff; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+.card-amount-box { border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-bg); height: 36px; min-width: 85px; padding: 0 8px; font-size: 15px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; justify-content: center; }
+.card-timer-box { border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--bg-card); height: 36px; min-width: 95px; font-family: monospace; font-size: 15px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; justify-content: center; }
+
+.btn-switch { flex: 1; height: 36px; background: #34c759; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; text-transform: uppercase; }
+.btn-switch.running { background: #ff3b30; }
+
+.card-current-time-group { display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--bg-card); height: 36px; padding: 0 4px; }
+.current-time-input { border: none; outline: none; font-size: 13px; font-weight: 700; background: transparent; width: 55px; text-align: center; color: var(--text-main); }
+.btn-time-sync { background: none; border: none; cursor: pointer; font-size: 13px; margin-left: 2px; }
+
+.card-log-link { color: #007aff; font-size: 13px; font-weight: bold; text-decoration: underline; cursor: pointer; padding: 0 4px; }
+.btn-del { background: none; border: none; color: var(--ios-red); font-size: 18px; cursor: pointer; font-weight: bold; padding: 0 4px; }
+
+.history-drawer { width: 100%; font-size: 11px; color: var(--text-muted); background: var(--input-bg); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border-color); display: none; margin-top: 4px; }
+
+.discount-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom: 12px; }
+.summary{ border-top: 1px solid var(--border-color); padding-top: 10px; }
+.row{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; font-size:13px; font-weight: 600; }
+.grand{ font-size:18px; font-weight:800; background: var(--input-bg); padding: 10px; border-radius: 10px; border: 1px solid var(--border-color); margin-top: 6px; }
+
+.actions{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:15px; }
+.btn{ padding: 14px; font-size: 15px; font-weight: 800; border-radius: 12px; cursor:pointer; border: none; text-align: center; }
+.btn.clear { background: var(--input-bg); color: var(--text-main); }
+.btn.next { background: #1a1c23; color: #ffffff; }
+
+.terminal-card {
+    background: var(--bg-card);
     border: 1px solid var(--border-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.game-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-}
-
-.card-title {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: -0.2px;
-    color: var(--text-main);
-    text-align: center;
-}
-
-.card-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    justify-content: center;
-    width: 100%;
-}
-
-.card-btn {
-    border: none;
-    font-weight: 600;
-    font-size: 24px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-.card-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
-.card-btn:active { transform: scale(0.92); }
-
-.btn-minus { width: 55px; height: 48px; background: var(--ios-red); color: #ffffff; border-radius: 16px; }
-.btn-plus { width: 55px; height: 48px; background: var(--ios-green); color: #ffffff; border-radius: 16px; }
-
-.card-qty-display {
-    width: 65px;
-    height: 48px;
-    background: var(--input-bg);
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--text-main);
-}
-
-/* TIMING CONTROLS WITH EDITABLE INPUTS */
-.time-pill {
-    font-size: 14px;
-    font-weight: 600;
-    padding: 10px 16px;
-    border-radius: 20px;
-    border: none;
-    cursor: pointer;
-    color: #ffffff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    transition: all 0.2s;
-}
-.time-pill:active { transform: scale(0.95); }
-.pill-start { background: var(--ios-green); }
-.pill-end { background: var(--ios-red); }
-
-.time-input-box {
-    background: var(--input-bg);
     border-radius: 14px;
-    padding: 8px 10px;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text-main);
-    width: 85px;
-    text-align: center;
-    border: 1px solid transparent;
-    transition: all 0.2s;
+    padding: 14px;
+    margin-bottom: 12px;
 }
-.time-input-box:focus {
-    background: #ffffff;
-    border-color: var(--ios-blue);
+
+.coupon-banner {
+    background: var(--input-bg);
+    border: 1px dashed #22c55e;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.coupon-title { font-weight: 800; color: #15803d; font-size: 12px; }
+.coupon-sub { font-size: 10px; color: #166534; font-weight: 600; margin-top: 2px; }
+
+.payment-layout-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+
+.payment-input-card {
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 10px;
+}
+.payment-input-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+.payment-inner-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--bg-card);
+    color: var(--text-main);
+    font-size: 14px;
+    font-weight: 700;
     outline: none;
 }
 
-.card-remark {
-    width: 100%;
-    padding: 12px 14px;
-    border-radius: 14px;
-    border: 1px solid var(--border-color);
+.return-amount-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-weight: 800;
     font-size: 14px;
-    font-weight: 500;
-    background: #fafafa;
-    transition: all 0.2s;
-}
-.card-remark:focus { outline:none; border-color: var(--text-muted); background: #fff;}
-
-/* STANDARD TABLES styling */
-.table-wrapper{
-    overflow-x:auto;
-    margin-top:20px;
-    background: #ffffff;
-    border-radius:18px;
-    border: 1px solid var(--border-color);
-}
-
-table{ width:100%; border-collapse:collapse; }
-th{
-    background: var(--input-bg);
     color: var(--text-main);
-    padding:16px;
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    border-bottom: 1px solid var(--border-color);
 }
-td{
-    padding:16px;
-    border-bottom: 1px solid var(--border-color);
-    text-align:center;
-    color: #48484a;
-    font-size: 15px;
+.return-badge {
+    background: #fef2f2;
+    color: #ef4444;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 900;
+    font-size: 14px;
 }
-td:first-child{ text-align:left; font-weight: 600; color: var(--text-main); }
 
-.qty-container { display:inline-flex; align-items:center; gap:8px; }
-.qty-btn{
-    width:36px;
-    height:36px;
-    border: 1px solid var(--border-color);
-    border-radius:10px;
-    font-size:18px;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background: #ffffff;
-    transition: all 0.15s;
-}
-.qty-btn:active { transform: scale(0.9); background: var(--input-bg); }
-.qty-input-field{
-    width:60px;
-    padding:6px;
-    font-weight:600;
-    text-align:center;
-    border: 1px solid var(--border-color);
-    border-radius:10px;
+.receipt-summary-card {
     background: var(--input-bg);
-}
-
-.discount-grid{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap:16px;
-    margin-top:35px;
-}
-
-.summary{ margin-top:35px; padding-top:25px; border-top: 1px solid var(--border-color); }
-.row{ display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; font-size:17px; font-weight: 500; }
-.grand{
-    font-size:24px;
-    font-weight:700;
-    background: #f2f2f7;
-    padding: 20px;
-    border-radius: 18px;
     border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 12px;
+}
+.summary-item-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 6px;
 }
 
-.payment-selection-box {
-    background: #ffffff;
-    padding:25px;
-    border-radius:20px;
-    border: 1px solid var(--border-color);
-    max-width: 650px;
+.preview-box { background: var(--input-bg); border: 1px solid var(--border-color); padding:12px; border-radius:10px; margin-top:12px; font-family: monospace; white-space: pre-wrap; font-size: 12px; color: var(--text-main); overflow-x: auto; }
+.page3-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+.btn-p3 { padding: 12px; font-size: 13px; font-weight: 800; border-radius: 10px; border: none; cursor: pointer; text-align: center; }
+.btn-p3-back { background: var(--input-bg); color: var(--text-main); }
+.btn-p3-print { background: #2563eb; color: #ffffff; }
+.btn-p3-whatsapp { background: #22c55e; color: #ffffff; }
+.btn-p3-exit { background: #ef4444; color: #ffffff; }
+
+/* Custom Virtual On-Screen Keyboard */
+.virtual-keyboard {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    border-top: 2px solid var(--border-color);
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+    padding: 8px;
+    z-index: 1000;
+    display: none;
+    animation: slideUp 0.2s ease-out;
+}
+.virtual-keyboard.open { display: block; }
+
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+.keyboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4px 6px 4px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 8px;
+}
+.keyboard-title { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
+.btn-kb-close { background: var(--input-bg); border: none; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 800; color: var(--text-main); }
+
+.keyboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    max-width: 450px;
     margin: 0 auto;
 }
-.payment-dual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-.payment-panel { background: var(--input-bg); border: 1px solid var(--border-color); padding: 20px; border-radius: 16px; }
-
-.negative-alert { color: var(--ios-red) !important; font-weight:700; background: #ffebeb; padding:8px 18px; border-radius:10px; }
-
-.actions, .actions-three-col{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:40px; }
-.actions-three-col { grid-template-columns: repeat(4, 1fr); }
-
-.btn{
-    padding: 18px 24px;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 16px;
-    cursor:pointer;
-    color: #ffffff;
-    border: none;
-    text-align: center;
-    transition: all 0.25s ease;
+.key-btn {
+    background: var(--key-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 12px 0;
+    font-size: 18px;
+    font-weight: 800;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 0 var(--key-shadow);
+    cursor: pointer;
 }
-.btn:hover { filter: brightness(1.05); }
-.btn:active { transform: scale(0.98); }
+.key-btn:active {
+    transform: translateY(1px);
+    box-shadow: none;
+    background: var(--input-bg);
+}
+.key-btn.action {
+    background: var(--input-bg);
+    font-size: 14px;
+}
 
-.whatsapp { background: var(--ios-green); }
-.print { background: var(--ios-blue); }
-.clear { background: transparent; border: 1px solid var(--ios-red); color: var(--ios-red); }
-.next { background: var(--text-main); }
-.back { background: var(--input-bg); color: var(--text-main); }
-.exit-btn { background: #545456; }
-
-.preview-box { background: var(--input-bg); border: 1px solid var(--border-color); padding:25px; border-radius:20px; margin-top:25px; max-width:480px; margin-left:auto; margin-right:auto; }
-#receiptTextPreview { font-family: monospace; white-space:pre-wrap; font-size:14px; color: #1c1c1e; font-weight: 600; }
-
-.bill-breakdown-box { max-width: 650px; margin: 25px auto 0 auto; background: var(--input-bg); padding: 22px; border-radius: 20px; border: 1px solid var(--border-color); }
-.item-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; font-weight: 500; }
-
+@media print {
+    body * { visibility: hidden !important; }
+    #thermalReceipt, #thermalReceipt * { visibility: visible !important; }
+    #thermalReceipt {
+        display: block !important;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 58mm;
+        margin: 0;
+        padding: 0;
+        color: #000;
+        background: #fff;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 11px;
+        line-height: 1.2;
+    }
+    #thermalReceipt pre {
+        margin: 0;
+        padding: 0;
+        white-space: pre-wrap;
+        word-break: break-all;
+    }
+}
 #thermalReceipt { display:none; }
-
-@media print{
-    body *{ visibility:hidden; }
-    #thermalReceipt, #thermalReceipt *{ visibility:visible; }
-    #thermalReceipt{ display:block; position:absolute; left:0; top:0; width:58mm; color: #000; background: #fff; font-family: monospace; }
-}
-
-@media(max-width:768px){
-    .info-grid, .discount-grid, .actions, .actions-three-col, .payment-dual-grid{ grid-template-columns:1fr; }
-    .actions-three-col { grid-template-columns: 1fr; }
-}
 </style>
 </head>
 <body>
 
 <div class="container">
 
-    <!-- PAGE 1: BILLING DESK -->
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="checkbox">
+            <input type="checkbox" id="checkbox" onchange="toggleTheme(this)">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <!-- PAGE 1: BILLING MAIN -->
     <div id="page1" class="page active">
         <div class="header">
-            <div class="title">PAUSE & PLAY</div>
+            <div class="title">```PAUSE & PLAY</div>
             <div class="subtitle">Where Pause Meets Play</div>
         </div>
 
         <div class="info-grid">
             <input type="text" id="customer" class="input" placeholder="Customer Name">
-            <input type="text" id="mobile" class="input" placeholder="Mobile Number">
+            <input type="text" id="mobile" class="input vk-input" placeholder="Mobile Number" readonly inputmode="none">
         </div>
 
-        <div id="dateBox" style="margin-top:25px; font-size:15px; font-weight:600; color:var(--text-muted);"></div>
+        <div class="date-box" id="dateBox">Date : </div>
 
-        <div class="section-title">🎮 Hourly Card Games</div>
-        <div class="cards-grid" id="cardsGridContainer"></div>
-
-        <div class="section-title">🕹️ Standard Games</div>
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Game Name</th>
-                        <th>Rate</th>
-                        <th>Qty</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody id="standardGamesTable"></tbody>
-            </table>
+        <div class="master-bar">
+            <select id="masterDropdown" class="select-input" onchange="addItemFromDropdown()">
+                <option value="">-- Select Game or Product --</option>
+            </select>
         </div>
 
-        <div class="section-title">☕ Cafe</div>
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Rate</th>
-                        <th>Qty</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody id="cafeTable"></tbody>
-            </table>
-        </div>
+        <div id="itemsCardsContainer" class="items-container"></div>
 
         <div class="discount-grid">
-            <input id="discountPercent" class="input" type="number" placeholder="Discount %" oninput="syncDiscounts('pct')">
-            <input id="discountRupee" class="input" type="number" placeholder="Discount ₹" oninput="syncDiscounts('rp')">
+            <input id="discountPercent" class="input vk-input" type="text" placeholder="Manual Disc %" readonly inputmode="none" onchange="calculate()">
+            <input id="discountRupee" class="input vk-input" type="text" placeholder="Manual Disc ₹" readonly inputmode="none" onchange="calculate()">
         </div>
 
         <div class="summary">
             <div class="row"><span>Games Total</span><span>₹ <span id="gamesTotal">0.00</span></span></div>
             <div class="row"><span>Cafe Total</span><span>₹ <span id="cafeTotal">0.00</span></span></div>
-            <div class="row"><span>Discount</span><span>₹ <span id="discount">0.00</span></span></div>
+            <div class="row"><span>Total Discount</span><span>₹ <span id="discount">0.00</span></span></div>
             <div class="row grand"><span>Grand Total</span><span>₹ <span id="grandTotal">0</span></span></div>
         </div>
 
         <div class="actions">
-            <button class="btn clear" onclick="clearBill()">🗑️ Clear All</button>
-            <button class="btn next" onclick="navigateToPage(2)">Next (Process) ➡️</button>
+            <button type="button" class="btn clear" onclick="clearBill()">🗑️ Clear</button>
+            <button type="button" class="btn next" onclick="navigateToPage(2)">Next ➡️</button>
         </div>
     </div>
 
-    <!-- PAGE 2: PROCESSING DESK -->
+    <!-- PAGE 2: PROCESSING TERMINAL -->
     <div id="page2" class="page">
         <div class="header">
-            <div class="title">Processing Terminal</div>
+            <div class="title">Terminal</div>
         </div>
 
-        <div class="payment-selection-box">
-            <div class="payment-dual-grid">
-                <div class="payment-panel">
-                    <div class="panel-label" style="font-weight:600; margin-bottom:10px; font-size:14px; color:var(--text-muted); text-transform:uppercase;">📱 UPI Box</div>
-                    <input type="number" id="upiAmountInput" class="input" placeholder="Enter UPI Amt" oninput="calculateReturn()">
+        <div class="terminal-card">
+            <div class="coupon-banner">
+                <div>
+                    <div class="coupon-title">🎟️ Coupon: GAMES25</div>
+                    <div class="coupon-sub">Flat ₹25 Off per ₹200 on Games</div>
                 </div>
-                <div class="payment-panel">
-                    <div class="panel-label" style="font-weight:600; margin-bottom:10px; font-size:14px; color:var(--text-muted); text-transform:uppercase;">💵 Cash Box</div>
-                    <input type="number" id="cashAmountInput" class="input" placeholder="Enter Cash Amt" oninput="calculateReturn()">
+                <div class="card-qty-group">
+                    <button type="button" class="btn-minus" style="width:28px; height:28px; font-size:14px;" onclick="adjustCouponQty(-1)">-</button>
+                    <div class="qty-display-box" id="couponQtyDisplay" style="width:30px; height:28px; font-size:12px;">0</div>
+                    <button type="button" class="btn-plus" style="width:28px; height:28px; font-size:14px;" onclick="adjustCouponQty(1)">+</button>
                 </div>
             </div>
 
-            <div class="discount-grid" style="margin-bottom: 20px;">
-                <input id="p2DiscountPercent" class="input" type="number" placeholder="Discount %" oninput="syncDiscounts('p2pct')">
-                <input id="p2DiscountRupee" class="input" type="number" placeholder="Discount ₹" oninput="syncDiscounts('p2rp')">
-            </div>
-            
-            <div style="border-top:1px solid var(--border-color); padding-top:20px;">
-                <div class="row" style="margin-bottom:0;">
-                    <span style="font-weight:600;">Cash Return Amount:</span>
-                    <span id="returnWrapper">₹ <span id="returnAmount">0.00</span></span>
+            <div class="payment-layout-grid">
+                <div class="payment-input-card">
+                    <div class="payment-input-label">💳 UPI BOX</div>
+                    <input type="text" id="upiAmount" class="payment-inner-input vk-input" placeholder="Enter UPI Amt" readonly inputmode="none" onchange="calculateTerminal()">
                 </div>
+                <div class="payment-input-card">
+                    <div class="payment-input-label">💵 CASH BOX</div>
+                    <input type="text" id="cashAmount" class="payment-inner-input vk-input" placeholder="Enter Cash Amt" readonly inputmode="none" onchange="calculateTerminal()">
+                </div>
+            </div>
+
+            <div class="discount-grid" style="margin-bottom:8px;">
+                <input id="p2_discountPercent" class="payment-inner-input vk-input" type="text" placeholder="Disc %" readonly inputmode="none" onchange="syncDiscountFromTerminal('percent')">
+                <input id="p2_discountRupee" class="payment-inner-input vk-input" type="text" placeholder="Disc ₹" readonly inputmode="none" onchange="syncDiscountFromTerminal('rupee')">
+            </div>
+
+            <div class="return-amount-box">
+                <span>Cash Return:</span>
+                <span class="return-badge" id="p2_returnAmt">₹ 0.00</span>
             </div>
         </div>
 
-        <div class="bill-breakdown-box">
-            <div id="breakdownList"></div>
-            <div style="border-top: 1px dashed var(--border-color); margin-top:15px; padding-top:15px;">
-                <div class="item-row"><span>Calculated Grand Total:</span><span style="font-weight:700;">₹ <span id="b_grandTotal">0</span></span></div>
+        <div class="receipt-summary-card">
+            <div id="terminalItemsList"></div>
+            <div style="border-top: 1px dashed var(--border-color); margin-top: 8px; padding-top: 8px;" class="summary-item-row">
+                <span style="font-weight:800;">Grand Total:</span>
+                <span style="font-weight:900; font-size:15px;">₹ <span id="p2_calculatedGrand">0</span></span>
             </div>
         </div>
 
         <div class="actions">
-            <button class="btn back" onclick="navigateToPage(1)">⬅️ Back</button>
-            <button class="btn next" onclick="navigateToPage(3)">Generate Invoice ➡️</button>
+            <button type="button" class="btn clear" onclick="navigateToPage(1)">⬅️ Back</button>
+            <button type="button" class="btn next" onclick="navigateToPage(3)">Invoice ➡️</button>
         </div>
     </div>
 
-    <!-- PAGE 3: OUTPUT DESK -->
+    <!-- PAGE 3: PRINT PREVIEW -->
     <div id="page3" class="page">
         <div class="header">
-            <div class="title">Invoice Preview</div>
+            <div class="title">Invoice</div>
         </div>
-        <div class="preview-box"><pre id="receiptTextPreview"></pre></div>
-        <div class="actions-three-col">
-            <button class="btn back" onclick="navigateToPage(2)">⬅️ Back</button>
-            <button class="btn whatsapp" onclick="sendWhatsApp()">📲 WhatsApp</button>
-            <button class="btn print" onclick="printBill()">🖨️ Print</button>
-            <button class="btn exit-btn" onclick="exitAndCopyToClipboard()">🚪 Exit & Copy</button>
+
+        <div class="preview-box" id="receiptPreview"></div>
+
+        <div class="page3-actions">
+            <button type="button" class="btn-p3 btn-p3-back" onclick="navigateToPage(2)">⬅️ Back</button>
+            <button type="button" class="btn-p3 btn-p3-print" onclick="window.print()">🖨️ Print</button>
+            <button type="button" class="btn-p3 btn-p3-whatsapp" onclick="sendWhatsApp()">💬 WhatsApp</button>
+            <button type="button" class="btn-p3 btn-p3-exit" onclick="copyAndExit()">📋 Copy & Exit</button>
         </div>
+    </div>
+
+</div>
+
+<!-- VIRTUAL KEYBOARD -->
+<div id="virtualKeyboard" class="virtual-keyboard">
+    <div class="keyboard-header">
+        <span class="keyboard-title" id="keyboardTitle">Numeric Keyboard</span>
+        <button type="button" class="btn-kb-close" onclick="closeKeyboard()">Done</button>
+    </div>
+    <div class="keyboard-grid">
+        <div class="key-btn" onclick="pressKey('1')">1</div>
+        <div class="key-btn" onclick="pressKey('2')">2</div>
+        <div class="key-btn" onclick="pressKey('3')">3</div>
+        <div class="key-btn" onclick="pressKey('4')">4</div>
+        <div class="key-btn" onclick="pressKey('5')">5</div>
+        <div class="key-btn" onclick="pressKey('6')">6</div>
+        <div class="key-btn" onclick="pressKey('7')">7</div>
+        <div class="key-btn" onclick="pressKey('8')">8</div>
+        <div class="key-btn" onclick="pressKey('9')">9</div>
+        <div class="key-btn action" onclick="pressKey('.')">.</div>
+        <div class="key-btn" onclick="pressKey('0')">0</div>
+        <div class="key-btn action" onclick="pressKey('backspace')">⌫</div>
     </div>
 </div>
 
 <div id="thermalReceipt"><pre id="receiptText"></pre></div>
 
 <script>
-document.getElementById("dateBox").innerHTML = "Date : " + new Date().toLocaleDateString("en-GB");
+document.getElementById("dateBox").innerText = "Date : " + new Date().toLocaleDateString("en-GB");
 
-const customerInput = document.getElementById("customer");
-customerInput.oninput = () => {
-    document.title = customerInput.value.trim() ? customerInput.value.trim() : "Pause & Play Billing V4";
+let activeInputTarget = null;
+
+function toggleTheme(e) {
+    if (e.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+}
+
+// Virtual Keyboard Logic
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.vk-input').forEach(input => {
+        input.addEventListener('click', (e) => {
+            openKeyboard(e.target);
+        });
+    });
+});
+
+function openKeyboard(targetInput) {
+    if(activeInputTarget) {
+        activeInputTarget.classList.remove('active-keyboard');
+    }
+    activeInputTarget = targetInput;
+    activeInputTarget.classList.add('active-keyboard');
+    
+    const label = activeInputTarget.placeholder || "Numpad Input";
+    document.getElementById('keyboardTitle').innerText = label;
+    document.getElementById('virtualKeyboard').classList.add('open');
+}
+
+function closeKeyboard() {
+    if(activeInputTarget) {
+        activeInputTarget.classList.remove('active-keyboard');
+        activeInputTarget.dispatchEvent(new Event('change'));
+        activeInputTarget.dispatchEvent(new Event('input'));
+    }
+    activeInputTarget = null;
+    document.getElementById('virtualKeyboard').classList.remove('open');
+}
+
+function pressKey(key) {
+    if(!activeInputTarget) return;
+
+    let val = activeInputTarget.value;
+    if(key === 'backspace') {
+        activeInputTarget.value = val.slice(0, -1);
+    } else if(key === '.') {
+        if(!val.includes('.')) {
+            activeInputTarget.value = val + '.';
+        }
+    } else {
+        activeInputTarget.value = val + key;
+    }
+
+    activeInputTarget.dispatchEvent(new Event('input'));
+    activeInputTarget.dispatchEvent(new Event('change'));
+}
+
+const catalog = [
+    { id: "tg1", category: "timed", name: "CARROM", rate: 39, lapMin: 15 },
+    { id: "tg2", category: "timed", name: "COMPUTER GAMES", rate: 120, lapMin: 30 },
+    { id: "tg3", category: "timed", name: "DRIVING Ad. (15 Min)", rate: 120, lapMin: 15 },
+    { id: "tg4", category: "timed", name: "DRIVING Jr. (15 Min)", rate: 60, lapMin: 15 },
+    { id: "tg5", category: "timed", name: "MEMBERSHIP POOL", rate: 60, lapMin: 45 },
+    { id: "tg6", category: "timed", name: "MULTI PLAYER PS5", rate: 199, lapMin: 30 },
+    { id: "tg7", category: "timed", name: "PLAY STATION 5", rate: 120, lapMin: 30 },
+    { id: "tg8", category: "timed", name: "RETRO GAMES", rate: 60, lapMin: 30 },
+    { id: "tg9", category: "timed", name: "TABLE POOL", rate: 99, lapMin: 30 },
+    { id: "tg10", category: "timed", name: "TABLE TENNIS", rate: 79, lapMin: 30 },
+
+    { id: "sg1", category: "standard", name: "AIR HOCKEY", rate: 99 },
+    { id: "sg2", category: "standard", name: "BASKETBALL", rate: 39 },
+    { id: "sg3", category: "standard", name: "FROG HAMMER", rate: 20 },
+    { id: "sg4", category: "standard", name: "VR CRICKET", rate: 39 },
+
+    { id: "cf1", category: "cafe", name: "CHIPS ₹5", rate: 5 },
+    { id: "cf2", category: "cafe", name: "CHIPS ₹10", rate: 10 },
+    { id: "cf3", category: "cafe", name: "COLDRINK ₹10", rate: 10 },
+    { id: "cf4", category: "cafe", name: "COLDRINK ₹20", rate: 20 },
+    { id: "cf5", category: "cafe", name: "DIET COKE ₹30", rate: 30 },
+    { id: "cf6", category: "cafe", name: "DIET COKE ₹40", rate: 40 },
+    { id: "cf7", category: "cafe", name: "MINERAL WATER ₹5", rate: 5 },
+    { id: "cf8", category: "cafe", name: "MINERAL WATER ₹10", rate: 10 },
+    { id: "cf9", category: "cafe", name: "MONSTER", rate: 125 },
+    { id: "cf10", category: "cafe", name: "ORS LIQUID", rate: 31.50 },
+    { id: "cf11", category: "cafe", name: "PREDATOR", rate: 60 },
+    { id: "cf12", category: "cafe", name: "SPRITE ₹30", rate: 30 },
+    { id: "cf13", category: "cafe", name: "THUMBS UP ₹30", rate: 30 },
+
+    /* TIP TOP CHINESE MENU ITEMS */
+    { id: "ttc1", category: "chinese", name: "VEG RICE", rate: 70 },
+    { id: "ttc2", category: "chinese", name: "VEG FRIED RICE", rate: 70 },
+    { id: "ttc3", category: "chinese", name: "VEG SCHEZWAN RICE", rate: 80 },
+    { id: "ttc4", category: "chinese", name: "VEG MANCHURIAN RICE", rate: 70 },
+    { id: "ttc5", category: "chinese", name: "PANEER RICE", rate: 80 },
+    { id: "ttc6", category: "chinese", name: "PANEER FRIED RICE", rate: 80 },
+    { id: "ttc7", category: "chinese", name: "PANEER SCHEZWAN RICE", rate: 90 },
+    { id: "ttc8", category: "chinese", name: "PANEER MANCHURIAN RICE", rate: 85 },
+    { id: "ttc9", category: "chinese", name: "PANEER TRIPLE RICE", rate: 120 },
+    { id: "ttc10", category: "chinese", name: "VEG NOODLES", rate: 70 },
+    { id: "ttc11", category: "chinese", name: "VEG PANEER NOODLES", rate: 80 },
+    { id: "ttc12", category: "chinese", name: "VEG MANCHURIAN NOODLES", rate: 85 },
+    { id: "ttc13", category: "chinese", name: "PANEER CHILLI DRY", rate: 100 },
+    { id: "ttc14", category: "chinese", name: "PANEER CHILLI GRAVY", rate: 100 },
+    { id: "ttc15", category: "chinese", name: "VEG MANCHURIAN DRY", rate: 70 },
+    { id: "ttc16", category: "chinese", name: "VEG MANCHURIAN GRAVY", rate: 80 }
+];
+
+let cart = [];
+let couponQty = 0;
+
+function getCurrentTimeFormatted() {
+    const d = new Date();
+    return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+}
+
+function populateDropdown() {
+    const masterSelect = document.getElementById("masterDropdown");
+    if(!masterSelect) return;
+    masterSelect.innerHTML = '<option value="">-- Select Game or Product --</option>';
+
+    const tgGroup = document.createElement("optgroup"); tgGroup.label = "⏱️ Timed / Hourly Games";
+    const sgGroup = document.createElement("optgroup"); sgGroup.label = "🕹️ Standard Games";
+    const cfGroup = document.createElement("optgroup"); cfGroup.label = "☕ Cafe Products";
+    const ttcGroup = document.createElement("optgroup"); ttcGroup.label = "🥢 Tip Top Chinese";
+
+    catalog.forEach(item => {
+        const opt = document.createElement("option");
+        opt.value = item.id;
+        opt.innerText = `${item.name} - ₹${item.rate}${item.lapMin ? ' / ' + item.lapMin + 'm' : ''}`;
+        
+        if(item.category === "timed") tgGroup.appendChild(opt);
+        else if(item.category === "standard") sgGroup.appendChild(opt);
+        else if(item.category === "cafe") cfGroup.appendChild(opt);
+        else if(item.category === "chinese") ttcGroup.appendChild(opt);
+    });
+
+    masterSelect.appendChild(tgGroup);
+    masterSelect.appendChild(sgGroup);
+    masterSelect.appendChild(cfGroup);
+    masterSelect.appendChild(ttcGroup);
+}
+
+window.onload = function() {
+    populateDropdown();
+    renderCart();
 };
 
-const hourlyGames = [
-    { name: "CARROM", rate: 39 },
-    { name: "COMPUTER GAMES", rate: 120 },
-    { name: "DRIVING Ad. (15 Min)", rate: 120 },
-    { name: "DRIVING Jr. (15 Min)", rate: 60 },
-    { name: "MULTI PLAYER PS5", rate: 199 },
-    { name: "PLAY STATION 5", rate: 119 },
-    { name: "RETRO GAMES", rate: 60 },
-    { name: "TABLE POOL", rate: 99 },
-    { name: "TABLE TENNIS", rate: 79 }
-];
+function addItemFromDropdown() {
+    const masterSelect = document.getElementById("masterDropdown");
+    const id = masterSelect.value;
+    if(!id) return;
 
-const standardGames = [
-    { name: "AIR HOCKEY", rate: 99 },
-    { name: "BASKETBALL", rate: 39 },
-    { name: "FROG HAMMER", rate: 20 },
-    { name: "VR CRICKET", rate: 39 }
-];
+    const item = catalog.find(x => x.id === id);
+    if(!item) return;
 
-const cafeItems = [
-    { name: "CHIPS ₹5", rate: 5 },
-    { name: "CHIPS ₹10", rate: 10 },
-    { name: "COLDRINK ₹10", rate: 10 },
-    { name: "COLDRINK ₹20", rate: 20 },
-    { name: "MINERAL WATER ₹5", rate: 5 },
-    { name: "MINERAL WATER ₹10", rate: 10 },
-    { name: "ORS LIQUID", rate: 31.50 },
-    { name: "TIP TOP CHINESE", rate: 1 }
-];
+    const instanceId = item.id + "_" + Date.now();
 
-hourlyGames.forEach(g => { g.qty = 0; g.start = "00:00"; g.end = "00:00"; g.remark = ""; });
-standardGames.forEach(g => { g.qty = 0; });
-cafeItems.forEach(i => { i.qty = 0; });
-
-// Render Card Layout UI Grid
-const cardsGrid = document.getElementById("cardsGridContainer");
-hourlyGames.forEach((g, idx) => {
-    cardsGrid.innerHTML += `
-    <div class="game-card">
-        <div class="card-title">${g.name}</div>
-        <div class="card-row">
-            <button class="card-btn btn-minus" onclick="changeCardQty(${idx}, -1)">-</button>
-            <div class="card-qty-display" id="card-qty-${idx}">0</div>
-            <button class="card-btn btn-plus" onclick="changeCardQty(${idx}, 1)">+</button>
-        </div>
-        <div class="card-row">
-            <button class="time-pill pill-start" onclick="stampCardTime(${idx}, 'start')">Start</button>
-            <input type="time" class="time-input-box" id="card-start-${idx}" value="00:00" onchange="updateManualTime(${idx}, 'start', this.value)">
-            
-            <button class="time-pill pill-end" onclick="stampCardTime(${idx}, 'end')">End</button>
-            <input type="time" class="time-input-box" id="card-end-${idx}" value="00:00" onchange="updateManualTime(${idx}, 'end', this.value)">
-        </div>
-        <input type="text" class="card-remark" id="card-rem-${idx}" placeholder="Add remark for ${g.name}..." oninput="hourlyGames[${idx}].remark=this.value">
-    </div>`;
-});
-
-// Render Regular Standard Table Games
-const stdTable = document.getElementById("standardGamesTable");
-standardGames.forEach((g, idx) => {
-    stdTable.innerHTML += `
-    <tr>
-        <td>${g.name}</td>
-        <td>₹${g.rate.toFixed(2)}</td>
-        <td>
-            <div class="qty-container">
-                <button class="qty-btn" onclick="changeStdQty(${idx}, -1)">-</button>
-                <input type="number" class="qty-input-field" id="std-input-${idx}" value="0" oninput="setStdQty(${idx}, this.value)">
-                <button class="qty-btn" onclick="changeStdQty(${idx}, 1)">+</button>
-            </div>
-        </td>
-        <td>₹ <span id="std-amt-${idx}">0.00</span></td>
-    </tr>`;
-});
-
-// Render Cafe Items Table
-const cafeTable = document.getElementById("cafeTable");
-cafeItems.forEach((item, idx) => {
-    cafeTable.innerHTML += `
-    <tr>
-        <td>${item.name}</td>
-        <td>₹${item.rate.toFixed(2)}</td>
-        <td>
-            <div class="qty-container">
-                <button class="qty-btn" onclick="changeCafeQty(${idx}, -1)">-</button>
-                <input type="number" class="qty-input-field" id="cafe-input-${idx}" value="0" oninput="setCafeQty(${idx}, this.value)">
-                <button class="qty-btn" onclick="changeCafeQty(${idx}, 1)">+</button>
-            </div>
-        </td>
-        <td>₹ <span id="cafe-amt-${idx}">0.00</span></td>
-    </tr>`;
-});
-
-function changeCardQty(idx, delta) {
-    hourlyGames[idx].qty = Math.max(0, hourlyGames[idx].qty + delta);
-    document.getElementById(`card-qty-${idx}`).innerText = hourlyGames[idx].qty;
-    calculate();
-}
-
-function stampCardTime(idx, field) {
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const timeStr = `${hours}:${minutes}`;
-    
-    hourlyGames[idx][field] = timeStr;
-    document.getElementById(`card-${field}-${idx}`).value = timeStr;
-}
-
-function updateManualTime(idx, field, value) {
-    hourlyGames[idx][field] = value || "00:00";
-}
-
-function changeStdQty(idx, delta) {
-    standardGames[idx].qty = Math.max(0, standardGames[idx].qty + delta);
-    document.getElementById(`std-input-${idx}`).value = standardGames[idx].qty;
-    setStdQty(idx, standardGames[idx].qty);
-}
-function setStdQty(idx, val) {
-    let parsed = parseFloat(val) || 0;
-    standardGames[idx].qty = Math.max(0, parsed);
-    document.getElementById(`std-amt-${idx}`).innerText = (standardGames[idx].qty * standardGames[idx].rate).toFixed(2);
-    calculate();
-}
-function changeCafeQty(idx, delta) {
-    cafeItems[idx].qty = Math.max(0, cafeItems[idx].qty + delta);
-    document.getElementById(`cafe-input-${idx}`).value = cafeItems[idx].qty;
-    setCafeQty(idx, cafeItems[idx].qty);
-}
-function setCafeQty(idx, val) {
-    let parsed = parseFloat(val) || 0;
-    cafeItems[idx].qty = Math.max(0, parsed);
-    document.getElementById(`cafe-amt-${idx}`).innerText = (cafeItems[idx].qty * cafeItems[idx].rate).toFixed(2);
-    calculate();
-}
-
-function syncDiscounts(origin) {
-    const p1Pct = document.getElementById("discountPercent");
-    const p1Rp = document.getElementById("discountRupee");
-    const p2Pct = document.getElementById("p2DiscountPercent");
-    const p2Rp = document.getElementById("p2DiscountRupee");
-
-    if (origin === 'pct') { p2Pct.value = p1Pct.value; }
-    if (origin === 'rp') { p2Rp.value = p1Rp.value; }
-    if (origin === 'p2pct') { p1Pct.value = p2Pct.value; }
-    if (origin === 'p2rp') { p1Rp.value = p2Rp.value; }
-    calculate();
-}
-
-function calculate() {
-    let gTotal = 0;
-    hourlyGames.forEach(g => gTotal += g.qty * g.rate);
-    standardGames.forEach(g => gTotal += g.qty * g.rate);
-    
-    let cTotal = 0;
-    cafeItems.forEach(i => cTotal += i.qty * i.rate);
-
-    let pct = parseFloat(document.getElementById("discountPercent").value) || 0;
-    let rp = parseFloat(document.getElementById("discountRupee").value) || 0;
-    let discVal = Math.round((gTotal * (pct / 100)) + rp);
-
-    let grand = Math.ceil(Math.max(0, (gTotal + cTotal) - discVal));
-
-    document.getElementById("gamesTotal").innerText = gTotal.toFixed(2);
-    document.getElementById("cafeTotal").innerText = cTotal.toFixed(2);
-    document.getElementById("discount").innerText = discVal.toFixed(2);
-    document.getElementById("grandTotal").innerText = grand;
-    document.getElementById("b_grandTotal").innerText = grand;
-
-    calculateReturn();
-}
-
-function calculateReturn() {
-    let grand = parseFloat(document.getElementById("grandTotal").innerText) || 0;
-    let upi = parseFloat(document.getElementById("upiAmountInput").value) || 0;
-    let cash = parseFloat(document.getElementById("cashAmountInput").value) || 0;
-    let ret = (cash + upi) - grand;
-
-    const wrap = document.getElementById("returnWrapper");
-    document.getElementById("returnAmount").innerText = ret.toFixed(2);
-    wrap.className = ret < 0 ? "negative-alert" : "";
-}
-
-function buildBreakdown() {
-    const list = document.getElementById("breakdownList");
-    let html = "";
-    hourlyGames.concat(standardGames).forEach(g => {
-        if(g.qty > 0) html += `<div class="item-row"><span>🎮 ${g.name} (x${g.qty})</span><span>₹${(g.qty*g.rate).toFixed(2)}</span></div>`;
+    cart.push({
+        ...item,
+        instanceId: instanceId,
+        qty: 1,
+        seconds: 0,
+        customTime: getCurrentTimeFormatted(),
+        status: 'stopped',
+        timerObj: null,
+        logs: []
     });
-    cafeItems.forEach(i => {
-        if(i.qty > 0) html += `<div class="item-row"><span>☕ ${i.name} (x${i.qty})</span><span>₹${(i.qty*i.rate).toFixed(2)}</span></div>`;
-    });
-    list.innerHTML = html || "No Items selected";
+
+    masterSelect.value = "";
+    renderCart();
 }
 
-function navigateToPage(no) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(`page${no}`).classList.add('active');
-    if(no === 2) buildBreakdown();
-    if(no === 3) document.getElementById("receiptTextPreview").innerText = generateReceiptText();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+function updateCardElement(item) {
+    const cardEl = document.getElementById(`card-${item.instanceId}`);
+    if(!cardEl) return;
+
+    const qtyBox = cardEl.querySelector('.qty-display-box');
+    if(qtyBox) qtyBox.innerText = item.qty;
+
+    const amtBox = cardEl.querySelector('.card-amount-box');
+    if(amtBox) amtBox.innerText = `₹ ${(item.qty * item.rate).toFixed(2)}`;
+
+    if(item.category === 'timed') {
+        const hrs = String(Math.floor(item.seconds / 3600)).padStart(2, '0');
+        const mins = String(Math.floor((item.seconds % 3600) / 60)).padStart(2, '0');
+        const secs = String(item.seconds % 60).padStart(2, '0');
+
+        const timerBox = cardEl.querySelector('.card-timer-box');
+        if(timerBox) timerBox.innerText = `${hrs}:${mins}:${secs}`;
+
+        const switchBtn = cardEl.querySelector('.btn-switch');
+        if(switchBtn) {
+            switchBtn.innerText = item.status === 'running' ? 'Stop' : 'Start';
+            if(item.status === 'running') switchBtn.classList.add('running');
+            else switchBtn.classList.remove('running');
+        }
+
+        const logBox = document.getElementById(`log-box-${item.instanceId}`);
+        if(logBox) logBox.innerHTML = item.logs.length ? item.logs.join('<br>') : '<em>No logs recorded.</em>';
+    }
 }
 
-function generateReceiptText(){
-    let t = "        PAUSE & PLAY        \n";
-    t += "    WHERE PAUSE MEETS PLAY   \n";
-    t += "============================\n";
-    t += `Date   : ${new Date().toLocaleDateString("en-GB")}\n`;
-    t += `Client : ${customerInput.value || "Walk In"}\n`;
-    t += `Phone  : ${document.getElementById("mobile").value || "-"}\n`;
-    t += "----------------------------\n";
+function renderCart() {
+    const container = document.getElementById("itemsCardsContainer");
+    if(!container) return;
+    
+    if (cart.length === 0) {
+        container.innerHTML = "";
+        calculate();
+        return;
+    }
 
-    hourlyGames.forEach(g => {
-        if(g.qty > 0) {
-            t += `${g.name}\n  ${g.qty} x ₹${g.rate} = ₹${(g.qty*g.rate).toFixed(2)}\n`;
-            t += `  Time: ${g.start} to ${g.end}\n`;
-            let rElement = document.getElementById(`card-rem-${hourlyGames.indexOf(g)}`);
-            if(rElement && rElement.value.trim()) t += `  Note: ${rElement.value.trim()}\n`;
+    container.innerHTML = "";
+
+    cart.forEach((item) => {
+        if(item.category === "timed") {
+            const hrs = String(Math.floor(item.seconds / 3600)).padStart(2, '0');
+            const mins = String(Math.floor((item.seconds % 3600) / 60)).padStart(2, '0');
+            const secs = String(item.seconds % 60).padStart(2, '0');
+
+            container.innerHTML += `
+            <div style="width:100%" class="cart-item-wrapper" id="card-${item.instanceId}">
+                <div class="game-card-row">
+                    <div class="mobile-card-header">
+                        <div class="card-particular">
+                            <div class="game-title">${item.name}</div>
+                            <div class="game-meta">RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN</div>
+                        </div>
+                        <div class="card-amount-box">₹ ${(item.qty * item.rate).toFixed(2)}</div>
+                    </div>
+
+                    <div class="mobile-card-middle">
+                        <div class="card-qty-group">
+                            <button type="button" class="btn-minus" onclick="changeQty('${item.instanceId}', -1)">-</button>
+                            <div class="qty-display-box">${item.qty}</div>
+                            <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', 1)">+</button>
+                        </div>
+                        <div class="card-timer-box">${hrs}:${mins}:${secs}</div>
+                    </div>
+
+                    <div class="mobile-card-footer">
+                        <button type="button" class="btn-switch ${item.status === 'running' ? 'running' : ''}" onclick="toggleTimer('${item.instanceId}')">
+                            ${item.status === 'running' ? 'Stop' : 'Start'}
+                        </button>
+                        <div class="card-log-link" onclick="toggleLog('${item.instanceId}')">Log</div>
+                        <div class="card-current-time-group">
+                            <input type="time" class="current-time-input" value="${item.customTime}" onchange="updateCustomTime('${item.instanceId}', this.value)">
+                            <button type="button" class="btn-time-sync" onclick="syncCurrentTime('${item.instanceId}')" title="Reset Current Time">🔄</button>
+                        </div>
+                        <button type="button" class="btn-del" onclick="removeItem('${item.instanceId}')">❌</button>
+                    </div>
+                </div>
+                <div class="history-drawer" id="log-box-${item.instanceId}">${item.logs.length ? item.logs.join('<br>') : '<em>No logs recorded.</em>'}</div>
+            </div>`;
+        } else {
+            container.innerHTML += `
+            <div style="width:100%" class="cart-item-wrapper" id="card-${item.instanceId}">
+                <div class="game-card-row">
+                    <div class="mobile-card-header">
+                        <div class="card-particular">
+                            <div class="game-title">${item.name}</div>
+                            <div class="game-meta">RATE ₹ ${item.rate.toFixed(2)}</div>
+                        </div>
+                        <div class="card-amount-box">₹ ${(item.qty * item.rate).toFixed(2)}</div>
+                    </div>
+
+                    <div class="mobile-card-footer" style="justify-content: space-between;">
+                        <div class="card-qty-group">
+                            <button type="button" class="btn-minus" onclick="changeQty('${item.instanceId}', -1)">-</button>
+                            <div class="qty-display-box">${item.qty}</div>
+                            <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', 1)">+</button>
+                        </div>
+                        <button type="button" class="btn-del" onclick="removeItem('${item.instanceId}')">❌</button>
+                    </div>
+                </div>
+            </div>`;
         }
     });
 
-    standardGames.forEach(g => {
-        if(g.qty > 0) t += `${g.name}\n  ${g.qty} x ₹${g.rate} = ₹${(g.qty*g.rate).toFixed(2)}\n`;
+    calculate();
+}
+
+function updateCustomTime(instanceId, val) {
+    const item = cart.find(x => x.instanceId === instanceId);
+    if(item) item.customTime = val;
+}
+
+function syncCurrentTime(instanceId) {
+    const item = cart.find(x => x.instanceId === instanceId);
+    if(item) {
+        item.customTime = getCurrentTimeFormatted();
+        renderCart();
+    }
+}
+
+function parseCustomTimeToTimestamp(timeStr) {
+    if(!timeStr) return Date.now();
+    const parts = timeStr.split(':');
+    if(parts.length < 2) return Date.now();
+    
+    const now = new Date();
+    now.setHours(parseInt(parts[0], 10));
+    now.setMinutes(parseInt(parts[1], 10));
+    now.setSeconds(0);
+    now.setMilliseconds(0);
+    
+    return now.getTime();
+}
+
+function changeQty(instanceId, delta) {
+    const item = cart.find(x => x.instanceId === instanceId);
+    if (!item) return;
+    
+    item.qty = Math.max(0, item.qty + delta);
+    if(item.category === "timed") {
+        item.seconds = item.qty * item.lapMin * 60;
+    }
+    updateCardElement(item);
+    calculate();
+}
+
+function removeItem(instanceId) {
+    const idx = cart.findIndex(x => x.instanceId === instanceId);
+    if (idx === -1) return;
+
+    if(cart[idx].timerObj) clearInterval(cart[idx].timerObj);
+    cart.splice(idx, 1);
+    
+    renderCart();
+}
+
+function toggleTimer(instanceId) {
+    let item = cart.find(x => x.instanceId === instanceId);
+    if (!item) return;
+
+    if(item.status === "running") {
+        clearInterval(item.timerObj);
+        item.status = "stopped";
+        item.logs.push(`[${new Date().toLocaleTimeString()}] ⏹ Stopped`);
+    } else {
+        item.status = "running";
+        
+        const customStartMs = parseCustomTimeToTimestamp(item.customTime);
+        const currentMs = Date.now();
+
+        if (customStartMs <= currentMs) {
+            item.seconds = Math.floor((currentMs - customStartMs) / 1000);
+        } else {
+            item.seconds = 0;
+        }
+
+        item.startTime = currentMs - (item.seconds * 1000);
+        item.logs.push(`[${new Date().toLocaleTimeString()}] ▶ Started from ${item.customTime}`);
+        
+        item.timerObj = setInterval(() => {
+            item.seconds = Math.floor((Date.now() - item.startTime) / 1000);
+            let calcLaps = Math.max(1, Math.ceil((item.seconds / 60) / item.lapMin));
+            item.qty = calcLaps;
+            updateCardElement(item);
+            calculate();
+        }, 1000);
+    }
+    updateCardElement(item);
+    calculate();
+}
+
+function toggleLog(instanceId) {
+    const el = document.getElementById(`log-box-${instanceId}`);
+    if(el) el.style.display = el.style.display === 'block' ? 'none' : 'block';
+}
+
+function calculate() {
+    let gamesTotal = 0;
+    let cafeTotal = 0;
+
+    cart.forEach(item => {
+        let total = item.qty * item.rate;
+        if(item.category === "cafe" || item.category === "chinese") cafeTotal += total;
+        else gamesTotal += total;
     });
 
-    cafeItems.forEach(i => {
-        if(i.qty > 0) t += `${i.name}\n  ${i.qty} x ₹${i.rate} = ₹${(i.qty*i.rate).toFixed(2)}\n`;
+    let maxAllowedCoupons = Math.floor(gamesTotal / 200);
+
+    if (couponQty > maxAllowedCoupons) {
+        couponQty = maxAllowedCoupons;
+    }
+
+    const cDisp = document.getElementById("couponQtyDisplay");
+    if(cDisp) cDisp.innerText = couponQty;
+
+    let pct = parseFloat(document.getElementById("discountPercent")?.value) || 0;
+    let rp = parseFloat(document.getElementById("discountRupee")?.value) || 0;
+    let couponDiscount = couponQty * 25;
+
+    let discVal = Math.round((gamesTotal * (pct / 100)) + rp + couponDiscount);
+    let grand = Math.ceil(Math.max(0, (gamesTotal + cafeTotal) - discVal));
+
+    if(document.getElementById("gamesTotal")) document.getElementById("gamesTotal").innerText = gamesTotal.toFixed(2);
+    if(document.getElementById("cafeTotal")) document.getElementById("cafeTotal").innerText = cafeTotal.toFixed(2);
+    if(document.getElementById("discount")) document.getElementById("discount").innerText = discVal.toFixed(2);
+    if(document.getElementById("grandTotal")) document.getElementById("grandTotal").innerText = grand;
+
+    if(document.getElementById("p2_discountPercent")) document.getElementById("p2_discountPercent").value = document.getElementById("discountPercent")?.value || "";
+    if(document.getElementById("p2_discountRupee")) document.getElementById("p2_discountRupee").value = document.getElementById("discountRupee")?.value || "";
+
+    calculateTerminal();
+}
+
+function adjustCouponQty(delta) {
+    let gamesTotal = 0;
+    cart.forEach(item => {
+        if(item.category !== "cafe" && item.category !== "chinese") gamesTotal += (item.qty * item.rate);
     });
 
-    t += "----------------------------\n";
-    t += `Games Base Total: ₹${document.getElementById("gamesTotal").innerText}\n`;
-    t += `Cafe Base Total : ₹${document.getElementById("cafeTotal").innerText}\n`;
-    t += `Total Discount  : ₹${document.getElementById("discount").innerText}\n`;
-    t += `Grand Net Total : ₹${document.getElementById("grandTotal").innerText}\n`;
-    t += "----------------------------\n";
-    t += "   Thank You Visit Again   ";
+    let maxAllowedCoupons = Math.floor(gamesTotal / 200);
+
+    if (delta > 0 && couponQty >= maxAllowedCoupons) {
+        if (maxAllowedCoupons === 0) {
+            alert("Min ₹200 Games Total required to apply a coupon!");
+        } else {
+            alert(`Maximum ${maxAllowedCoupons} coupon(s) allowed for ₹${gamesTotal.toFixed(0)} Games Total!`);
+        }
+        return;
+    }
+
+    couponQty = Math.max(0, couponQty + delta);
+    calculate();
+}
+
+function syncDiscountFromTerminal(type) {
+    if(type === 'percent') {
+        document.getElementById("discountPercent").value = document.getElementById("p2_discountPercent").value;
+    } else {
+        document.getElementById("discountRupee").value = document.getElementById("p2_discountRupee").value;
+    }
+    calculate();
+}
+
+function calculateTerminal() {
+    let grandText = document.getElementById("grandTotal")?.innerText || "0";
+    let grand = parseFloat(grandText) || 0;
+    if(document.getElementById("p2_calculatedGrand")) document.getElementById("p2_calculatedGrand").innerText = grand;
+
+    let upi = parseFloat(document.getElementById("upiAmount")?.value) || 0;
+    let cash = parseFloat(document.getElementById("cashAmount")?.value) || 0;
+    let totalPaid = upi + cash;
+
+    let diff = totalPaid - grand;
+    if(document.getElementById("p2_returnAmt")) document.getElementById("p2_returnAmt").innerText = `₹ ${diff.toFixed(2)}`;
+
+    renderTerminalSummaryList();
+}
+
+function renderTerminalSummaryList() {
+    const listContainer = document.getElementById("terminalItemsList");
+    if(!listContainer) return;
+    
+    listContainer.innerHTML = "";
+    cart.forEach(item => {
+        if(item.qty > 0) {
+            let icon = item.category === "timed" ? "⏱️" : (item.category === "standard" ? "🕹️" : (item.category === "chinese" ? "🥢" : "☕"));
+            let qtyText = item.category === "timed" ? `(${item.qty} Lap/s)` : `(x${item.qty})`;
+            listContainer.innerHTML += `
+                <div class="summary-item-row">
+                    <span>${icon} ${item.name} ${qtyText}</span>
+                    <span>₹ ${(item.qty * item.rate).toFixed(2)}</span>
+                </div>
+            `;
+        }
+    });
+}
+
+function navigateToPage(no) {
+    closeKeyboard();
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(`page${no}`).classList.add('active');
+    if(no === 2) {
+        calculateTerminal();
+    }
+    if(no === 3) {
+        let txt = generateReceipt();
+        document.getElementById("receiptPreview").innerText = txt;
+        document.getElementById("receiptText").innerText = txt;
+    }
+}
+
+function generateReceipt() {
+    const line = "------------------------------\n";
+    const dLine = "==============================\n";
+    let t = "        ```PAUSE & PLAY        \n";
+    t += "    Gaming Cafe   \n";
+    t += dLine;
+    t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
+    t += `Mobile : ${document.getElementById("mobile").value || "N/A"}\n`;
+    t += `Date   : ${new Date().toLocaleDateString("en-GB")}\n`;
+    t += line;
+    t += "ITEM           QTY     AMOUNT \n";
+    t += line;
+    
+    cart.forEach(i => {
+        if(i.qty > 0) {
+            let name = i.name.length > 14 ? i.name.substring(0, 14) : i.name.padEnd(14, ' ');
+            let qty = String(i.qty).padStart(4, ' ');
+            let amt = `₹${(i.qty*i.rate).toFixed(2)}`.padStart(10, ' ');
+            t += `${name} ${qty} ${amt}\n`;
+        }
+    });
+    
+    t += line;
+    let disc = document.getElementById("discount").innerText;
+    if (parseFloat(disc) > 0) {
+        t += `Discount      : ₹${disc.padStart(10, ' ')}\n`;
+    }
+    t += `Grand Total   : ₹${document.getElementById("grandTotal").innerText.padStart(10, ' ')}\n`;
+    t += dLine;
+    t += "   Thank You! Visit Again!```   \n";
     return t;
 }
 
-function clearBill(){ location.reload(); }
-
-function printBill(){
-    document.getElementById("receiptText").innerText = generateReceiptText();
-    window.print();
+/* UPGRADED WHATSAPP FUNCTION */
+function sendWhatsApp() {
+    let mobile = document.getElementById("mobile").value.trim();
+    let message = encodeURIComponent(generateReceipt());
+    
+    if (mobile) {
+        // Direct WhatsApp Chat with Mobile Number
+        window.open(`https://wa.me/91${mobile}?text=${message}`, '_blank');
+    } else {
+        // Fallback: Opens WhatsApp Share Contact Window
+        window.open(`https://api.whatsapp.com/send?text=${message}`, '_blank');
+    }
 }
 
-function sendWhatsApp(){
-    window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(generateReceiptText()), "_blank");
-}
-
-function exitAndCopyToClipboard() {
-    navigator.clipboard.writeText(generateReceiptText()).then(() => {
-        alert("Copied to clipboard!");
+function copyAndExit() {
+    let text = generateReceipt();
+    navigator.clipboard.writeText(text).then(() => {
+        alert("Invoice copied to clipboard! Clearing session...");
+        clearBill();
+    }).catch(err => {
+        alert("Copied, clearing session.");
         clearBill();
     });
+}
+
+function clearBill() { 
+    closeKeyboard();
+    cart.forEach(item => {
+        if(item.timerObj) clearInterval(item.timerObj);
+    });
+    cart = [];
+    couponQty = 0;
+    if(document.getElementById("customer")) document.getElementById("customer").value = "";
+    if(document.getElementById("mobile")) document.getElementById("mobile").value = "";
+    if(document.getElementById("discountPercent")) document.getElementById("discountPercent").value = "";
+    if(document.getElementById("discountRupee")) document.getElementById("discountRupee").value = "";
+    if(document.getElementById("upiAmount")) document.getElementById("upiAmount").value = "";
+    if(document.getElementById("cashAmount")) document.getElementById("cashAmount").value = "";
+    if(document.getElementById("couponQtyDisplay")) document.getElementById("couponQtyDisplay").innerText = "0";
+    renderCart();
+    navigateToPage(1);
 }
 </script>
 </body>
