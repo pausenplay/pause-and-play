@@ -15,8 +15,6 @@
     --ios-green: #34c759;
     --ios-red: #ff3b30;
     --ios-blue: #007aff;
-    --key-bg: #ffffff;
-    --key-shadow: rgba(0,0,0,0.15);
 }
 
 [data-theme="dark"] {
@@ -26,12 +24,10 @@
     --text-muted: #a1a1a6;
     --border-color: #333336;
     --input-bg: #2c2c2e;
-    --key-bg: #3a3a3c;
-    --key-shadow: rgba(0,0,0,0.4);
 }
 
 *{ margin:0; padding:0; box-sizing:border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; touch-action: manipulation; }
-body{ background: var(--bg-main); color: var(--text-main); padding: 10px; line-height: 1.4; transition: background 0.3s, color 0.3s; padding-bottom: 280px; }
+body{ background: var(--bg-main); color: var(--text-main); padding: 10px; line-height: 1.4; transition: background 0.3s, color 0.3s; padding-bottom: 40px; }
 
 .container{
     max-width:100%; margin:auto; background: var(--bg-card); padding:16px 12px;
@@ -79,7 +75,7 @@ input:checked + .slider:before { transform: translateX(22px); }
     width:100%; padding:12px; border: 1px solid var(--border-color); border-radius:10px;
     font-size:15px; font-weight:600; background: var(--input-bg); color: var(--text-main); outline: none;
 }
-.input:focus, .input.active-keyboard { border-color: var(--ios-blue); box-shadow: 0 0 0 2px rgba(0,122,255,0.2); }
+.input:focus { border-color: var(--ios-blue); box-shadow: 0 0 0 2px rgba(0,122,255,0.2); }
 
 .date-box { margin: 10px 0; font-size: 12px; font-weight: 700; color: var(--text-muted); text-align: center; }
 
@@ -226,66 +222,6 @@ input:checked + .slider:before { transform: translateX(22px); }
 .btn-p3-whatsapp { background: #22c55e; color: #ffffff; }
 .btn-p3-exit { background: #ef4444; color: #ffffff; }
 
-/* Custom Virtual On-Screen Keyboard */
-.virtual-keyboard {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--bg-card);
-    border-top: 2px solid var(--border-color);
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-    padding: 8px;
-    z-index: 1000;
-    display: none;
-    animation: slideUp 0.2s ease-out;
-}
-.virtual-keyboard.open { display: block; }
-
-@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
-.keyboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 4px 6px 4px;
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: 8px;
-}
-.keyboard-title { font-size: 12px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; }
-.btn-kb-close { background: var(--input-bg); border: none; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 800; color: var(--text-main); }
-
-.keyboard-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-    max-width: 450px;
-    margin: 0 auto;
-}
-.key-btn {
-    background: var(--key-bg);
-    border: 1px solid var(--border-color);
-    color: var(--text-main);
-    padding: 12px 0;
-    font-size: 18px;
-    font-weight: 800;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 0 var(--key-shadow);
-    cursor: pointer;
-}
-.key-btn:active {
-    transform: translateY(1px);
-    box-shadow: none;
-    background: var(--input-bg);
-}
-.key-btn.action {
-    background: var(--input-bg);
-    font-size: 14px;
-}
-
 @media print {
     body * { visibility: hidden !important; }
     #thermalReceipt, #thermalReceipt * { visibility: visible !important; }
@@ -333,7 +269,7 @@ input:checked + .slider:before { transform: translateX(22px); }
 
         <div class="info-grid">
             <input type="text" id="customer" class="input" placeholder="Customer Name">
-            <input type="text" id="mobile" class="input vk-input" placeholder="Mobile Number" readonly inputmode="none">
+            <input type="tel" id="mobile" class="input" placeholder="Mobile Number">
         </div>
 
         <div class="date-box" id="dateBox">Date : </div>
@@ -347,8 +283,8 @@ input:checked + .slider:before { transform: translateX(22px); }
         <div id="itemsCardsContainer" class="items-container"></div>
 
         <div class="discount-grid">
-            <input id="discountPercent" class="input vk-input" type="text" placeholder="Manual Disc %" readonly inputmode="none" onchange="calculate()">
-            <input id="discountRupee" class="input vk-input" type="text" placeholder="Manual Disc ₹" readonly inputmode="none" onchange="calculate()">
+            <input id="discountPercent" class="input" type="number" placeholder="Manual Disc %" oninput="calculate()">
+            <input id="discountRupee" class="input" type="number" placeholder="Manual Disc ₹" oninput="calculate()">
         </div>
 
         <div class="summary">
@@ -386,17 +322,17 @@ input:checked + .slider:before { transform: translateX(22px); }
             <div class="payment-layout-grid">
                 <div class="payment-input-card">
                     <div class="payment-input-label">💳 UPI BOX</div>
-                    <input type="text" id="upiAmount" class="payment-inner-input vk-input" placeholder="Enter UPI Amt" readonly inputmode="none" onchange="calculateTerminal()">
+                    <input type="number" id="upiAmount" class="payment-inner-input" placeholder="Enter UPI Amt" oninput="calculateTerminal()">
                 </div>
                 <div class="payment-input-card">
                     <div class="payment-input-label">💵 CASH BOX</div>
-                    <input type="text" id="cashAmount" class="payment-inner-input vk-input" placeholder="Enter Cash Amt" readonly inputmode="none" onchange="calculateTerminal()">
+                    <input type="number" id="cashAmount" class="payment-inner-input" placeholder="Enter Cash Amt" oninput="calculateTerminal()">
                 </div>
             </div>
 
             <div class="discount-grid" style="margin-bottom:8px;">
-                <input id="p2_discountPercent" class="payment-inner-input vk-input" type="text" placeholder="Disc %" readonly inputmode="none" onchange="syncDiscountFromTerminal('percent')">
-                <input id="p2_discountRupee" class="payment-inner-input vk-input" type="text" placeholder="Disc ₹" readonly inputmode="none" onchange="syncDiscountFromTerminal('rupee')">
+                <input id="p2_discountPercent" class="payment-inner-input" type="number" placeholder="Disc %" oninput="syncDiscountFromTerminal('percent')">
+                <input id="p2_discountRupee" class="payment-inner-input" type="number" placeholder="Disc ₹" oninput="syncDiscountFromTerminal('rupee')">
             </div>
 
             <div class="return-amount-box">
@@ -437,34 +373,10 @@ input:checked + .slider:before { transform: translateX(22px); }
 
 </div>
 
-<!-- VIRTUAL KEYBOARD -->
-<div id="virtualKeyboard" class="virtual-keyboard">
-    <div class="keyboard-header">
-        <span class="keyboard-title" id="keyboardTitle">Numeric Keyboard</span>
-        <button type="button" class="btn-kb-close" onclick="closeKeyboard()">Done</button>
-    </div>
-    <div class="keyboard-grid">
-        <div class="key-btn" onclick="pressKey('1')">1</div>
-        <div class="key-btn" onclick="pressKey('2')">2</div>
-        <div class="key-btn" onclick="pressKey('3')">3</div>
-        <div class="key-btn" onclick="pressKey('4')">4</div>
-        <div class="key-btn" onclick="pressKey('5')">5</div>
-        <div class="key-btn" onclick="pressKey('6')">6</div>
-        <div class="key-btn" onclick="pressKey('7')">7</div>
-        <div class="key-btn" onclick="pressKey('8')">8</div>
-        <div class="key-btn" onclick="pressKey('9')">9</div>
-        <div class="key-btn action" onclick="pressKey('.')">.</div>
-        <div class="key-btn" onclick="pressKey('0')">0</div>
-        <div class="key-btn action" onclick="pressKey('backspace')">⌫</div>
-    </div>
-</div>
-
 <div id="thermalReceipt"><pre id="receiptText"></pre></div>
 
 <script>
 document.getElementById("dateBox").innerText = "Date : " + new Date().toLocaleDateString("en-GB");
-
-let activeInputTarget = null;
 
 function toggleTheme(e) {
     if (e.checked) {
@@ -472,55 +384,6 @@ function toggleTheme(e) {
     } else {
         document.documentElement.setAttribute('data-theme', 'light');
     }
-}
-
-// Virtual Keyboard Logic
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.vk-input').forEach(input => {
-        input.addEventListener('click', (e) => {
-            openKeyboard(e.target);
-        });
-    });
-});
-
-function openKeyboard(targetInput) {
-    if(activeInputTarget) {
-        activeInputTarget.classList.remove('active-keyboard');
-    }
-    activeInputTarget = targetInput;
-    activeInputTarget.classList.add('active-keyboard');
-    
-    const label = activeInputTarget.placeholder || "Numpad Input";
-    document.getElementById('keyboardTitle').innerText = label;
-    document.getElementById('virtualKeyboard').classList.add('open');
-}
-
-function closeKeyboard() {
-    if(activeInputTarget) {
-        activeInputTarget.classList.remove('active-keyboard');
-        activeInputTarget.dispatchEvent(new Event('change'));
-        activeInputTarget.dispatchEvent(new Event('input'));
-    }
-    activeInputTarget = null;
-    document.getElementById('virtualKeyboard').classList.remove('open');
-}
-
-function pressKey(key) {
-    if(!activeInputTarget) return;
-
-    let val = activeInputTarget.value;
-    if(key === 'backspace') {
-        activeInputTarget.value = val.slice(0, -1);
-    } else if(key === '.') {
-        if(!val.includes('.')) {
-            activeInputTarget.value = val + '.';
-        }
-    } else {
-        activeInputTarget.value = val + key;
-    }
-
-    activeInputTarget.dispatchEvent(new Event('input'));
-    activeInputTarget.dispatchEvent(new Event('change'));
 }
 
 const catalog = [
@@ -538,7 +401,7 @@ const catalog = [
     { id: "sg1", category: "standard", name: "AIR HOCKEY", rate: 99 },
     { id: "sg2", category: "standard", name: "BASKETBALL", rate: 39 },
     { id: "sg3", category: "standard", name: "FROG HAMMER", rate: 20 },
-    { id: "sg4", category: "standard", name: "VR CRICKET", rate: 39 },
+    { id: "sg4", category: "standard", name: "CRICKET", rate: 39 },
 
     { id: "cf1", category: "cafe", name: "CHIPS ₹5", rate: 5 },
     { id: "cf2", category: "cafe", name: "CHIPS ₹10", rate: 10 },
@@ -939,7 +802,6 @@ function renderTerminalSummaryList() {
 }
 
 function navigateToPage(no) {
-    closeKeyboard();
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(`page${no}`).classList.add('active');
     if(no === 2) {
@@ -955,8 +817,8 @@ function navigateToPage(no) {
 function generateReceipt() {
     const line = "------------------------------\n";
     const dLine = "==============================\n";
-    let t = "        ```PAUSE & PLAY        \n";
-    t += "    Gaming Cafe   \n";
+    let t = "        PAUSE & PLAY        \n";
+    t += "    Where Pause Meets Play   \n";
     t += dLine;
     t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
     t += `Mobile : ${document.getElementById("mobile").value || "N/A"}\n`;
@@ -981,20 +843,17 @@ function generateReceipt() {
     }
     t += `Grand Total   : ₹${document.getElementById("grandTotal").innerText.padStart(10, ' ')}\n`;
     t += dLine;
-    t += "   Thank You! Visit Again!```   \n";
+    t += "   Thank You! Visit Again!   \n";
     return t;
 }
 
-/* UPGRADED WHATSAPP FUNCTION */
 function sendWhatsApp() {
     let mobile = document.getElementById("mobile").value.trim();
     let message = encodeURIComponent(generateReceipt());
     
     if (mobile) {
-        // Direct WhatsApp Chat with Mobile Number
         window.open(`https://wa.me/91${mobile}?text=${message}`, '_blank');
     } else {
-        // Fallback: Opens WhatsApp Share Contact Window
         window.open(`https://api.whatsapp.com/send?text=${message}`, '_blank');
     }
 }
@@ -1011,7 +870,6 @@ function copyAndExit() {
 }
 
 function clearBill() { 
-    closeKeyboard();
     cart.forEach(item => {
         if(item.timerObj) clearInterval(item.timerObj);
     });
