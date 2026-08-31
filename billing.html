@@ -27,12 +27,13 @@
 }
 
 *{ margin:0; padding:0; box-sizing:border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; touch-action: manipulation; }
-body{ background: var(--bg-main); color: var(--text-main); padding: 10px; line-height: 1.4; transition: background 0.3s, color 0.3s; padding-bottom: 40px; }
+body{ background: var(--bg-main); color: var(--text-main); padding: 10px; line-height: 1.4; transition: background 0.3s ease, color 0.3s ease; padding-bottom: 40px; }
 
 .container{
     max-width:100%; margin:auto; background: var(--bg-card); padding:16px 12px;
     border-radius:18px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); border: 1px solid var(--border-color);
     position: relative;
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .theme-switch-wrapper {
@@ -53,18 +54,23 @@ body{ background: var(--bg-main); color: var(--text-main); padding: 10px; line-h
 .slider {
     background-color: #ccc;
     bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0;
-    transition: .4s; border-radius: 34px;
+    transition: .4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 34px;
 }
 .slider:before {
     background-color: #fff; bottom: 3px; content: ""; height: 18px;
-    left: 3px; position: absolute; transition: .4s; width: 18px; border-radius: 50%;
+    left: 3px; position: absolute; transition: .4s cubic-bezier(0.4, 0, 0.2, 1); width: 18px; border-radius: 50%;
 }
 input:checked + .slider { background-color: var(--ios-blue); }
 input:checked + .slider:before { transform: translateX(22px); }
 
-.page{ display:none; }
-.page.active{ display:block; animation: fadeIn 0.2s ease-out; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+/* Animated Page Transitions */
+.page{ display:none; opacity: 0; transform: translateY(8px); transition: opacity 0.3s ease, transform 0.3s ease; }
+.page.active{ display:block; opacity: 1; transform: translateY(0); animation: slideInFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+@keyframes slideInFade {
+    from { opacity: 0; transform: translateY(12px) scale(0.99); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
 
 .header{ text-align:center; margin-bottom:12px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
 .title{ font-size:24px; font-weight:900; letter-spacing: -0.5px; }
@@ -74,15 +80,35 @@ input:checked + .slider:before { transform: translateX(22px); }
 .input{
     width:100%; padding:12px; border: 1px solid var(--border-color); border-radius:10px;
     font-size:15px; font-weight:600; background: var(--input-bg); color: var(--text-main); outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
 }
-.input:focus { border-color: var(--ios-blue); box-shadow: 0 0 0 2px rgba(0,122,255,0.2); }
+.input:focus { border-color: var(--ios-blue); box-shadow: 0 0 0 3px rgba(0,122,255,0.2); }
 
 .date-box { margin: 10px 0; font-size: 12px; font-weight: 700; color: var(--text-muted); text-align: center; }
 
 .master-bar { display: flex; gap: 8px; margin-bottom: 12px; background: var(--input-bg); padding: 6px; border-radius: 12px; border: 1px solid var(--border-color); }
-.select-input { flex: 1; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; font-weight: 700; background: var(--bg-card); color: var(--text-main); outline: none; width: 100%; }
+.select-input { flex: 1; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; font-weight: 700; background: var(--bg-card); color: var(--text-main); outline: none; width: 100%; transition: border-color 0.2s, box-shadow 0.2s; }
+.select-input:focus { border-color: var(--ios-blue); box-shadow: 0 0 0 3px rgba(0,122,255,0.2); }
 
 .items-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+
+/* Item Card Animation */
+.cart-item-wrapper {
+    animation: cardEnter 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    transition: all 0.3s ease;
+}
+.cart-item-wrapper.removing {
+    animation: cardExit 0.3s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards;
+}
+
+@keyframes cardEnter {
+    from { opacity: 0; transform: translateY(-10px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes cardExit {
+    from { opacity: 1; transform: scale(1); max-height: 200px; margin-bottom: 10px; }
+    to { opacity: 0; transform: scale(0.9); max-height: 0; margin-bottom: 0; padding: 0; }
+}
 
 .game-card-row {
     background: var(--bg-card);
@@ -93,6 +119,7 @@ input:checked + .slider:before { transform: translateX(22px); }
     display: flex;
     flex-direction: column;
     gap: 10px;
+    transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.2s ease;
 }
 
 .card-particular { display: flex; flex-direction: column; justify-content: center; width: 65%; }
@@ -104,24 +131,48 @@ input:checked + .slider:before { transform: translateX(22px); }
 .mobile-card-footer { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 6px; margin-top: 4px; }
 
 .card-qty-group { display: flex; align-items: center; gap: 6px; }
+
+/* Interactive Animated Buttons */
+.btn-minus, .btn-plus, .btn-switch, .btn, .btn-p3, .btn-time-sync {
+    transition: transform 0.15s cubic-bezier(0.2, 0, 0.1, 1), background-color 0.2s ease, opacity 0.2s ease;
+}
+.btn-minus:active, .btn-plus:active, .btn-switch:active, .btn:active, .btn-p3:active, .btn-time-sync:active {
+    transform: scale(0.93);
+}
+
 .btn-minus { width: 36px; height: 36px; background: #ff3b30; color: #fff; border: none; border-radius: 8px; font-size: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.qty-display-box { width: 36px; height: 36px; border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-bg); font-size: 15px; font-weight: bold; display: flex; align-items: center; justify-content: center; color: var(--text-main); }
+.qty-display-box { width: 36px; height: 36px; border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-bg); font-size: 15px; font-weight: bold; display: flex; align-items: center; justify-content: center; color: var(--text-main); transition: background 0.3s, border-color 0.3s; }
 .btn-plus { width: 36px; height: 36px; background: #34c759; color: #fff; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-.card-amount-box { border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-bg); height: 36px; min-width: 85px; padding: 0 8px; font-size: 15px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; justify-content: center; }
-.card-timer-box { border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--bg-card); height: 36px; min-width: 95px; font-family: monospace; font-size: 15px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; justify-content: center; }
+.card-amount-box { border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-bg); height: 36px; min-width: 85px; padding: 0 8px; font-size: 15px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+.card-timer-box { border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--bg-card); height: 36px; min-width: 95px; font-family: monospace; font-size: 15px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; justify-content: center; transition: border-color 0.3s, color 0.3s; }
 
 .btn-switch { flex: 1; height: 36px; background: #34c759; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; text-transform: uppercase; }
-.btn-switch.running { background: #ff3b30; }
+.btn-switch.running { 
+    background: #ff3b30; 
+    animation: timerPulse 2s infinite;
+}
+
+@keyframes timerPulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.4); }
+    70% { box-shadow: 0 0 0 8px rgba(255, 59, 48, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
+}
 
 .card-current-time-group { display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--bg-card); height: 36px; padding: 0 4px; }
 .current-time-input { border: none; outline: none; font-size: 13px; font-weight: 700; background: transparent; width: 55px; text-align: center; color: var(--text-main); }
 .btn-time-sync { background: none; border: none; cursor: pointer; font-size: 13px; margin-left: 2px; }
 
-.card-log-link { color: #007aff; font-size: 13px; font-weight: bold; text-decoration: underline; cursor: pointer; padding: 0 4px; }
-.btn-del { background: none; border: none; color: var(--ios-red); font-size: 18px; cursor: pointer; font-weight: bold; padding: 0 4px; }
+.card-log-link { color: #007aff; font-size: 13px; font-weight: bold; text-decoration: underline; cursor: pointer; padding: 0 4px; transition: opacity 0.2s; }
+.card-log-link:active { opacity: 0.6; }
+.btn-del { background: none; border: none; color: var(--ios-red); font-size: 18px; cursor: pointer; font-weight: bold; padding: 0 4px; transition: transform 0.2s; }
+.btn-del:active { transform: scale(0.85); }
 
-.history-drawer { width: 100%; font-size: 11px; color: var(--text-muted); background: var(--input-bg); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border-color); display: none; margin-top: 4px; }
+.history-drawer { 
+    width: 100%; font-size: 11px; color: var(--text-muted); background: var(--input-bg); 
+    padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border-color); 
+    display: none; margin-top: 4px; transition: all 0.3s ease;
+}
 
 .discount-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom: 12px; }
 .summary{ border-top: 1px solid var(--border-color); padding-top: 10px; }
@@ -179,6 +230,11 @@ input:checked + .slider:before { transform: translateX(22px); }
     font-size: 14px;
     font-weight: 700;
     outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.payment-inner-input:focus {
+    border-color: var(--ios-blue);
+    box-shadow: 0 0 0 3px rgba(0,122,255,0.2);
 }
 
 .return-amount-box {
@@ -197,6 +253,7 @@ input:checked + .slider:before { transform: translateX(22px); }
     border-radius: 6px;
     font-weight: 900;
     font-size: 14px;
+    transition: transform 0.2s ease;
 }
 
 .receipt-summary-card {
@@ -654,10 +711,19 @@ function removeItem(instanceId) {
     const idx = cart.findIndex(x => x.instanceId === instanceId);
     if (idx === -1) return;
 
-    if(cart[idx].timerObj) clearInterval(cart[idx].timerObj);
-    cart.splice(idx, 1);
-    
-    renderCart();
+    const cardEl = document.getElementById(`card-${instanceId}`);
+    if (cardEl) {
+        cardEl.classList.add('removing');
+        setTimeout(() => {
+            if(cart[idx] && cart[idx].timerObj) clearInterval(cart[idx].timerObj);
+            cart.splice(idx, 1);
+            renderCart();
+        }, 300);
+    } else {
+        if(cart[idx].timerObj) clearInterval(cart[idx].timerObj);
+        cart.splice(idx, 1);
+        renderCart();
+    }
 }
 
 function toggleTimer(instanceId) {
