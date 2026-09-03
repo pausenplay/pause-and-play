@@ -320,8 +320,8 @@ input:checked + .slider:before { transform: translateX(22px); }
     <!-- PAGE 1: BILLING MAIN -->
     <div id="page1" class="page active">
         <div class="header">
-            <div class="title">```PAUSE & PLAY</div>
-            <div class="subtitle">Where Pause Meets Play</div>
+            <div class="title">PAUSE & PLAY</div>
+            <div class="subtitle">Gaming Cafe, Jaunpur</div>
         </div>
 
         <div class="info-grid">
@@ -883,8 +883,8 @@ function navigateToPage(no) {
 function generateReceipt() {
     const line = "------------------------------\n";
     const dLine = "==============================\n";
-    let t = "        PAUSE & PLAY        \n";
-    t += "    Where Pause Meets Play   \n";
+    let t = "```        PAUSE & PLAY        \n";
+    t += "    Gaming Cafe, Jaunpur   \n";
     t += dLine;
     t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
     t += `Mobile : ${document.getElementById("mobile").value || "N/A"}\n`;
