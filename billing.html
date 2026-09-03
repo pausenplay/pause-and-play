@@ -320,7 +320,7 @@ input:checked + .slider:before { transform: translateX(22px); }
     <!-- PAGE 1: BILLING MAIN -->
     <div id="page1" class="page active">
         <div class="header">
-            <div class="title">PAUSE & PLAY</div>
+            <div class="title">```PAUSE & PLAY</div>
             <div class="subtitle">Where Pause Meets Play</div>
         </div>
 
@@ -909,7 +909,7 @@ function generateReceipt() {
     }
     t += `Grand Total   : ₹${document.getElementById("grandTotal").innerText.padStart(10, ' ')}\n`;
     t += dLine;
-    t += "   Thank You! Visit Again!   \n";
+    t += "   Thank You! Visit Again!```   \n";
     return t;
 }
 
