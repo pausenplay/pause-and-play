@@ -141,7 +141,7 @@ input:checked + .slider:before { transform: translateX(22px); }
 }
 
 .btn-minus { width: 36px; height: 36px; background: #ff3b30; color: #fff; border: none; border-radius: 8px; font-size: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.qty-display-box { width: 36px; height: 36px; border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-bg); font-size: 15px; font-weight: bold; display: flex; align-items: center; justify-content: center; color: var(--text-main); transition: background 0.3s, border-color 0.3s; }
+.qty-display-box { width: 42px; height: 36px; border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-bg); font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; color: var(--text-main); transition: background 0.3s, border-color 0.3s; }
 .btn-plus { width: 36px; height: 36px; background: #34c759; color: #fff; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
 .card-amount-box { border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-bg); height: 36px; min-width: 85px; padding: 0 8px; font-size: 15px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
@@ -471,8 +471,10 @@ const catalog = [
     { id: "cf9", category: "cafe", name: "MONSTER", rate: 125 },
     { id: "cf10", category: "cafe", name: "ORS LIQUID", rate: 31.50 },
     { id: "cf11", category: "cafe", name: "PREDATOR", rate: 60 },
-    { id: "cf12", category: "cafe", name: "SPRITE ₹30", rate: 30 },
-    { id: "cf13", category: "cafe", name: "THUMBS UP ₹30", rate: 30 },
+    { id: "cf12", category: "cafe", name: "PRINGLES ₹55", rate: 55 },
+    { id: "cf13", category: "cafe", name: "PRINGLES ₹110", rate: 110 },
+    { id: "cf14", category: "cafe", name: "SPRITE ₹30", rate: 30 },
+    { id: "cf15", category: "cafe", name: "THUMBS UP ₹30", rate: 30 },
 
     /* TIP TOP CHINESE MENU ITEMS */
     { id: "ttc1", category: "chinese", name: "VEG RICE", rate: 70 },
@@ -619,9 +621,9 @@ function renderCart() {
 
                     <div class="mobile-card-middle">
                         <div class="card-qty-group">
-                            <button type="button" class="btn-minus" onclick="changeQty('${item.instanceId}', -1)">-</button>
+                            <button type="button" class="btn-minus" onclick="changeQty('${item.instanceId}', -0.5)">-</button>
                             <div class="qty-display-box">${item.qty}</div>
-                            <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', 1)">+</button>
+                            <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', 0.5)">+</button>
                         </div>
                         <div class="card-timer-box">${hrs}:${mins}:${secs}</div>
                     </div>
@@ -699,9 +701,14 @@ function changeQty(instanceId, delta) {
     const item = cart.find(x => x.instanceId === instanceId);
     if (!item) return;
     
-    item.qty = Math.max(0, item.qty + delta);
+    let newQty = item.qty + delta;
+    if (newQty < 0) newQty = 0;
+
+    // Round to avoid floating point precision issues (e.g. 0.30000000000000004)
+    item.qty = Math.round(newQty * 10) / 10;
+
     if(item.category === "timed") {
-        item.seconds = item.qty * item.lapMin * 60;
+        item.seconds = Math.round(item.qty * item.lapMin * 60);
     }
     updateCardElement(item);
     calculate();
@@ -751,7 +758,11 @@ function toggleTimer(instanceId) {
         
         item.timerObj = setInterval(() => {
             item.seconds = Math.floor((Date.now() - item.startTime) / 1000);
-            let calcLaps = Math.max(1, Math.ceil((item.seconds / 60) / item.lapMin));
+            
+            // Calculate laps rounded to nearest 0.5 step
+            let rawLaps = (item.seconds / 60) / item.lapMin;
+            let calcLaps = Math.max(0.5, Math.ceil(rawLaps * 2) / 2);
+            
             item.qty = calcLaps;
             updateCardElement(item);
             calculate();
@@ -909,7 +920,7 @@ function generateReceipt() {
     }
     t += `Grand Total   : ₹${document.getElementById("grandTotal").innerText.padStart(10, ' ')}\n`;
     t += dLine;
-    t += "   Thank You! Visit Again!```   \n";
+    t += "   Thank You! Visit Again!   ```\n";
     return t;
 }
 
