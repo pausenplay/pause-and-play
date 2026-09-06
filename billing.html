@@ -15,6 +15,7 @@
     --ios-green: #34c759;
     --ios-red: #ff3b30;
     --ios-blue: #007aff;
+    --ios-purple: #af52de;
 }
 
 [data-theme="dark"] {
@@ -77,12 +78,38 @@ input:checked + .slider:before { transform: translateX(22px); }
 .subtitle{ color: var(--text-muted); font-size:9px; margin-top:2px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
 
 .info-grid{ display:flex; flex-direction:column; gap:8px; }
-.input{
+.input, .select-customer {
     width:100%; padding:12px; border: 1px solid var(--border-color); border-radius:10px;
-    font-size:15px; font-weight:600; background: var(--input-bg); color: var(--text-main); outline: none;
+    font-size:14px; font-weight:600; background: var(--input-bg); color: var(--text-main); outline: none;
     transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
 }
-.input:focus { border-color: var(--ios-blue); box-shadow: 0 0 0 3px rgba(0,122,255,0.2); }
+.input:focus, .select-customer:focus { border-color: var(--ios-blue); box-shadow: 0 0 0 3px rgba(0,122,255,0.2); }
+
+.member-toggle-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--input-bg);
+    border: 1px dashed var(--ios-purple);
+    padding: 10px 12px;
+    border-radius: 12px;
+    margin-top: 4px;
+}
+.member-toggle-title { font-size: 13px; font-weight: 800; color: var(--ios-purple); }
+.btn-member-toggle {
+    padding: 6px 12px;
+    background: var(--ios-purple);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 12px;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.2s ease;
+}
+.btn-member-toggle.active {
+    background: var(--ios-green);
+}
 
 .date-box { margin: 10px 0; font-size: 12px; font-weight: 700; color: var(--text-muted); text-align: center; }
 
@@ -136,7 +163,7 @@ input:checked + .slider:before { transform: translateX(22px); }
 .btn-minus, .btn-plus, .btn-switch, .btn, .btn-p3, .btn-time-sync {
     transition: transform 0.15s cubic-bezier(0.2, 0, 0.1, 1), background-color 0.2s ease, opacity 0.2s ease;
 }
-.btn-minus:active, .btn-plus:active, .btn-switch:active, .btn:active, .btn-p3:active, .btn-time-sync:active {
+.btn-minus:active, .btn-plus:active, .btn-switch:active, .btn:active, .btn-p3:active, .btn-time-sync:active, .btn-member-toggle:active {
     transform: scale(0.93);
 }
 
@@ -325,8 +352,21 @@ input:checked + .slider:before { transform: translateX(22px); }
         </div>
 
         <div class="info-grid">
+            <select id="presetCustomerSelect" class="select-customer" onchange="handlePresetCustomerChange(this.value)">
+                <option value="">-- Quick Select Existing Member --</option>
+                <option value="varun">1. Varun Kumar Seth (01-09-2026)</option>
+                <option value="reyan">2. Reyan (28-08-2026)</option>
+                <option value="arman">3. Arman (03-09-2026)</option>
+                <option value="new">4. ➕ [ New Customer Entry ]</option>
+            </select>
             <input type="text" id="customer" class="input" placeholder="Customer Name">
             <input type="tel" id="mobile" class="input" placeholder="Mobile Number">
+            <input type="text" id="membershipDate" class="input" placeholder="Membership Date (DD-MM-YYYY)">
+            
+            <div class="member-toggle-bar">
+                <div class="member-toggle-title">🪪 New Membership Allotted (₹240)</div>
+                <button type="button" id="memberToggleBtn" class="btn-member-toggle" onclick="toggleMembershipFee()">Add ₹240</button>
+            </div>
         </div>
 
         <div class="date-box" id="dateBox">Date : </div>
@@ -443,7 +483,14 @@ function toggleTheme(e) {
     }
 }
 
+const presetCustomers = {
+    "varun": { name: "Varun Kumar Seth", mobile: "", date: "01-09-2026" },
+    "reyan": { name: "Reyan", mobile: "", date: "28-08-2026" },
+    "arman": { name: "Arman", mobile: "", date: "03-09-2026" }
+};
+
 const catalog = [
+    { id: "mem1", category: "standard", name: "NEW MEMBERSHIP ALLOTTED", rate: 240 },
     { id: "tg1", category: "timed", name: "CARROM", rate: 39, lapMin: 15 },
     { id: "tg2", category: "timed", name: "COMPUTER GAMES", rate: 120, lapMin: 30 },
     { id: "tg3", category: "timed", name: "DRIVING Ad. (15 Min)", rate: 120, lapMin: 15 },
@@ -503,13 +550,85 @@ function getCurrentTimeFormatted() {
     return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
 }
 
+function handlePresetCustomerChange(val) {
+    if(!val) return;
+    
+    if(val === "new") {
+        document.getElementById("customer").value = "";
+        document.getElementById("mobile").value = "";
+        document.getElementById("membershipDate").value = new Date().toLocaleDateString("en-GB");
+        
+        // Auto add membership fee for new customer
+        if(!hasMembershipInCart()) {
+            toggleMembershipFee();
+        }
+    } else if(presetCustomers[val]) {
+        const data = presetCustomers[val];
+        document.getElementById("customer").value = data.name;
+        document.getElementById("mobile").value = data.mobile;
+        document.getElementById("membershipDate").value = data.date;
+        
+        // Remove fee if changing to existing member
+        if(hasMembershipInCart()) {
+            removeMembershipFromCart();
+        }
+    }
+}
+
+function hasMembershipInCart() {
+    return cart.some(x => x.id === "mem1");
+}
+
+function toggleMembershipFee() {
+    if(hasMembershipInCart()) {
+        removeMembershipFromCart();
+    } else {
+        const item = catalog.find(x => x.id === "mem1");
+        if(item) {
+            cart.unshift({
+                ...item,
+                instanceId: item.id + "_" + Date.now(),
+                qty: 1,
+                seconds: 0,
+                customTime: getCurrentTimeFormatted(),
+                status: 'stopped',
+                timerObj: null,
+                logs: []
+            });
+            updateMembershipToggleBtnState(true);
+            renderCart();
+        }
+    }
+}
+
+function removeMembershipFromCart() {
+    const idx = cart.findIndex(x => x.id === "mem1");
+    if(idx !== -1) {
+        cart.splice(idx, 1);
+        updateMembershipToggleBtnState(false);
+        renderCart();
+    }
+}
+
+function updateMembershipToggleBtnState(isAdded) {
+    const btn = document.getElementById("memberToggleBtn");
+    if(!btn) return;
+    if(isAdded) {
+        btn.innerText = "Added ✓";
+        btn.classList.add("active");
+    } else {
+        btn.innerText = "Add ₹240";
+        btn.classList.remove("active");
+    }
+}
+
 function populateDropdown() {
     const masterSelect = document.getElementById("masterDropdown");
     if(!masterSelect) return;
     masterSelect.innerHTML = '<option value="">-- Select Game or Product --</option>';
 
     const tgGroup = document.createElement("optgroup"); tgGroup.label = "⏱️ Timed / Hourly Games";
-    const sgGroup = document.createElement("optgroup"); sgGroup.label = "🕹️ Standard Games";
+    const sgGroup = document.createElement("optgroup"); sgGroup.label = "🕹️ Standard Games / Fees";
     const cfGroup = document.createElement("optgroup"); cfGroup.label = "☕ Cafe Products";
     const ttcGroup = document.createElement("optgroup"); ttcGroup.label = "🥢 Tip Top Chinese";
 
@@ -556,6 +675,10 @@ function addItemFromDropdown() {
         logs: []
     });
 
+    if(id === "mem1") {
+        updateMembershipToggleBtnState(true);
+    }
+
     masterSelect.value = "";
     renderCart();
 }
@@ -594,6 +717,8 @@ function renderCart() {
     const container = document.getElementById("itemsCardsContainer");
     if(!container) return;
     
+    updateMembershipToggleBtnState(hasMembershipInCart());
+
     if (cart.length === 0) {
         container.innerHTML = "";
         calculate();
@@ -704,7 +829,6 @@ function changeQty(instanceId, delta) {
     let newQty = item.qty + delta;
     if (newQty < 0) newQty = 0;
 
-    // Round to avoid floating point precision issues (e.g. 0.30000000000000004)
     item.qty = Math.round(newQty * 10) / 10;
 
     if(item.category === "timed") {
@@ -718,17 +842,21 @@ function removeItem(instanceId) {
     const idx = cart.findIndex(x => x.instanceId === instanceId);
     if (idx === -1) return;
 
+    const isMem = cart[idx].id === "mem1";
+
     const cardEl = document.getElementById(`card-${instanceId}`);
     if (cardEl) {
         cardEl.classList.add('removing');
         setTimeout(() => {
             if(cart[idx] && cart[idx].timerObj) clearInterval(cart[idx].timerObj);
             cart.splice(idx, 1);
+            if(isMem) updateMembershipToggleBtnState(false);
             renderCart();
         }, 300);
     } else {
         if(cart[idx].timerObj) clearInterval(cart[idx].timerObj);
         cart.splice(idx, 1);
+        if(isMem) updateMembershipToggleBtnState(false);
         renderCart();
     }
 }
@@ -759,7 +887,6 @@ function toggleTimer(instanceId) {
         item.timerObj = setInterval(() => {
             item.seconds = Math.floor((Date.now() - item.startTime) / 1000);
             
-            // Calculate laps rounded to nearest 0.5 step
             let rawLaps = (item.seconds / 60) / item.lapMin;
             let calcLaps = Math.max(0.5, Math.ceil(rawLaps * 2) / 2);
             
@@ -866,7 +993,7 @@ function renderTerminalSummaryList() {
     listContainer.innerHTML = "";
     cart.forEach(item => {
         if(item.qty > 0) {
-            let icon = item.category === "timed" ? "⏱️" : (item.category === "standard" ? "🕹️" : (item.category === "chinese" ? "🥢" : "☕"));
+            let icon = item.id === "mem1" ? "🪪" : (item.category === "timed" ? "⏱️" : (item.category === "standard" ? "🕹️" : (item.category === "chinese" ? "🥢" : "☕")));
             let qtyText = item.category === "timed" ? `(${item.qty} Lap/s)` : `(x${item.qty})`;
             listContainer.innerHTML += `
                 <div class="summary-item-row">
@@ -899,6 +1026,7 @@ function generateReceipt() {
     t += dLine;
     t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
     t += `Mobile : ${document.getElementById("mobile").value || "N/A"}\n`;
+    t += `MemDate: ${document.getElementById("membershipDate").value || "N/A"}\n`;
     t += `Date   : ${new Date().toLocaleDateString("en-GB")}\n`;
     t += line;
     t += "ITEM           QTY     AMOUNT \n";
@@ -952,8 +1080,10 @@ function clearBill() {
     });
     cart = [];
     couponQty = 0;
+    if(document.getElementById("presetCustomerSelect")) document.getElementById("presetCustomerSelect").value = "";
     if(document.getElementById("customer")) document.getElementById("customer").value = "";
     if(document.getElementById("mobile")) document.getElementById("mobile").value = "";
+    if(document.getElementById("membershipDate")) document.getElementById("membershipDate").value = "";
     if(document.getElementById("discountPercent")) document.getElementById("discountPercent").value = "";
     if(document.getElementById("discountRupee")) document.getElementById("discountRupee").value = "";
     if(document.getElementById("upiAmount")) document.getElementById("upiAmount").value = "";
