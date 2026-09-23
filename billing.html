@@ -283,6 +283,32 @@ input:checked + .slider:before { transform: translateX(22px); }
     transition: transform 0.2s ease;
 }
 
+/* QR Code Display Container */
+.qr-container {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px;
+    margin: 12px 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+.qr-container img {
+    width: 180px;
+    height: 180px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+.qr-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--text-main);
+    text-transform: uppercase;
+}
+
 .receipt-summary-card {
     background: var(--input-bg);
     border: 1px solid var(--border-color);
@@ -328,6 +354,12 @@ input:checked + .slider:before { transform: translateX(22px); }
         padding: 0;
         white-space: pre-wrap;
         word-break: break-all;
+    }
+    #thermalReceipt img {
+        display: block;
+        margin: 8px auto;
+        width: 140px;
+        height: 140px;
     }
 }
 #thermalReceipt { display:none; }
@@ -418,6 +450,10 @@ input:checked + .slider:before { transform: translateX(22px); }
 
             <div class="payment-layout-grid">
                 <div class="payment-input-card">
+                    <div class="payment-input-label">💳 UPI ID</div>
+                    <input type="text" id="upiId" class="payment-inner-input" value="Q67246447@ybl" placeholder="Enter UPI ID" oninput="updateQRCode()">
+                </div>
+                <div class="payment-input-card">
                     <div class="payment-input-label">💳 UPI BOX</div>
                     <input type="number" id="upiAmount" class="payment-inner-input" placeholder="Enter UPI Amt" oninput="calculateTerminal()">
                 </div>
@@ -425,6 +461,12 @@ input:checked + .slider:before { transform: translateX(22px); }
                     <div class="payment-input-label">💵 CASH BOX</div>
                     <input type="number" id="cashAmount" class="payment-inner-input" placeholder="Enter Cash Amt" oninput="calculateTerminal()">
                 </div>
+            </div>
+
+            <!-- DYNAMIC UPI QR CODE BOX -->
+            <div class="qr-container">
+                <div class="qr-title">Scan to Pay via UPI</div>
+                <img id="upiQrImage" src="" alt="UPI QR Code">
             </div>
 
             <div class="discount-grid" style="margin-bottom:8px;">
@@ -452,27 +494,14 @@ input:checked + .slider:before { transform: translateX(22px); }
         </div>
     </div>
 
-    <!-- PAGE 3: PRINT PREVIEW & QR CODE -->
+    <!-- PAGE 3: PRINT PREVIEW -->
     <div id="page3" class="page">
         <div class="header">
             <div class="title">Invoice</div>
         </div>
 
-        <!-- Receipt Text Preview -->
         <div class="preview-box" id="receiptPreview"></div>
 
-        <!-- PAYMENT QR CODE CONTAINER -->
-        <div id="paymentQrBox" style="text-align: center; margin: 15px 0; padding: 15px; background: var(--input-bg); border: 1px dashed var(--ios-blue); border-radius: 12px;">
-            <div style="font-size: 13px; font-weight: 800; margin-bottom: 8px; color: var(--text-main);">
-                📲 Scan & Pay via UPI
-            </div>
-            <img id="upiQrImg" src="" alt="Payment QR Code" style="width: 180px; height: 180px; border-radius: 10px; border: 2px solid var(--border-color); background: #fff; padding: 5px;">
-            <div style="font-size: 12px; font-weight: 700; color: var(--ios-green); margin-top: 6px;">
-                Amount: ₹ <span id="qrAmountDisplay">0</span>
-            </div>
-        </div>
-
-        <!-- Action Buttons -->
         <div class="page3-actions">
             <button type="button" class="btn-p3 btn-p3-back" onclick="navigateToPage(2)">⬅️ Back</button>
             <button type="button" class="btn-p3 btn-p3-print" onclick="window.print()">🖨️ Print</button>
@@ -483,12 +512,12 @@ input:checked + .slider:before { transform: translateX(22px); }
 
 </div>
 
-<div id="thermalReceipt"><pre id="receiptText"></pre></div>
-
-<!-- AUDIO ALERT TAG -->
-<audio id="timerAlertAudio" preload="auto">
-  <source src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" type="audio/mpeg">
-</audio>
+<div id="thermalReceipt">
+    <pre id="receiptText"></pre>
+    <div style="text-align:center;">
+        <img id="thermalQrImage" src="" alt="Thermal UPI QR">
+    </div>
+</div>
 
 <script>
 document.getElementById("dateBox").innerText = "Date : " + new Date().toLocaleDateString("en-GB");
@@ -563,33 +592,6 @@ const catalog = [
 let cart = [];
 let couponQty = 0;
 
-window.addEventListener('load', () => {
-    populateDropdown();
-    renderCart();
-
-    // Request Notification Permission on App Load
-    if ("Notification" in window && Notification.permission !== "granted") {
-        Notification.requestPermission();
-    }
-});
-
-function triggerRoundAlert(gameName, lapNumber) {
-    // 1. Play Audio Alert Sound
-    const audio = document.getElementById("timerAlertAudio");
-    if (audio) {
-        audio.currentTime = 0;
-        audio.play().catch(err => console.log("Audio play prevented by browser policy"));
-    }
-
-    // 2. Show System / Mobile Notification Panel Alert
-    if ("Notification" in window && Notification.permission === "granted") {
-        new Notification("⏱️ Round Completed - Pause & Play", {
-            body: `${gameName}: Round ${lapNumber} complete ho gaya hai!`,
-            icon: "https://cdn-icons-png.flaticon.com/512/3602/3602123.png"
-        });
-    }
-}
-
 function getCurrentTimeFormatted() {
     const d = new Date();
     return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
@@ -603,6 +605,7 @@ function handlePresetCustomerChange(val) {
         document.getElementById("mobile").value = "";
         document.getElementById("membershipDate").value = new Date().toLocaleDateString("en-GB");
         
+        // Auto add membership fee for new customer
         if(!hasMembershipInCart()) {
             toggleMembershipFee();
         }
@@ -612,6 +615,7 @@ function handlePresetCustomerChange(val) {
         document.getElementById("mobile").value = data.mobile;
         document.getElementById("membershipDate").value = data.date;
         
+        // Remove fee if changing to existing member
         if(hasMembershipInCart()) {
             removeMembershipFromCart();
         }
@@ -692,6 +696,11 @@ function populateDropdown() {
     masterSelect.appendChild(ttcGroup);
 }
 
+window.onload = function() {
+    populateDropdown();
+    renderCart();
+};
+
 function addItemFromDropdown() {
     const masterSelect = document.getElementById("masterDropdown");
     const id = masterSelect.value;
@@ -710,7 +719,6 @@ function addItemFromDropdown() {
         customTime: getCurrentTimeFormatted(),
         status: 'stopped',
         timerObj: null,
-        lastAlertLap: 0,
         logs: []
     });
 
@@ -921,22 +929,11 @@ function toggleTimer(instanceId) {
         }
 
         item.startTime = currentMs - (item.seconds * 1000);
-        item.lastAlertLap = Math.floor((item.seconds / 60) / item.lapMin); // Initialize completed lap round count
-
         item.logs.push(`[${new Date().toLocaleTimeString()}] ▶ Started from ${item.customTime}`);
         
         item.timerObj = setInterval(() => {
             item.seconds = Math.floor((Date.now() - item.startTime) / 1000);
             
-            // Calculate exact completed laps
-            let currentLap = Math.floor((item.seconds / 60) / item.lapMin);
-
-            // Trigger sound & notification panel whenever 1 full round/lap completes
-            if (currentLap > item.lastAlertLap && currentLap > 0) {
-                item.lastAlertLap = currentLap;
-                triggerRoundAlert(item.name, currentLap);
-            }
-
             let rawLaps = (item.seconds / 60) / item.lapMin;
             let calcLaps = Math.max(0.5, Math.ceil(rawLaps * 2) / 2);
             
@@ -1033,7 +1030,24 @@ function calculateTerminal() {
     let diff = totalPaid - grand;
     if(document.getElementById("p2_returnAmt")) document.getElementById("p2_returnAmt").innerText = `₹ ${diff.toFixed(2)}`;
 
+    updateQRCode();
     renderTerminalSummaryList();
+}
+
+function updateQRCode() {
+    let grandText = document.getElementById("grandTotal")?.innerText || "0";
+    let grand = parseFloat(grandText) || 0;
+    let upiId = document.getElementById("upiId")?.value.trim() || "Q67246447@ybl";
+
+    // Standard UPI string format
+    let upiString = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=Pause%20and%20Play&am=${grand.toFixed(2)}&cu=INR`;
+    let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiString)}`;
+
+    const qrImg = document.getElementById("upiQrImage");
+    if(qrImg) qrImg.src = qrUrl;
+
+    const thermalQrImg = document.getElementById("thermalQrImage");
+    if(thermalQrImg) thermalQrImg.src = qrUrl;
 }
 
 function renderTerminalSummaryList() {
@@ -1058,28 +1072,13 @@ function renderTerminalSummaryList() {
 function navigateToPage(no) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(`page${no}`).classList.add('active');
-    
     if(no === 2) {
         calculateTerminal();
     }
-    
     if(no === 3) {
         let txt = generateReceipt();
         document.getElementById("receiptPreview").innerText = txt;
         document.getElementById("receiptText").innerText = txt;
-
-        // Dynamic UPI Payment QR Code Logic
-        let grandTotal = document.getElementById("grandTotal").innerText || "0";
-        document.getElementById("qrAmountDisplay").innerText = grandTotal;
-
-        // 👈 Apni UPI ID aur Business Name yahan set karein
-        let upiId = "Q67246447@ybl"; 
-        let businessName = "Pause and Play";
-
-        let upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(businessName)}&am=${grandTotal}&cu=INR`;
-        let qrImgUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}`;
-        
-        document.getElementById("upiQrImg").src = qrImgUrl;
     }
 }
 
@@ -1087,7 +1086,7 @@ function generateReceipt() {
     const line = "------------------------------\n";
     const dLine = "==============================\n";
     let t = "```        PAUSE & PLAY        \n";
-    t += "    Gaming Cafe, Jaunpur-1   \n";
+    t += "    Gaming Cafe, Jaunpur   \n";
     t += dLine;
     t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
     t += `Mobile : ${document.getElementById("mobile").value || "N/A"}\n`;
