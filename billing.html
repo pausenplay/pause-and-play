@@ -348,7 +348,7 @@ input:checked + .slider:before { transform: translateX(22px); }
     <div id="page1" class="page active">
         <div class="header">
             <div class="title">PAUSE & PLAY</div>
-            <div class="subtitle">Where Pause Meets Play</div>
+            <div class="subtitle">Gaming Cafe, Jaunpur</div>
         </div>
 
         <div class="info-grid">
@@ -1073,7 +1073,7 @@ function navigateToPage(no) {
         document.getElementById("qrAmountDisplay").innerText = grandTotal;
 
         // 👈 Apni UPI ID aur Business Name yahan set karein
-        let upiId = "YOUR_UPI_ID@upi"; 
+        let upiId = "Q67246447@ybl"; 
         let businessName = "Pause and Play";
 
         let upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(businessName)}&am=${grandTotal}&cu=INR`;
@@ -1086,8 +1086,8 @@ function navigateToPage(no) {
 function generateReceipt() {
     const line = "------------------------------\n";
     const dLine = "==============================\n";
-    let t = "        PAUSE & PLAY        \n";
-    t += "    Where Pause Meets Play   \n";
+    let t = "```        PAUSE & PLAY        \n";
+    t += "    Gaming Cafe, Jaunpur-1   \n";
     t += dLine;
     t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
     t += `Mobile : ${document.getElementById("mobile").value || "N/A"}\n`;
@@ -1113,7 +1113,7 @@ function generateReceipt() {
     }
     t += `Grand Total   : ₹${document.getElementById("grandTotal").innerText.padStart(10, ' ')}\n`;
     t += dLine;
-    t += "   Thank You! Visit Again!   \n";
+    t += "   Thank You! Visit Again!   ```\n";
     return t;
 }
 
