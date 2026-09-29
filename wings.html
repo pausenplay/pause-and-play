@@ -613,7 +613,8 @@ ORDER DETAILS:`;
         ? currentLocation.latitude + ", " + currentLocation.longitude  
         : "Not added"}`;  
 
-    const url = `https://wa.me/918948475924?text=${encodeURIComponent(message)}`;  
+    // Direct WhatsApp share URL (bina fixed number ke)  
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;  
     window.open(url, "_blank");  
 }  
 
@@ -630,8 +631,4 @@ function escapeAttr(value){
     return escapeHtml(value);  
 }  
 
-renderProducts();  
-</script>  
-</body>  
-</html>
-
+renderProducts
