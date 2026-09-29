@@ -575,4 +575,56 @@ GSTIN     : ${gstin}`;
         const row = document.createElement("div");  
         row.className = "memo-item";  
 
-        row.innerHTML =
+        row.innerHTML = `  
+            <div class="memo-main">  
+                <div class="memo-product">${escapeHtml(item.name)}</div>  
+                <div class="memo-price">${item.qty} ${item.unit}</div>  
+            </div>  
+            <div class="memo-remark">  
+                ${item.remark ? 'Remark: ' + escapeHtml(item.remark) : ''}   
+                ${item.rate !== '' ? '@ ₹' + Number(item.rate).toFixed(2) : ''}  
+            </div>  
+        `;  
+
+        memoItems.appendChild(row);  
+    });  
+}  
+
+function sendWhatsApp(){  
+    buildMemo();  
+
+    const party = document.getElementById("partyName").value.trim() || "-";  
+
+    let message =  
+"```SHANKER MEDICAL AGENCY\n" +  
+`NAME     : ${party}\n` +  
+`MOBILE   : ${document.getElementById("mobile").value.trim() || "-"}\n` +  
+`DRUG LIC : ${document.getElementById("drugLic").value.trim() || "-"}\n` +  
+`GSTIN    : ${document.getElementById("gstin").value.trim() || "-"}\n\n` +  
+"ORDER DETAILS:";  
+
+    selectedProducts.forEach(item => {  
+        message += `\n• ${item.name} - ${item.qty} ${item.unit}`;  
+        if (item.rate !== "") message += ` @ ₹${Number(item.rate).toFixed(2)}`;  
+        if (item.remark) message += ` (${item.remark})`;  
+    });  
+
+    message += `\n\nLOCATION:\n${currentLocation.latitude && currentLocation.longitude  
+        ? currentLocation.latitude + ", " + currentLocation.longitude  
+        : "Not added"}` + "```";  
+
+    // Direct WhatsApp share URL (Monospace formatting backticks ke sath)
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;  
+    window.open(url, "_blank");  
+}  
+
+function escapeHtml(value){  
+    return String(value)  
+        .replaceAll("&","&amp;")  
+        .replaceAll("<","&lt;")  
+        .replaceAll(">","&gt;")  
+        .replaceAll('"',"&quot;")  
+        .replaceAll("'","&#039;");  
+}  
+
+function escapeAt
