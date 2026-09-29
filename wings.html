@@ -595,13 +595,14 @@ function sendWhatsApp(){
 
     const party = document.getElementById("partyName").value.trim() || "-";  
 
+    // Starting text with triple backticks ``` for Monospace font in WhatsApp
     let message =  
-`SHANKER MEDICAL AGENCY\n  
-NAME : ${party}  
-MOBILE : ${document.getElementById("mobile").value.trim() || "-"}  
-DRUG LIC : ${document.getElementById("drugLic").value.trim() || "-"}  
-GSTIN : ${document.getElementById("gstin").value.trim() || "-"}\n  
-ORDER DETAILS:`;  
+"```SHANKER MEDICAL AGENCY\n\n" +  
+`NAME : ${party}\n` +  
+`MOBILE : ${document.getElementById("mobile").value.trim() || "-"}\n` +  
+`DRUG LIC : ${document.getElementById("drugLic").value.trim() || "-"}\n` +  
+`GSTIN : ${document.getElementById("gstin").value.trim() || "-"}\n\n` +  
+"ORDER DETAILS:\n";  
 
     selectedProducts.forEach(item => {  
         message += `\n• ${item.name} - ${item.qty} ${item.unit}`;  
@@ -611,9 +612,9 @@ ORDER DETAILS:`;
 
     message += `\n\nLOCATION:\n${currentLocation.latitude && currentLocation.longitude  
         ? currentLocation.latitude + ", " + currentLocation.longitude  
-        : "Not added"}`;  
+        : "Not added"}` + "```"; // Closing triple backticks
 
-    // Direct WhatsApp share URL (bina fixed number ke)  
+    // Direct WhatsApp share URL
     const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;  
     window.open(url, "_blank");  
 }  
@@ -624,11 +625,4 @@ function escapeHtml(value){
         .replaceAll("<","&lt;")  
         .replaceAll(">","&gt;")  
         .replaceAll('"',"&quot;")  
-        .replaceAll("'","&#039;");  
-}  
-
-function escapeAttr(value){  
-    return escapeHtml(value);  
-}  
-
-renderProducts
+ 
