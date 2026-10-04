@@ -1037,7 +1037,7 @@ function calculateTerminal() {
 function updateQRCode() {
     let grandText = document.getElementById("grandTotal")?.innerText || "0";
     let grand = parseFloat(grandText) || 0;
-    let upiId = document.getElementById("upiId")?.value.trim() || "Q67246447@ybl";
+    let upiId = document.getElementById("upiId")?.value.trim() || "9670020400-3@ibl";
 
     // Standard UPI string format
     let upiString = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=Pause%20and%20Play&am=${grand.toFixed(2)}&cu=INR`;
