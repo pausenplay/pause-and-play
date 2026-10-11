@@ -522,8 +522,9 @@ const catalog = [
     { id: "tg6", category: "timed", name: "MULTI PLAYER PS5", rate: 199, lapMin: 30 },
     { id: "tg7", category: "timed", name: "PLAY STATION 5", rate: 120, lapMin: 30 },
     { id: "tg8", category: "timed", name: "RETRO GAMES", rate: 60, lapMin: 30 },
-    { id: "tg9", category: "timed", name: "TABLE POOL", rate: 99, lapMin: 30 },
-    { id: "tg10", category: "timed", name: "TABLE TENNIS", rate: 79, lapMin: 30 },
+    { id: "tg9", category: "timed", name: "SNOOKER TABLE", rate: 4.00, lapMin: 1 },
+    { id: "tg10", category: "timed", name: "TABLE POOL", rate: 99, lapMin: 30 },
+    { id: "tg11", category: "timed", name: "TABLE TENNIS", rate: 79, lapMin: 30 },
 
     { id: "sg1", category: "standard", name: "AIR HOCKEY", rate: 99 },
     { id: "sg2", category: "standard", name: "BASKETBALL", rate: 39 },
@@ -787,9 +788,9 @@ function renderCart() {
 
                     <div class="mobile-card-middle">
                         <div class="card-qty-group">
-                            <button type="button" class="btn-minus" onclick="changeQty('${item.instanceId}', -0.5)">-</button>
+                            <button type="button" class="btn-minus" onclick="changeQty('${item.instanceId}', ${item.lapMin === 1 ? -1 : -0.5})">-</button>
                             <div class="qty-display-box">${item.qty}</div>
-                            <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', 0.5)">+</button>
+                            <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', ${item.lapMin === 1 ? 1 : 0.5})">+</button>
                         </div>
                         <div class="card-timer-box">${hrs}:${mins}:${secs}</div>
                     </div>
@@ -927,10 +928,14 @@ function toggleTimer(instanceId) {
         item.timerObj = setInterval(() => {
             item.seconds = Math.floor((Date.now() - item.startTime) / 1000);
             
-            let rawLaps = (item.seconds / 60) / item.lapMin;
-            let calcLaps = Math.max(0.5, Math.ceil(rawLaps * 2) / 2);
-            
-            item.qty = calcLaps;
+            if (item.lapMin === 1) {
+                // Snooker table case: 1 unit per 1 minute
+                item.qty = Math.max(1, Math.floor(item.seconds / 60));
+            } else {
+                let rawLaps = (item.seconds / 60) / item.lapMin;
+                item.qty = Math.max(0.5, Math.ceil(rawLaps * 2) / 2);
+            }
+
             updateCardElement(item);
             calculate();
         }, 1000);
@@ -1057,7 +1062,7 @@ function renderTerminalSummaryList() {
     cart.forEach(item => {
         if(item.qty > 0) {
             let icon = item.id === "mem1" ? "🪪" : (item.category === "timed" ? "⏱️" : (item.category === "standard" ? "🕹️" : (item.category === "chinese" ? "🥢" : (item.category === "general" ? "✏️" : "☕"))));
-            let qtyText = item.category === "timed" ? `(${item.qty} Lap/s)` : `(x${item.qty})`;
+            let qtyText = item.category === "timed" ? `(${item.qty}m)` : `(x${item.qty})`;
             listContainer.innerHTML += `
                 <div class="summary-item-row">
                     <span>${icon} ${item.name} ${qtyText}</span>
@@ -1084,7 +1089,7 @@ function navigateToPage(no) {
 function generateReceipt() {
     const line = "------------------------------\n";
     const dLine = "==============================\n";
-    let t = "```        PAUSE & PLAY        \n";
+    let t = "        PAUSE & PLAY        \n";
     t += "    Gaming Cafe, Jaunpur   \n";
     t += dLine;
     t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
@@ -1111,18 +1116,18 @@ function generateReceipt() {
     }
     t += `Grand Total   : ₹${document.getElementById("grandTotal").innerText.padStart(10, ' ')}\n`;
     t += dLine;
-    t += "   Thank You! Visit Again!   ```\n";
+    t += "   Thank You! Visit Again!   \n";
     return t;
 }
 
 function sendWhatsApp() {
     let billText = generateReceipt();
-    // Raw code block formatting clean-up for WhatsApp sharing
-    let cleanText = billText.replace(/```/g, "");
-    
-    // Open Universal WhatsApp Share Dialogue
-    let shareUrl = `[https://api.whatsapp.com/send?text=$](https://api.whatsapp.com/send?text=$){encodeURIComponent(cleanText)}`;
-    window.open(shareUrl, '_blank');
+    navigator.clipboard.writeText(billText).then(() => {
+        alert("Bill copied! WhatsApp open ho raha hai. Apne group me jakar bas Paste kar dein.");
+        window.open("https://wa.me/", "_blank");
+    }).catch(err => {
+        window.open("https://wa.me/", "_blank");
+    });
 }
 
 function copyAndExit() {
