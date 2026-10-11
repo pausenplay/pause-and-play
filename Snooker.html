@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d0a1a">
+<title>Pause & Play | Snooker Scoreboard Pro</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Rajdhani:wght@500;600;700&display=swap');
+
+:root {
+  --bg-gradient: radial-gradient(circle at 50% 0%, #1e133a 0%, #0a0712 70%, #050308 100%);
+  --panel: rgba(22, 16, 38, 0.75);
+  --panel-active: rgba(36, 24, 66, 0.85);
+  --panel-border: rgba(167, 139, 250, 0.2);
+  --text: #f7f5ff;
+  --muted: #a39bbd;
+  --accent: #a78bfa;
+  --accent-glow: rgba(167, 139, 250, 0.4);
+  --danger: #ff4757;
+  --danger-glow: rgba(255, 71, 87, 0.4);
+  --cyan: #00f2fe;
+  --cyan-glow: rgba(0, 242, 254, 0.35);
+  --gold: #ffbe76;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: 'Rajdhani', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: 0.5px;
+  padding-bottom: 30px;
+}
+
+header {
+  padding: 30px 20px 10px;
+  text-align: center;
+  position: relative;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--cyan);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  text-shadow: 0 0 12px var(--cyan-glow);
+}
+
+.brand-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--cyan), #4facfe);
+  border-radius: 10px;
+  color: #0a0712;
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: 0;
+  box-shadow: 0 0 15px var(--cyan-glow);
+}
+
+h1 {
+  margin: 0;
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(26px, 5vw, 44px);
+  font-weight: 900;
+  letter-spacing: 2px;
+  background: linear-gradient(180deg, #ffffff 30%, var(--muted) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+header p {
+  color: var(--muted);
+  margin: 8px 0 0;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+main {
+  width: 100%;
+  max-width: 1100px;
+  margin: auto;
+  padding: 16px;
+  display: grid;
+  gap: 18px;
+}
+
+.card {
+  background: var(--panel);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--panel-border);
+  border-radius: 20px;
+  padding: 22px;
+  min-width: 0;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.card h3 {
+  margin: 0 0 16px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+button, input, select {
+  font: inherit;
+}
+
+button {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px 16px;
+  background: #2a2046;
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+  filter: brightness(1.2);
+}
+
+button:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+  filter: grayscale(1);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.gold {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  border-color: rgba(167, 139, 250, 0.4);
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+}
+
+.neutral {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.neutral:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.foul {
+  background: linear-gradient(135deg, #e11d48, #be123c);
+  box-shadow: 0 0 15px var(--danger-glow);
+}
+
+/* Player Cards */
+.top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.player {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 20px;
+  padding: 22px 16px;
+  text-align: center;
+  min-width: 0;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.player.active {
+  background: var(--panel-active);
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 25px var(--accent-glow), inset 0 0 15px var(--accent-glow);
+}
+
+.player h2 {
+  margin: 0;
+  color: var(--text);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.score {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(48px, 8vw, 84px);
+  font-weight: 900;
+  line-height: 1;
+  margin: 14px 0;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  font-variant-numeric: tabular-nums;
+}
+
+.break {
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.tag {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-transform: uppercase;
+  min-height: 18px;
+  margin-bottom: 6px;
+  font-weight: 800;
+  text-shadow: 0 0 8px var(--accent-glow);
+}
+
+.switch {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.switch button {
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+/* Table Status */
+.status {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.status h3 { margin: 0; }
+.status strong { color: var(--accent); font-family: 'Orbitron', sans-serif; }
+
+.meta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  font-weight: 700;
+}
+
+.meta input, .meta select {
+  background: rgba(10, 7, 18, 0.8);
+  color: white;
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  outline: none;
+}
+
+.meta select:focus {
+  border-color: var(--cyan);
+}
+
+/* Ball Controls */
+.controls {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.ball {
+  padding: 14px 4px;
+  min-height: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+}
+
+.dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: block;
+  box-shadow: inset -5px -6px 8px rgba(0,0,0,0.6), inset 4px 4px 6px rgba(255,255,255,0.5), 0 4px 10px rgba(0,0,0,0.5);
+  transition: transform 0.2s;
+}
+
+.ball:hover:not(:disabled) .dot {
+  transform: scale(1.15);
+}
+
+.red { background: radial-gradient(circle at 35% 35%, #ff4d4d, #990000); }
+.yellow { background: radial-gradient(circle at 35% 35%, #fffa65, #c5a000); }
+.green { background: radial-gradient(circle at 35% 35%, #2ecc71, #116b32); }
+.brown { background: radial-gradient(circle at 35% 35%, #a0522d, #4a2306); }
+.blue { background: radial-gradient(circle at 35% 35%, #3498db, #0f4c81); }
+.pink { background: radial-gradient(circle at 35% 35%, #ff9ff3, #f368e0); }
+.black { background: radial-gradient(circle at 35% 35%, #4b4b4b, #0f0f0f); border: 1px solid #555; }
+
+.ball small {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Actions & Features */
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.message {
+  min-height: 24px;
+  color: var(--cyan);
+  font-size: 15px;
+  font-weight: 700;
+  margin-top: 14px;
+  text-align: center;
+}
+
+.shortcut-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.shortcut {
+  padding: 10px;
+  border: 1px solid var(--panel-border);
+  background: rgba(0,0,0,0.2);
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+kbd {
+  display: inline-block;
+  min-width: 24px;
+  text-align: center;
+  margin-right: 8px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: #2a2046;
+  border: 1px solid var(--accent);
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+/* History Table */
+.history {
+  max-height: 240px;
+  overflow-y: auto;
+  border-radius: 10px;
+  border: 1px solid var(--panel-border);
+}
+
+.history table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.history td, .history th {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.history th {
+  color: var(--muted);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  letter-spacing: 1px;
+  position: sticky;
+  top: 0;
+  background: #120d24;
+}
+
+.footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 10px 0 20px;
+}
+
+@media(max-width: 850px) {
+  .action-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media(max-width: 768px) {
+  main { padding: 12px; gap: 12px; }
+  .card { padding: 16px; }
+  .controls { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .shortcut-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .top { gap: 10px; }
+  .player { padding: 16px 8px; }
+}
+
+@media(max-width: 480px) {
+  .controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .action-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .switch { flex-direction: column; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="brand">
+    <span class="brand-mark">P&amp;P</span>
+    PAUSE &amp; PLAY GAMING CAFÉ
+  </div>
+  <h1>🎱 SNOOKER SCOREBOARD</h1>
+  <p>Frame Scoring · Break Tracking</p>
+</header>
+
+<main>
+  <section class="top">
+    <div class="player active" id="pbox0">
+      <div class="tag" id="tag0">AT THE TABLE</div>
+      <h2 id="nameView0">Player 1</h2>
+      <div class="score" id="score0">0</div>
+      <div class="break">Current break: <b id="break0">0</b></div>
+      <div class="switch">
+        <button class="neutral" onclick="renamePlayer(0)">Rename</button>
+        <button class="neutral" onclick="setTurn(0)">At table</button>
+      </div>
+    </div>
+    <div class="player" id="pbox1">
+      <div class="tag" id="tag1"></div>
+      <h2 id="nameView1">Player 2</h2>
+      <div class="score" id="score1">0</div>
+      <div class="break">Current break: <b id="break1">0</b></div>
+      <div class="switch">
+        <button class="neutral" onclick="renamePlayer(1)">Rename</button>
+        <button class="neutral" onclick="setTurn(1)">At table</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="status">
+      <h3>Pot a ball</h3>
+      <div class="meta">
+        <span>Ball on:</span><strong id="ballOn">RED</strong>
+        <span id="redsLeftText">15 reds left</span>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="ball" data-ball="red" onclick="pot('red')">
+        <span class="dot red"></span>Red<small>1 point</small>
+      </button>
+      <button class="ball" data-ball="yellow" onclick="pot('yellow')">
+        <span class="dot yellow"></span>Yellow<small>2 points</small>
+      </button>
+      <button class="ball" data-ball="green" onclick="pot('green')">
+        <span class="dot green"></span>Green<small>3 points</small>
+      </button>
+      <button class="ball" data-ball="brown" onclick="pot('brown')">
+        <span class="dot brown"></span>Brown<small>4 points</small>
+      </button>
+      <button class="ball" data-ball="blue" onclick="pot('blue')">
+        <span class="dot blue"></span>Blue<small>5 points</small>
+      </button>
+      <button class="ball" data-ball="pink" onclick="pot('pink')">
+        <span class="dot pink"></span>Pink<small>6 points</small>
+      </button>
+      <button class="ball" data-ball="black" onclick="pot('black')">
+        <span class="dot black"></span>Black<small>7 points</small>
+      </button>
+    </div>
+    <div class="message" id="message" role="status" aria-live="polite">
+      Start by potting a red ball.
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>Fouls &amp; Turn Controls</h3>
+    <div class="action-grid">
+      <button class="foul" onclick="foul()">Foul / Miss</button>
+      <button class="neutral" onclick="endTurn()">End turn</button>
+      <button class="neutral" onclick="swapPositions()">⇄ Swap Positions</button>
+      <button class="neutral" onclick="undo()">↶ Undo</button>
+      <button class="gold" onclick="newFrame()">＋ New frame</button>
+    </div>
+    <p style="color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:14px;">
+      Select the ball actually potted. Record fouls manually. The standard minimum foul penalty is 4 points; higher penalties depend on the foul and the ball involved.
+    </p>
+    <div class="meta">
+      <label for="penalty">Foul penalty:</label>
+      <select id="penalty">
+        <option value="4">4 points</option>
+        <option value="5">5 points</option>
+        <option value="6">6 points</option>
+        <option value="7">7 points</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>Keyboard Shortcuts</h3>
+    <div class="shortcut-grid">
+      <div class="shortcut"><kbd>1</kbd>Red · 1 pt</div>
+      <div class="shortcut"><kbd>2</kbd>Yellow · 2 pts</div>
+      <div class="shortcut"><kbd>3</kbd>Green · 3 pts</div>
+      <div class="shortcut"><kbd>4</kbd>Brown · 4 pts</div>
+      <div class="shortcut"><kbd>5</kbd>Blue · 5 pts</div>
+      <div class="shortcut"><kbd>6</kbd>Pink · 6 pts</div>
+      <div class="shortcut"><kbd>7</kbd>Black · 7 pts</div>
+      <div class="shortcut"><kbd>0</kbd>Foul</div>
+      <div class="shortcut"><kbd>Enter</kbd>End turn</div>
+      <div class="shortcut"><kbd>X</kbd>Swap positions</div>
+      <div class="shortcut"><kbd>+</kbd>Undo</div>
+      <div class="shortcut"><kbd>N</kbd>New frame</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>Frame Information</h3>
+    <div class="status">
+      <div>Frame <strong id="frameNo">1</strong></div>
+      <div>Frames won: <strong id="wins">Player 1 0 – 0 Player 2</strong></div>
+      <div>Highest break: <strong id="highBreak">0</strong></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>Action History</h3>
+    <div class="history">
+      <table>
+        <thead>
+          <tr>
+            <th>Action</th><th>Player</th><th>Points</th><th>Score after</th>
+          </tr>
+        </thead>
+        <tbody id="history">
+          <tr><td colspan="4">No actions yet.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="footer">
+    <strong>PAUSE &amp; PLAY GAMING CAFÉ</strong>
+    · SNOOKER SCOREBOARD · Local browser application
+  </div>
+</main>
+
+<script>
+'use strict';
+
+const values = {
+  red:1, yellow:2, green:3, brown:4, blue:5, pink:6, black:7
+};
+
+const colours = ['yellow','green','brown','blue','pink','black'];
+
+let s;
+
+function fresh() {
+  return {
+    names:['Player 1','Player 2'],
+    scores:[0,0],
+    breaks:[0,0],
+    turn:0,
+    reds:15,
+    phase:'red',
+    colourIndex:0,
+    frame:1,
+    wins:[0,0],
+    highBreak:0,
+    history:[],
+    over:false
+  };
+}
+
+s = fresh();
+
+function message(text) {
+  document.getElementById('message').textContent = text;
+}
+
+function snapshot() {
+  const copy = {...s, history:[]};
+  return JSON.parse(JSON.stringify(copy));
+}
+
+function pushEvent(action, player, points, before) {
+  s.history.push({
+    action,
+    player,
+    points,
+    score: s.scores[player] !== undefined ? s.scores[player] : 0,
+    before
+  });
+}
+
+function pot(ball) {
+  if (s.over) {
+    message('Frame over. Start a new frame to continue.');
+    return;
+  }
+
+  let legal = false;
+
+  if (s.phase === 'red') {
+    legal = ball === 'red';
+  } else if (s.phase === 'colour') {
+    legal = colours.includes(ball);
+  } else if (s.phase === 'clearance') {
+    legal = ball === colours[s.colourIndex];
+  }
+
+  if (!legal) {
+    message('Incorrect ball on. Record a foul if required.');
+    return;
+  }
+
+  const before = snapshot();
+  const p = s.turn;
+  const points = values[ball];
+
+  s.scores[p] += points;
+  s.breaks[p] += points;
+  s.highBreak = Math.max(s.highBreak, s.breaks[p]);
+
+  if (s.phase === 'red') {
+    s.reds--;
+    s.phase = 'colour';
+  } else if (s.phase === 'colour') {
+    if (s.reds > 0) {
+      s.phase = 'red';
+    } else {
+      s.phase = 'clearance';
+      s.colourIndex = 0;
+    }
+  } else if (s.phase === 'clearance') {
+    s.colourIndex++;
+
+    if (s.colourIndex >= colours.length) {
+      s.phase = 'finished';
+      finishFrame();
+    }
+  }
+
+  pushEvent('Potted ' + ball, p, points, before);
+
+  if (!s.over) {
+    message(s.names[p] + ' potted ' + ball + ' for ' + points + ' point(s).');
+  }
+
+  render();
+}
+
+function foul() {
+  if (s.over) {
+    message('Frame over. Start a new frame to continue.');
+    return;
+  }
+
+  const before = snapshot();
+  const offender = s.turn;
+  const opponent = 1 - offender;
+  const penalty = Number(document.getElementById('penalty').value);
+
+  s.scores[opponent] += penalty;
+  s.breaks[offender] = 0;
+  s.turn = opponent;
+
+  pushEvent('Foul (' + penalty + ')', opponent, penalty, before);
+  message('Foul recorded. ' + s.names[opponent] +
+          ' receives ' + penalty + ' points and comes to the table.');
+
+  render();
+}
+
+function endTurn() {
+  if (s.over) return;
+
+  const before = snapshot();
+  const previous = s.turn;
+
+  s.breaks[previous] = 0;
+  s.turn = 1 - previous;
+
+  pushEvent('End turn', s.turn, 0, before);
+  message(s.names[s.turn] + ' is at the table.');
+  render();
+}
+
+function setTurn(p) {
+  if (s.over || s.turn === p) return;
+
+  const before = snapshot();
+  s.breaks[s.turn] = 0;
+  s.turn = p;
+
+  pushEvent('Turn assigned', p, 0, before);
+  message(s.names[p] + ' is at the table.');
+  render();
+}
+
+function swapPositions() {
+  if (s.over) return;
+
+  const before = snapshot();
+
+  s.names.reverse();
+  s.scores.reverse();
+  s.breaks.reverse();
+  s.wins.reverse();
+
+  s.turn = 1 - s.turn;
+
+  pushEvent('Swapped Positions', s.turn, 0, before);
+  message('Player positions swapped.');
+  render();
+}
+
+function finishFrame() {
+  s.over = true;
+
+  const winner = s.scores[0] === s.scores[1]
+    ? -1
+    : s.scores[0] > s.scores[1] ? 0 : 1;
+
+  if (winner >= 0) {
+    s.wins[winner]++;
+    message(s.names[winner] + ' wins the frame!');
+  } else {
+    message('Scores are tied. A respotted-black tie-break may be required.');
+  }
+}
+
+function newFrame() {
+  if (!confirm('Start a new frame? Current frame scoring will reset.')) return;
+
+  const names = s.names.slice();
+  const wins = s.wins.slice();
+  const frame = s.frame + 1;
+  const highBreak = s.highBreak;
+
+  s = fresh();
+  s.names = names;
+  s.wins = wins;
+  s.frame = frame;
+  s.highBreak = highBreak;
+
+  message('New frame started. ' + s.names[0] + ' is at the table.');
+  render();
+}
+
+function undo() {
+  if (!s.history.length) {
+    message('Nothing to undo in this frame.');
+    return;
+  }
+
+  const history = s.history.slice();
+  const last = history.pop();
+
+  if (!last.before) {
+    message('This action cannot be undone.');
+    return;
+  }
+
+  s = {
+    ...last.before,
+    history: history
+  };
+
+  message('Last action undone.');
+  render();
+}
+
+function renamePlayer(p) {
+  const name = prompt('Enter player name:', s.names[p]);
+
+  if (name !== null && name.trim()) {
+    s.names[p] = name.trim().slice(0,40);
+    render();
+  }
+}
+
+function render() {
+  for (let p = 0; p < 2; p++) {
+    document.getElementById('nameView' + p).textContent = s.names[p];
+    document.getElementById('score' + p).textContent = s.scores[p];
+    document.getElementById('break' + p).textContent = s.breaks[p];
+
+    document.getElementById('pbox' + p).classList.toggle(
+      'active', s.turn === p && !s.over
+    );
+
+    document.getElementById('tag' + p).textContent =
+      s.over ? 'FRAME OVER' : s.turn === p ? 'AT THE TABLE' : '';
+  }
+
+  let ballOn = '—';
+
+  if (s.phase === 'red') ballOn = 'RED';
+  if (s.phase === 'colour') ballOn = 'COLOUR';
+  if (s.phase === 'clearance') {
+    ballOn = colours[s.colourIndex]?.toUpperCase() || 'FINISHED';
+  }
+  if (s.over) ballOn = 'FRAME OVER';
+
+  document.getElementById('ballOn').textContent = ballOn;
+  document.getElementById('redsLeftText').textContent = s.reds + ' reds left';
+  document.getElementById('frameNo').textContent = s.frame;
+  document.getElementById('wins').textContent =
+    s.names[0] + ' ' + s.wins[0] + ' – ' +
+    s.wins[1] + ' ' + s.names[1];
+  document.getElementById('highBreak').textContent = s.highBreak;
+
+  document.querySelectorAll('[data-ball]').forEach(button => {
+    const ball = button.dataset.ball;
+    let legal = false;
+
+    if (s.phase === 'red') legal = ball === 'red';
+    if (s.phase === 'colour') legal = colours.includes(ball);
+    if (s.phase === 'clearance') legal = ball === colours[s.colourIndex];
+
+    button.disabled = !legal || s.over;
+  });
+
+  const tbody = document.getElementById('history');
+  tbody.replaceChildren();
+
+  if (!s.history.length) {
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 4;
+    td.textContent = 'No actions yet.';
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  } else {
+    [...s.history].reverse().forEach(event => {
+      const tr = document.createElement('tr');
+      const playerName = s.names[event.player] !== undefined ? s.names[event.player] : '—';
+
+      [
+        event.action,
+        playerName,
+        (event.points > 0 ? '+' : '') + event.points,
+        event.score
+      ].forEach(value => {
+        const td = document.createElement('td');
+        td.textContent = value;
+        tr.appendChild(td);
+      });
+
+      tbody.appendChild(tr);
+    });
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  const target = e.target;
+  const typing = target && (
+    target.isContentEditable ||
+    ['INPUT','TEXTAREA','SELECT'].includes(target.tagName)
+  );
+
+  if (typing || e.ctrlKey || e.altKey || e.metaKey) return;
+
+  const map = {
+    '1':'red',
+    '2':'yellow',
+    '3':'green',
+    '4':'brown',
+    '5':'blue',
+    '6':'pink',
+    '7':'black'
+  };
+
+  if (map[e.key]) {
+    e.preventDefault();
+    pot(map[e.key]);
+    return;
+  }
+
+  if (e.key === '0') {
+    e.preventDefault();
+    foul();
+    return;
+  }
+
+  if (e.key === 'Enter') {
+    if (target && target.tagName === 'BUTTON') return;
+    e.preventDefault();
+    endTurn();
+    return;
+  }
+
+  if (e.key.toLowerCase() === 'x') {
+    e.preventDefault();
+    swapPositions();
+    return;
+  }
+
+  if (e.key === '+' || (e.key === '=' && e.shiftKey)) {
+    e.preventDefault();
+    undo();
+    return;
+  }
+
+  if (e.key.toLowerCase() === 'n') {
+    e.preventDefault();
+    newFrame();
+  }
+});
+
+render();
+</script>
+</body>
+</html>
