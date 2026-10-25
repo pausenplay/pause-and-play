@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title id="pageTitle">Pause & Play Billing</title>
+<!-- Google Font: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
     --bg-main: #f4f6f9;
@@ -27,7 +31,7 @@
     --input-bg: #2c2c2e;
 }
 
-*{ margin:0; padding:0; box-sizing:border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; touch-action: manipulation; }
+*{ margin:0; padding:0; box-sizing:border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; touch-action: manipulation; }
 body{ background: var(--bg-main); color: var(--text-main); padding: 10px; line-height: 1.4; transition: background 0.3s ease, color 0.3s ease; padding-bottom: 40px; }
 
 .container{
@@ -372,7 +376,8 @@ input:checked + .slider:before { transform: translateX(22px); }
                 <option value="new">4. ➕ [ New Customer Entry ]</option>
             </select>
             <input type="text" id="customer" class="input" placeholder="Customer Name">
-            <input type="tel" id="mobile" class="input" placeholder="Mobile Number">
+            <input type="tel" id="mobile" class="input" placeholder="No.">
+            <input type="tel" id="additionalMobile" class="input" placeholder="Mobile Number">
             <input type="text" id="membershipDate" class="input" placeholder="Membership Date (DD-MM-YYYY)">
         </div>
 
@@ -516,19 +521,19 @@ const catalog = [
     { id: "mem1", category: "standard", name: "NEW MEMBERSHIP ALLOTTED", rate: 240 },
     { id: "tg1", category: "timed", name: "CARROM", rate: 39, lapMin: 15 },
     { id: "tg2", category: "timed", name: "COMPUTER GAMES", rate: 120, lapMin: 30 },
-    { id: "tg3", category: "timed", name: "DRIVING Ad. (15 Min)", rate: 120, lapMin: 15 },
-    { id: "tg4", category: "timed", name: "DRIVING Jr. (15 Min)", rate: 60, lapMin: 15 },
+    { id: "tg3", category: "timed", name: "DRIVING Ad. (30 Min Base)", rate: 240, lapMin: 30, baseMin: 30, baseRate: 240, extraRatePerMin: 8 },
+    { id: "tg4", category: "timed", name: "DRIVING Jr. (15 Min Base)", rate: 60, lapMin: 15, baseMin: 15, baseRate: 60, extraRatePerMin: 4 },
     { id: "tg5", category: "timed", name: "MEMBERSHIP POOL", rate: 60, lapMin: 45 },
     { id: "tg6", category: "timed", name: "MULTI PLAYER PS5", rate: 199, lapMin: 30 },
     { id: "tg7", category: "timed", name: "PLAY STATION 5", rate: 120, lapMin: 30 },
     { id: "tg8", category: "timed", name: "RETRO GAMES", rate: 60, lapMin: 30 },
     { id: "tg9", category: "timed", name: "SNOOKER TABLE", rate: 4.00, lapMin: 1 },
-    { id: "tg10", category: "timed", name: "TABLE POOL", rate: 99, lapMin: 30 },
-    { id: "tg11", category: "timed", name: "TABLE TENNIS", rate: 79, lapMin: 30 },
+    { id: "tg10", category: "timed", name: "TABLE POOL", rate: 3.00, lapMin: 1 },
+    { id: "tg11", category: "timed", name: "TABLE TENNIS", rate: 3.00, lapMin: 1 },
 
-    { id: "sg1", category: "standard", name: "AIR HOCKEY", rate: 99 },
+    { id: "sg1", category: "standard", name: "AIR HOCKEY (1 ROUND)", rate: 60 },
     { id: "sg2", category: "standard", name: "BASKETBALL", rate: 39 },
-    { id: "sg3", category: "standard", name: "FROG HAMMER", rate: 20 },
+    { id: "sg3", category: "standard", name: "FROG HAMMER (1 COIN)", rate: 30 },
     { id: "sg4", category: "standard", name: "CRICKET", rate: 39 },
 
     { id: "cf1", category: "cafe", name: "CHIPS ₹5", rate: 5 },
@@ -570,6 +575,20 @@ const catalog = [
 let cart = [];
 let couponQty = 0;
 
+function getItemTotalAmount(item) {
+    if (item.baseMin) {
+        let playedMins = Math.ceil(item.seconds / 60);
+        if (playedMins <= 0) return 0;
+        if (playedMins <= item.baseMin) {
+            return item.baseRate;
+        } else {
+            let extraMins = playedMins - item.baseMin;
+            return item.baseRate + (extraMins * item.extraRatePerMin);
+        }
+    }
+    return item.qty * item.rate;
+}
+
 function getCurrentTimeFormatted() {
     const d = new Date();
     return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
@@ -581,6 +600,7 @@ function handlePresetCustomerChange(val) {
     if(val === "new") {
         document.getElementById("customer").value = "";
         document.getElementById("mobile").value = "";
+        document.getElementById("additionalMobile").value = "";
         document.getElementById("membershipDate").value = new Date().toLocaleDateString("en-GB");
         
         if(!hasMembershipInCart()) {
@@ -590,6 +610,7 @@ function handlePresetCustomerChange(val) {
         const data = presetCustomers[val];
         document.getElementById("customer").value = data.name;
         document.getElementById("mobile").value = data.mobile;
+        document.getElementById("additionalMobile").value = "";
         document.getElementById("membershipDate").value = data.date;
         
         if(hasMembershipInCart()) {
@@ -641,7 +662,13 @@ function populateDropdown() {
     catalog.forEach(item => {
         const opt = document.createElement("option");
         opt.value = item.id;
-        opt.innerText = item.category === "general" ? item.name : `${item.name} - ₹${item.rate}${item.lapMin ? ' / ' + item.lapMin + 'm' : ''}`;
+        let rateLabel = `₹${item.rate}`;
+        if(item.baseMin) {
+            rateLabel = `₹${item.baseRate}/${item.baseMin}m (+₹${item.extraRatePerMin}/m)`;
+        } else if(item.lapMin) {
+            rateLabel = `₹${item.rate} / ${item.lapMin === 1 ? 'min' : item.lapMin + 'm'}`;
+        }
+        opt.innerText = item.category === "general" ? item.name : `${item.name} - ${rateLabel}`;
         
         if(item.category === "timed") tgGroup.appendChild(opt);
         else if(item.category === "standard") sgGroup.appendChild(opt);
@@ -732,7 +759,7 @@ function updateCardElement(item) {
     if(qtyBox) qtyBox.innerText = item.qty;
 
     const amtBox = cardEl.querySelector('.card-amount-box');
-    if(amtBox) amtBox.innerText = `₹ ${(item.qty * item.rate).toFixed(2)}`;
+    if(amtBox) amtBox.innerText = `₹ ${getItemTotalAmount(item).toFixed(2)}`;
 
     if(item.category === 'timed') {
         const hrs = String(Math.floor(item.seconds / 3600)).padStart(2, '0');
@@ -775,15 +802,20 @@ function renderCart() {
             const mins = String(Math.floor((item.seconds % 3600) / 60)).padStart(2, '0');
             const secs = String(item.seconds % 60).padStart(2, '0');
 
+            let rateText = `RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN`;
+            if (item.baseMin) {
+                rateText = `₹${item.baseRate}/${item.baseMin}m (+₹${item.extraRatePerMin}/m)`;
+            }
+
             container.innerHTML += `
             <div style="width:100%" class="cart-item-wrapper" id="card-${item.instanceId}">
                 <div class="game-card-row">
                     <div class="mobile-card-header">
                         <div class="card-particular">
                             <div class="game-title">${item.name}</div>
-                            <div class="game-meta">RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN</div>
+                            <div class="game-meta">${rateText}</div>
                         </div>
-                        <div class="card-amount-box">₹ ${(item.qty * item.rate).toFixed(2)}</div>
+                        <div class="card-amount-box">₹ ${getItemTotalAmount(item).toFixed(2)}</div>
                     </div>
 
                     <div class="mobile-card-middle">
@@ -818,7 +850,7 @@ function renderCart() {
                             <div class="game-title">${item.name}</div>
                             <div class="game-meta">RATE ₹ ${item.rate.toFixed(2)}</div>
                         </div>
-                        <div class="card-amount-box">₹ ${(item.qty * item.rate).toFixed(2)}</div>
+                        <div class="card-amount-box">₹ ${getItemTotalAmount(item).toFixed(2)}</div>
                     </div>
 
                     <div class="mobile-card-footer" style="justify-content: space-between;">
@@ -929,7 +961,6 @@ function toggleTimer(instanceId) {
             item.seconds = Math.floor((Date.now() - item.startTime) / 1000);
             
             if (item.lapMin === 1) {
-                // Snooker table case: 1 unit per 1 minute
                 item.qty = Math.max(1, Math.floor(item.seconds / 60));
             } else {
                 let rawLaps = (item.seconds / 60) / item.lapMin;
@@ -954,7 +985,7 @@ function calculate() {
     let cafeTotal = 0;
 
     cart.forEach(item => {
-        let total = item.qty * item.rate;
+        let total = getItemTotalAmount(item);
         if(item.category === "cafe" || item.category === "chinese") cafeTotal += total;
         else gamesTotal += total;
     });
@@ -989,7 +1020,7 @@ function calculate() {
 function adjustCouponQty(delta) {
     let gamesTotal = 0;
     cart.forEach(item => {
-        if(item.category !== "cafe" && item.category !== "chinese") gamesTotal += (item.qty * item.rate);
+        if(item.category !== "cafe" && item.category !== "chinese") gamesTotal += getItemTotalAmount(item);
     });
 
     let maxAllowedCoupons = Math.floor(gamesTotal / 200);
@@ -1060,13 +1091,14 @@ function renderTerminalSummaryList() {
     
     listContainer.innerHTML = "";
     cart.forEach(item => {
-        if(item.qty > 0) {
+        let totalAmt = getItemTotalAmount(item);
+        if(totalAmt > 0 || item.qty > 0) {
             let icon = item.id === "mem1" ? "🪪" : (item.category === "timed" ? "⏱️" : (item.category === "standard" ? "🕹️" : (item.category === "chinese" ? "🥢" : (item.category === "general" ? "✏️" : "☕"))));
-            let qtyText = item.category === "timed" ? `(${item.qty}m)` : `(x${item.qty})`;
+            let qtyText = item.category === "timed" ? `(${Math.ceil(item.seconds / 60)}m)` : `(x${item.qty})`;
             listContainer.innerHTML += `
                 <div class="summary-item-row">
                     <span>${icon} ${item.name} ${qtyText}</span>
-                    <span>₹ ${(item.qty * item.rate).toFixed(2)}</span>
+                    <span>₹ ${totalAmt.toFixed(2)}</span>
                 </div>
             `;
         }
@@ -1089,11 +1121,15 @@ function navigateToPage(no) {
 function generateReceipt() {
     const line = "------------------------------\n";
     const dLine = "==============================\n";
-    let t = "        PAUSE & PLAY        \n";
+    let t = "```        PAUSE & PLAY        \n";
     t += "    Gaming Cafe, Jaunpur   \n";
     t += dLine;
     t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
     t += `Mobile : ${document.getElementById("mobile").value || "N/A"}\n`;
+    let addMob = document.getElementById("additionalMobile").value.trim();
+    if(addMob) {
+        t += `AltMob : ${addMob}\n`;
+    }
     t += `MemDate: ${document.getElementById("membershipDate").value || "N/A"}\n`;
     t += `Date   : ${new Date().toLocaleDateString("en-GB")}\n`;
     t += line;
@@ -1101,10 +1137,11 @@ function generateReceipt() {
     t += line;
     
     cart.forEach(i => {
-        if(i.qty > 0) {
+        let amtVal = getItemTotalAmount(i);
+        if(amtVal > 0 || i.qty > 0) {
             let name = i.name.length > 14 ? i.name.substring(0, 14) : i.name.padEnd(14, ' ');
-            let qty = String(i.qty).padStart(4, ' ');
-            let amt = `₹${(i.qty*i.rate).toFixed(2)}`.padStart(10, ' ');
+            let qty = i.category === "timed" ? `${Math.ceil(i.seconds / 60)}m`.padStart(4, ' ') : String(i.qty).padStart(4, ' ');
+            let amt = `₹${amtVal.toFixed(2)}`.padStart(10, ' ');
             t += `${name} ${qty} ${amt}\n`;
         }
     });
@@ -1116,18 +1153,23 @@ function generateReceipt() {
     }
     t += `Grand Total   : ₹${document.getElementById("grandTotal").innerText.padStart(10, ' ')}\n`;
     t += dLine;
-    t += "   Thank You! Visit Again!   \n";
+    t += "   Thank You! Visit Again!   ```\n";
     return t;
 }
 
 function sendWhatsApp() {
     let billText = generateReceipt();
-    navigator.clipboard.writeText(billText).then(() => {
-        alert("Bill copied! WhatsApp open ho raha hai. Apne group me jakar bas Paste kar dein.");
-        window.open("https://wa.me/", "_blank");
-    }).catch(err => {
-        window.open("https://wa.me/", "_blank");
-    });
+    let mobileInput = document.getElementById("mobile").value.trim();
+    
+    let shareUrl = "";
+    if(mobileInput) {
+        let cleanMobile = mobileInput.replace(/\D/g, '');
+        shareUrl = `https://api.whatsapp.com/send?phone=${cleanMobile}&text=${encodeURIComponent(billText)}`;
+    } else {
+        shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(billText)}`;
+    }
+    
+    window.open(shareUrl, '_blank');
 }
 
 function copyAndExit() {
@@ -1150,6 +1192,7 @@ function clearBill() {
     if(document.getElementById("presetCustomerSelect")) document.getElementById("presetCustomerSelect").value = "";
     if(document.getElementById("customer")) document.getElementById("customer").value = "";
     if(document.getElementById("mobile")) document.getElementById("mobile").value = "";
+    if(document.getElementById("additionalMobile")) document.getElementById("additionalMobile").value = "";
     if(document.getElementById("membershipDate")) document.getElementById("membershipDate").value = "";
     if(document.getElementById("discountPercent")) document.getElementById("discountPercent").value = "";
     if(document.getElementById("discountRupee")) document.getElementById("discountRupee").value = "";
