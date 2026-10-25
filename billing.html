@@ -89,6 +89,10 @@ input:checked + .slider:before { transform: translateX(22px); }
 }
 .input:focus, .select-customer:focus { border-color: var(--ios-blue); box-shadow: 0 0 0 3px rgba(0,122,255,0.2); }
 
+.mobile-row { display: flex; gap: 6px; align-items: center; }
+.mobile-row .input { flex: 1; }
+.btn-contact { background: var(--ios-blue); color: #fff; border: none; border-radius: 10px; padding: 0 12px; font-size: 14px; font-weight: 700; cursor: pointer; height: 44px; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap; }
+
 .date-box { margin: 10px 0; font-size: 12px; font-weight: 700; color: var(--text-muted); text-align: center; }
 
 .master-bar { display: flex; gap: 8px; margin-bottom: 12px; background: var(--input-bg); padding: 6px; border-radius: 12px; border: 1px solid var(--border-color); }
@@ -376,8 +380,17 @@ input:checked + .slider:before { transform: translateX(22px); }
                 <option value="new">4. ➕ [ New Customer Entry ]</option>
             </select>
             <input type="text" id="customer" class="input" placeholder="Customer Name">
-            <input type="tel" id="mobile" class="input" placeholder="No.">
-            <input type="tel" id="additionalMobile" class="input" placeholder="Mobile Number">
+            
+            <div class="mobile-row">
+                <input type="tel" id="mobile" class="input" placeholder="Primary Mobile Number">
+                <button type="button" class="btn-contact" onclick="pickContact('mobile')">👥 Contacts</button>
+            </div>
+
+            <div class="mobile-row">
+                <input type="tel" id="additionalMobile" class="input" placeholder="Additional / Alternate Mobile Number">
+                <button type="button" class="btn-contact" onclick="pickContact('additionalMobile')">👥 Contacts</button>
+            </div>
+
             <input type="text" id="membershipDate" class="input" placeholder="Membership Date (DD-MM-YYYY)">
         </div>
 
@@ -511,6 +524,34 @@ function toggleTheme(e) {
     }
 }
 
+async function pickContact(targetFieldId) {
+    if ('contacts' in navigator && 'select' in navigator.contacts) {
+        try {
+            const props = ['name', 'tel'];
+            const opts = { multiple: false };
+            const contacts = await navigator.contacts.select(props, opts);
+            
+            if (contacts && contacts.length > 0) {
+                const contact = contacts[0];
+                const phone = contact.tel && contact.tel.length > 0 ? contact.tel[0] : '';
+                const name = contact.name && contact.name.length > 0 ? contact.name[0] : '';
+
+                if (phone) {
+                    document.getElementById(targetFieldId).value = phone;
+                }
+                if (targetFieldId === 'mobile' && name && !document.getElementById('customer').value) {
+                    document.getElementById('customer').value = name;
+                }
+            }
+        } catch (ex) {
+            console.log('Contact selection error:', ex);
+            alert('Could not open contacts. Please enter manually.');
+        }
+    } else {
+        alert('Contact Picker API is not supported on this browser/device. Please type the number manually.');
+    }
+}
+
 const presetCustomers = {
     "varun": { name: "Varun Kumar Seth", mobile: "", date: "01-09-2026" },
     "reyan": { name: "Reyan", mobile: "", date: "28-08-2026" },
@@ -521,8 +562,8 @@ const catalog = [
     { id: "mem1", category: "standard", name: "NEW MEMBERSHIP ALLOTTED", rate: 240 },
     { id: "tg1", category: "timed", name: "CARROM", rate: 39, lapMin: 15 },
     { id: "tg2", category: "timed", name: "COMPUTER GAMES", rate: 120, lapMin: 30 },
-    { id: "tg3", category: "timed", name: "DRIVING Ad.", rate: 240, lapMin: 30, baseMin: 30, baseRate: 240, extraRatePerMin: 8 },
-    { id: "tg4", category: "timed", name: "DRIVING Jr.", rate: 60, lapMin: 15, baseMin: 15, baseRate: 60, extraRatePerMin: 4 },
+    { id: "tg3", category: "timed", name: "DRIVING Ad. (30 Min)", rate: 240, lapMin: 30, overtimeRate: 8 },
+    { id: "tg4", category: "timed", name: "DRIVING Jr. (15 Min)", rate: 60, lapMin: 15, overtimeRate: 4 },
     { id: "tg5", category: "timed", name: "MEMBERSHIP POOL", rate: 60, lapMin: 45 },
     { id: "tg6", category: "timed", name: "MULTI PLAYER PS5", rate: 199, lapMin: 30 },
     { id: "tg7", category: "timed", name: "PLAY STATION 5", rate: 120, lapMin: 30 },
@@ -547,10 +588,10 @@ const catalog = [
     { id: "cf9", category: "cafe", name: "MONSTER", rate: 125 },
     { id: "cf10", category: "cafe", name: "ORS LIQUID", rate: 31.50 },
     { id: "cf11", category: "cafe", name: "PREDATOR", rate: 60 },
-    { id: "cf12", category: "cafe", name: "PRINGLES Small", rate: 55 },
-    { id: "cf13", category: "cafe", name: "PRINGLES Large", rate: 110 },
-    { id: "cf14", category: "cafe", name: "SPRITE CAN", rate: 30 },
-    { id: "cf15", category: "cafe", name: "THUMBS UP CAN", rate: 30 },
+    { id: "cf12", category: "cafe", name: "PRINGLES ₹55", rate: 55 },
+    { id: "cf13", category: "cafe", name: "PRINGLES ₹110", rate: 110 },
+    { id: "cf14", category: "cafe", name: "SPRITE ₹30", rate: 30 },
+    { id: "cf15", category: "cafe", name: "THUMBS UP ₹30", rate: 30 },
 
     /* TIP TOP CHINESE MENU ITEMS */
     { id: "ttc2", category: "chinese", name: "VEG FRIED RICE", rate: 70 },
@@ -574,20 +615,6 @@ const catalog = [
 
 let cart = [];
 let couponQty = 0;
-
-function getItemTotalAmount(item) {
-    if (item.baseMin) {
-        let playedMins = Math.ceil(item.seconds / 60);
-        if (playedMins <= 0) return 0;
-        if (playedMins <= item.baseMin) {
-            return item.baseRate;
-        } else {
-            let extraMins = playedMins - item.baseMin;
-            return item.baseRate + (extraMins * item.extraRatePerMin);
-        }
-    }
-    return item.qty * item.rate;
-}
 
 function getCurrentTimeFormatted() {
     const d = new Date();
@@ -656,19 +683,13 @@ function populateDropdown() {
     const tgGroup = document.createElement("optgroup"); tgGroup.label = "⏱️ Timed / Hourly Games";
     const sgGroup = document.createElement("optgroup"); sgGroup.label = "🕹️ Standard Games / Fees";
     const cfGroup = document.createElement("optgroup"); cfGroup.label = "☕ Cafe Products";
-    const ttcGroup = document.createElement("optgroup"); ttcGroup.label = "🥢 Chinese";
-    const genGroup = document.createElement("optgroup"); genGroup.label = "✏️ New Items";
+    const ttcGroup = document.createElement("optgroup"); ttcGroup.label = "🥢 Tip Top Chinese";
+    const genGroup = document.createElement("optgroup"); genGroup.label = "✏️ Custom Items";
 
     catalog.forEach(item => {
         const opt = document.createElement("option");
         opt.value = item.id;
-        let rateLabel = `₹${item.rate}`;
-        if(item.baseMin) {
-            rateLabel = `₹${item.baseRate}/${item.baseMin}m (+₹${item.extraRatePerMin}/m)`;
-        } else if(item.lapMin) {
-            rateLabel = `₹${item.rate} / ${item.lapMin === 1 ? 'min' : item.lapMin + 'm'}`;
-        }
-        opt.innerText = item.category === "general" ? item.name : `${item.name} - ${rateLabel}`;
+        opt.innerText = item.category === "general" ? item.name : `${item.name} - ₹${item.rate}${item.lapMin ? ' / ' + item.lapMin + 'm' : ''}`;
         
         if(item.category === "timed") tgGroup.appendChild(opt);
         else if(item.category === "standard") sgGroup.appendChild(opt);
@@ -751,6 +772,30 @@ function editCustomItem(instanceId) {
     renderCart();
 }
 
+function calculateItemAmount(item) {
+    if (item.category !== 'timed') {
+        return item.qty * item.rate;
+    }
+    
+    // Proportional rate calculation for 0.5 qty or fractional units
+    if (item.qty <= 0.5) {
+        return item.qty * item.rate;
+    }
+
+    let totalMinutes = item.seconds / 60;
+    if (item.id === "tg4") { // Driving Jr. (15 Min base ₹60, then ₹4/min)
+        if (totalMinutes <= 15) return item.rate;
+        let extraMins = Math.ceil(totalMinutes - 15);
+        return item.rate + (extraMins * 4);
+    } else if (item.id === "tg3") { // Driving Ad. (30 Min base ₹240, then ₹8/min)
+        if (totalMinutes <= 30) return item.rate;
+        let extraMins = Math.ceil(totalMinutes - 30);
+        return item.rate + (extraMins * 8);
+    } else {
+        return item.qty * item.rate;
+    }
+}
+
 function updateCardElement(item) {
     const cardEl = document.getElementById(`card-${item.instanceId}`);
     if(!cardEl) return;
@@ -759,7 +804,7 @@ function updateCardElement(item) {
     if(qtyBox) qtyBox.innerText = item.qty;
 
     const amtBox = cardEl.querySelector('.card-amount-box');
-    if(amtBox) amtBox.innerText = `₹ ${getItemTotalAmount(item).toFixed(2)}`;
+    if(amtBox) amtBox.innerText = `₹ ${calculateItemAmount(item).toFixed(2)}`;
 
     if(item.category === 'timed') {
         const hrs = String(Math.floor(item.seconds / 3600)).padStart(2, '0');
@@ -796,16 +841,12 @@ function renderCart() {
     cart.forEach((item) => {
         let isEditable = item.category === "general";
         let editBtnHtml = isEditable ? `<button type="button" class="btn-edit-item" onclick="editCustomItem('${item.instanceId}')">✏️ Edit</button>` : '';
+        let itemAmt = calculateItemAmount(item);
 
         if(item.category === "timed") {
             const hrs = String(Math.floor(item.seconds / 3600)).padStart(2, '0');
             const mins = String(Math.floor((item.seconds % 3600) / 60)).padStart(2, '0');
             const secs = String(item.seconds % 60).padStart(2, '0');
-
-            let rateText = `RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN`;
-            if (item.baseMin) {
-                rateText = `₹${item.baseRate}/${item.baseMin}m (+₹${item.extraRatePerMin}/m)`;
-            }
 
             container.innerHTML += `
             <div style="width:100%" class="cart-item-wrapper" id="card-${item.instanceId}">
@@ -813,9 +854,9 @@ function renderCart() {
                     <div class="mobile-card-header">
                         <div class="card-particular">
                             <div class="game-title">${item.name}</div>
-                            <div class="game-meta">${rateText}</div>
+                            <div class="game-meta">RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN</div>
                         </div>
-                        <div class="card-amount-box">₹ ${getItemTotalAmount(item).toFixed(2)}</div>
+                        <div class="card-amount-box">₹ ${itemAmt.toFixed(2)}</div>
                     </div>
 
                     <div class="mobile-card-middle">
@@ -850,7 +891,7 @@ function renderCart() {
                             <div class="game-title">${item.name}</div>
                             <div class="game-meta">RATE ₹ ${item.rate.toFixed(2)}</div>
                         </div>
-                        <div class="card-amount-box">₹ ${getItemTotalAmount(item).toFixed(2)}</div>
+                        <div class="card-amount-box">₹ ${itemAmt.toFixed(2)}</div>
                     </div>
 
                     <div class="mobile-card-footer" style="justify-content: space-between;">
@@ -985,7 +1026,7 @@ function calculate() {
     let cafeTotal = 0;
 
     cart.forEach(item => {
-        let total = getItemTotalAmount(item);
+        let total = calculateItemAmount(item);
         if(item.category === "cafe" || item.category === "chinese") cafeTotal += total;
         else gamesTotal += total;
     });
@@ -1020,7 +1061,7 @@ function calculate() {
 function adjustCouponQty(delta) {
     let gamesTotal = 0;
     cart.forEach(item => {
-        if(item.category !== "cafe" && item.category !== "chinese") gamesTotal += getItemTotalAmount(item);
+        if(item.category !== "cafe" && item.category !== "chinese") gamesTotal += calculateItemAmount(item);
     });
 
     let maxAllowedCoupons = Math.floor(gamesTotal / 200);
@@ -1091,14 +1132,14 @@ function renderTerminalSummaryList() {
     
     listContainer.innerHTML = "";
     cart.forEach(item => {
-        let totalAmt = getItemTotalAmount(item);
-        if(totalAmt > 0 || item.qty > 0) {
+        if(item.qty > 0) {
             let icon = item.id === "mem1" ? "🪪" : (item.category === "timed" ? "⏱️" : (item.category === "standard" ? "🕹️" : (item.category === "chinese" ? "🥢" : (item.category === "general" ? "✏️" : "☕"))));
-            let qtyText = item.category === "timed" ? `(${Math.ceil(item.seconds / 60)}m)` : `(x${item.qty})`;
+            let qtyText = item.category === "timed" ? `(${item.qty}m)` : `(x${item.qty})`;
+            let itemAmt = calculateItemAmount(item);
             listContainer.innerHTML += `
                 <div class="summary-item-row">
                     <span>${icon} ${item.name} ${qtyText}</span>
-                    <span>₹ ${totalAmt.toFixed(2)}</span>
+                    <span>₹ ${itemAmt.toFixed(2)}</span>
                 </div>
             `;
         }
@@ -1121,7 +1162,7 @@ function navigateToPage(no) {
 function generateReceipt() {
     const line = "------------------------------\n";
     const dLine = "==============================\n";
-    let t = "```        PAUSE & PLAY        \n";
+    let t = "        PAUSE & PLAY        \n";
     t += "    Gaming Cafe, Jaunpur   \n";
     t += dLine;
     t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
@@ -1137,11 +1178,11 @@ function generateReceipt() {
     t += line;
     
     cart.forEach(i => {
-        let amtVal = getItemTotalAmount(i);
-        if(amtVal > 0 || i.qty > 0) {
+        if(i.qty > 0) {
             let name = i.name.length > 14 ? i.name.substring(0, 14) : i.name.padEnd(14, ' ');
-            let qty = i.category === "timed" ? `${Math.ceil(i.seconds / 60)}m`.padStart(4, ' ') : String(i.qty).padStart(4, ' ');
-            let amt = `₹${amtVal.toFixed(2)}`.padStart(10, ' ');
+            let qty = String(i.qty).padStart(4, ' ');
+            let itemAmt = calculateItemAmount(i);
+            let amt = `₹${itemAmt.toFixed(2)}`.padStart(10, ' ');
             t += `${name} ${qty} ${amt}\n`;
         }
     });
@@ -1153,7 +1194,7 @@ function generateReceipt() {
     }
     t += `Grand Total   : ₹${document.getElementById("grandTotal").innerText.padStart(10, ' ')}\n`;
     t += dLine;
-    t += "   Thank You! Visit Again!   ```\n";
+    t += "   Thank You! Visit Again!   \n";
     return t;
 }
 
