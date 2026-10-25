@@ -521,8 +521,8 @@ const catalog = [
     { id: "mem1", category: "standard", name: "NEW MEMBERSHIP ALLOTTED", rate: 240 },
     { id: "tg1", category: "timed", name: "CARROM", rate: 39, lapMin: 15 },
     { id: "tg2", category: "timed", name: "COMPUTER GAMES", rate: 120, lapMin: 30 },
-    { id: "tg3", category: "timed", name: "DRIVING Ad. (30 Min Base)", rate: 240, lapMin: 30, baseMin: 30, baseRate: 240, extraRatePerMin: 8 },
-    { id: "tg4", category: "timed", name: "DRIVING Jr. (15 Min Base)", rate: 60, lapMin: 15, baseMin: 15, baseRate: 60, extraRatePerMin: 4 },
+    { id: "tg3", category: "timed", name: "DRIVING Ad.", rate: 240, lapMin: 30, baseMin: 30, baseRate: 240, extraRatePerMin: 8 },
+    { id: "tg4", category: "timed", name: "DRIVING Jr.", rate: 60, lapMin: 15, baseMin: 15, baseRate: 60, extraRatePerMin: 4 },
     { id: "tg5", category: "timed", name: "MEMBERSHIP POOL", rate: 60, lapMin: 45 },
     { id: "tg6", category: "timed", name: "MULTI PLAYER PS5", rate: 199, lapMin: 30 },
     { id: "tg7", category: "timed", name: "PLAY STATION 5", rate: 120, lapMin: 30 },
@@ -531,9 +531,9 @@ const catalog = [
     { id: "tg10", category: "timed", name: "TABLE POOL", rate: 3.00, lapMin: 1 },
     { id: "tg11", category: "timed", name: "TABLE TENNIS", rate: 3.00, lapMin: 1 },
 
-    { id: "sg1", category: "standard", name: "AIR HOCKEY (1 ROUND)", rate: 60 },
+    { id: "sg1", category: "standard", name: "AIR HOCKEY", rate: 60 },
     { id: "sg2", category: "standard", name: "BASKETBALL", rate: 39 },
-    { id: "sg3", category: "standard", name: "FROG HAMMER (1 COIN)", rate: 30 },
+    { id: "sg3", category: "standard", name: "FROG HAMMER", rate: 30 },
     { id: "sg4", category: "standard", name: "CRICKET", rate: 39 },
 
     { id: "cf1", category: "cafe", name: "CHIPS ₹5", rate: 5 },
@@ -547,10 +547,10 @@ const catalog = [
     { id: "cf9", category: "cafe", name: "MONSTER", rate: 125 },
     { id: "cf10", category: "cafe", name: "ORS LIQUID", rate: 31.50 },
     { id: "cf11", category: "cafe", name: "PREDATOR", rate: 60 },
-    { id: "cf12", category: "cafe", name: "PRINGLES ₹55", rate: 55 },
-    { id: "cf13", category: "cafe", name: "PRINGLES ₹110", rate: 110 },
-    { id: "cf14", category: "cafe", name: "SPRITE ₹30", rate: 30 },
-    { id: "cf15", category: "cafe", name: "THUMBS UP ₹30", rate: 30 },
+    { id: "cf12", category: "cafe", name: "PRINGLES Small", rate: 55 },
+    { id: "cf13", category: "cafe", name: "PRINGLES Large", rate: 110 },
+    { id: "cf14", category: "cafe", name: "SPRITE CAN", rate: 30 },
+    { id: "cf15", category: "cafe", name: "THUMBS UP CAN", rate: 30 },
 
     /* TIP TOP CHINESE MENU ITEMS */
     { id: "ttc2", category: "chinese", name: "VEG FRIED RICE", rate: 70 },
@@ -656,8 +656,8 @@ function populateDropdown() {
     const tgGroup = document.createElement("optgroup"); tgGroup.label = "⏱️ Timed / Hourly Games";
     const sgGroup = document.createElement("optgroup"); sgGroup.label = "🕹️ Standard Games / Fees";
     const cfGroup = document.createElement("optgroup"); cfGroup.label = "☕ Cafe Products";
-    const ttcGroup = document.createElement("optgroup"); ttcGroup.label = "🥢 Tip Top Chinese";
-    const genGroup = document.createElement("optgroup"); genGroup.label = "✏️ Custom Items";
+    const ttcGroup = document.createElement("optgroup"); ttcGroup.label = "🥢 Chinese";
+    const genGroup = document.createElement("optgroup"); genGroup.label = "✏️ New Items";
 
     catalog.forEach(item => {
         const opt = document.createElement("option");
