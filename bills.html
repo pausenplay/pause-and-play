@@ -521,19 +521,19 @@ const catalog = [
     { id: "mem1", category: "standard", name: "NEW MEMBERSHIP ALLOTTED", rate: 240 },
     { id: "tg1", category: "timed", name: "CARROM", rate: 39, lapMin: 15 },
     { id: "tg2", category: "timed", name: "COMPUTER GAMES", rate: 120, lapMin: 30 },
-    { id: "tg3", category: "timed", name: "DRIVING Ad. (15 Min)", rate: 120, lapMin: 15 },
-    { id: "tg4", category: "timed", name: "DRIVING Jr. (15 Min)", rate: 60, lapMin: 15 },
+    { id: "tg3", category: "timed", name: "DRIVING Ad.", rate: 8.00, lapMin: 1 },
+    { id: "tg4", category: "timed", name: "DRIVING Jr.", rate: 6.00, lapMin: 1 },
     { id: "tg5", category: "timed", name: "MEMBERSHIP POOL", rate: 60, lapMin: 45 },
     { id: "tg6", category: "timed", name: "MULTI PLAYER PS5", rate: 199, lapMin: 30 },
     { id: "tg7", category: "timed", name: "PLAY STATION 5", rate: 120, lapMin: 30 },
     { id: "tg8", category: "timed", name: "RETRO GAMES", rate: 60, lapMin: 30 },
     { id: "tg9", category: "timed", name: "SNOOKER TABLE", rate: 4.00, lapMin: 1 },
-    { id: "tg10", category: "timed", name: "TABLE POOL", rate: 99, lapMin: 30 },
-    { id: "tg11", category: "timed", name: "TABLE TENNIS", rate: 79, lapMin: 30 },
+    { id: "tg10", category: "timed", name: "TABLE POOL", rate: 3.00, lapMin: 1 },
+    { id: "tg11", category: "timed", name: "TABLE TENNIS", rate: 3.00, lapMin: 1 },
 
-    { id: "sg1", category: "standard", name: "AIR HOCKEY", rate: 99 },
+    { id: "sg1", category: "standard", name: "AIR HOCKEY", rate: 60 },
     { id: "sg2", category: "standard", name: "BASKETBALL", rate: 39 },
-    { id: "sg3", category: "standard", name: "FROG HAMMER", rate: 20 },
+    { id: "sg3", category: "standard", name: "FROG HAMMER", rate: 30 },
     { id: "sg4", category: "standard", name: "CRICKET", rate: 39 },
 
     { id: "cf1", category: "cafe", name: "CHIPS ₹5", rate: 5 },
@@ -1095,7 +1095,7 @@ function navigateToPage(no) {
 function generateReceipt() {
     const line = "------------------------------\n";
     const dLine = "==============================\n";
-    let t = "```        PAUSE & PLAY        \n";
+    let t = "        PAUSE & PLAY        \n";
     t += "    Gaming Cafe, Jaunpur   \n";
     t += dLine;
     t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
@@ -1126,7 +1126,7 @@ function generateReceipt() {
     }
     t += `Grand Total   : ₹${document.getElementById("grandTotal").innerText.padStart(10, ' ')}\n`;
     t += dLine;
-    t += "   Thank You! Visit Again!   ```\n";
+    t += "   Thank You! Visit Again!   \n";
     return t;
 }
 
@@ -1136,11 +1136,9 @@ function sendWhatsApp() {
     
     let shareUrl = "";
     if(mobileInput) {
-        // Agar mobile number diya hai toh seedhe us number par bhejega
         let cleanMobile = mobileInput.replace(/\D/g, '');
         shareUrl = `https://api.whatsapp.com/send?phone=${cleanMobile}&text=${encodeURIComponent(billText)}`;
     } else {
-        // Agar number nahi hai toh standard chat khulegi jahan group select kar sakein
         shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(billText)}`;
     }
     
@@ -1164,7 +1162,7 @@ function clearBill() {
     });
     cart = [];
     couponQty = 0;
-    if(document.getElementById("presetCustomerSelect")) document.getElementById("presetCustomerSelect".value = "");
+    if(document.getElementById("presetCustomerSelect")) document.getElementById("presetCustomerSelect").value = "";
     if(document.getElementById("customer")) document.getElementById("customer").value = "";
     if(document.getElementById("mobile")) document.getElementById("mobile").value = "";
     if(document.getElementById("additionalMobile")) document.getElementById("additionalMobile").value = "";
