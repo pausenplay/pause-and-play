@@ -1095,7 +1095,7 @@ function navigateToPage(no) {
 function generateReceipt() {
     const line = "------------------------------\n";
     const dLine = "==============================\n";
-    let t = "        PAUSE & PLAY        \n";
+    let t = "```        PAUSE & PLAY        \n";
     t += "    Gaming Cafe, Jaunpur   \n";
     t += dLine;
     t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
@@ -1126,7 +1126,7 @@ function generateReceipt() {
     }
     t += `Grand Total   : ₹${document.getElementById("grandTotal").innerText.padStart(10, ' ')}\n`;
     t += dLine;
-    t += "   Thank You! Visit Again!   \n";
+    t += "   Thank You! Visit Again!   ```\n";
     return t;
 }
 
