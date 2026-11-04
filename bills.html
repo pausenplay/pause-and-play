@@ -375,7 +375,7 @@ input:checked + .slider:before { transform: translateX(22px); }
                 <option value="arman">3. Arman (03-09-2026)</option>
                 <option value="new">4. ➕ [ New Customer Entry ]</option>
             </select>
-            <input type="text" id="customer" class="input" placeholder="Customer Name">
+            <input type="text" id="customer" class="input" placeholder="Customer Name" oninput="updateTabTitle()">
             <input type="tel" id="mobile" class="input" placeholder="No.">
             <input type="tel" id="additionalMobile" class="input" placeholder="Mobile Number">
             <input type="text" id="membershipDate" class="input" placeholder="Membership Date (DD-MM-YYYY)">
@@ -431,7 +431,7 @@ input:checked + .slider:before { transform: translateX(22px); }
             <div class="payment-layout-grid">
                 <div class="payment-input-card">
                     <div class="payment-input-label">💳 UPI ID</div>
-                    <input type="text" id="upiId" class="payment-inner-input" value="pausenplay@cnrb" placeholder="Enter UPI ID" oninput="updateQRCode()">
+                    <input type="text" id="upiId" class="payment-inner-input" value="Q67246447@ybl" placeholder="Enter UPI ID" oninput="updateQRCode()">
                 </div>
                 <div class="payment-input-card">
                     <div class="payment-input-label">💵 CASH BOX</div>
@@ -503,6 +503,15 @@ input:checked + .slider:before { transform: translateX(22px); }
 <script>
 document.getElementById("dateBox").innerText = "Date : " + new Date().toLocaleDateString("en-GB");
 
+function updateTabTitle() {
+    let custName = document.getElementById("customer").value.trim();
+    if(custName) {
+        document.title = custName + " - Pause & Play";
+    } else {
+        document.title = "Pause & Play Billing";
+    }
+}
+
 function toggleTheme(e) {
     if (e.checked) {
         document.documentElement.setAttribute('data-theme', 'dark');
@@ -536,24 +545,29 @@ const catalog = [
     { id: "sg3", category: "standard", name: "FROG HAMMER", rate: 30 },
     { id: "sg4", category: "standard", name: "CRICKET", rate: 39 },
 
-    { id: "cf1", category: "cafe", name: "CHIPS ₹5", rate: 5 },
-    { id: "cf2", category: "cafe", name: "CHIPS ₹10", rate: 10 },
-    { id: "cf3", category: "cafe", name: "COLDRINK ₹10", rate: 10 },
-    { id: "cf4", category: "cafe", name: "COLDRINK ₹20", rate: 20 },
-    { id: "cf6", category: "cafe", name: "COKE ₹40", rate: 40 },
-    { id: "cf7", category: "cafe", name: "MINERAL WATER ₹5", rate: 5 },
-    { id: "cf8", category: "cafe", name: "MINERAL WATER ₹10", rate: 10 },
-    { id: "cf9", category: "cafe", name: "MONSTER", rate: 125 },
-    { id: "cf10", category: "cafe", name: "ORS LIQUID", rate: 31.50 },
-    { id: "cf11", category: "cafe", name: "PREDATOR", rate: 60 },
-    { id: "cf12", category: "cafe", name: "PRINGLES ₹55", rate: 55 },
-    { id: "cf13", category: "cafe", name: "PRINGLES ₹110", rate: 110 },
-    { id: "cf5", category: "cafe", name: "COKE ₹35", rate: 35 },
-    { id: "cf14", category: "cafe", name: "SPRITE ₹35", rate: 35 },
-    { id: "cf15", category: "cafe", name: "THUMBS UP ₹35", rate: 35 },
-    { id: "cf16", category: "cafe", name: "SPRITE ₹70", rate: 70 },
-    { id: "cf17", category: "cafe", name: "COKE ₹70", rate: 70 },
-    { id: "cf18", category: "cafe", name: "THUMBS-UP ₹70", rate: 70 },
+    /* CAFE ITEMS (Arranged strictly in requested order) */
+    { id: "cf1", category: "cafe", name: "CHIPS", rate: 5 },
+    { id: "cf2", category: "cafe", name: "CHIPS", rate: 10 },
+    { id: "cf3", category: "cafe", name: "COLDRINK", rate: 10 },
+    { id: "cf4", category: "cafe", name: "COLDRINK", rate: 20 },
+    { id: "cf5", category: "cafe", name: "COLDRINK", rate: 20 },
+    { id: "cf6", category: "cafe", name: "MINERAL WATER", rate: 5 },
+    { id: "cf7", category: "cafe", name: "MINERAL WATER", rate: 10 },
+    { id: "cf8", category: "cafe", name: "MONSTER", rate: 125 },
+    { id: "cf9", category: "cafe", name: "ORS LIQUID", rate: 31.50 },
+    { id: "cf10", category: "cafe", name: "PRINGLES SMALL", rate: 55 },
+    { id: "cf11", category: "cafe", name: "PRINGLES BIG", rate: 110 },
+    { id: "cf12", category: "cafe", name: "RAW NIMBU PANI", rate: 30 },
+    { id: "cf13", category: "cafe", name: "RAW COCONUT WATER", rate: 65 },
+    { id: "cf14", category: "cafe", name: "RAW 25G PROTEIN MILK SHAKE", rate: 145 },
+    { id: "cf15", category: "cafe", name: "PREDATOR", rate: 60 },
+    { id: "cf16", category: "cafe", name: "DIET COKE", rate: 40 },
+    { id: "cf17", category: "cafe", name: "COKE", rate: 35 },
+    { id: "cf18", category: "cafe", name: "SPRITE", rate: 35 },
+    { id: "cf19", category: "cafe", name: "THUMBS UP", rate: 35 },
+    { id: "cf20", category: "cafe", name: "COKE", rate: 70 },
+    { id: "cf21", category: "cafe", name: "SPRITE", rate: 70 },
+    { id: "cf22", category: "cafe", name: "THUMBS UP", rate: 70 },
 
     /* CHINESE MENU ITEMS */
     { id: "ttc2", category: "chinese", name: "VEG FRIED RICE", rate: 70 },
@@ -591,6 +605,7 @@ function handlePresetCustomerChange(val) {
         document.getElementById("mobile").value = "";
         document.getElementById("additionalMobile").value = "";
         document.getElementById("membershipDate").value = new Date().toLocaleDateString("en-GB");
+        updateTabTitle();
         
         if(!hasMembershipInCart()) {
             addMembershipToCart();
@@ -601,6 +616,7 @@ function handlePresetCustomerChange(val) {
         document.getElementById("mobile").value = data.mobile;
         document.getElementById("additionalMobile").value = "";
         document.getElementById("membershipDate").value = data.date;
+        updateTabTitle();
         
         if(hasMembershipInCart()) {
             removeMembershipFromCart();
@@ -1048,7 +1064,7 @@ function updateQRCode() {
 
     let balanceQrAmount = Math.max(0, grand - cash);
 
-    let upiId = document.getElementById("upiId")?.value.trim() || "pausenplay@cnrb";
+    let upiId = document.getElementById("upiId")?.value.trim() || "Q67246447@ybl";
 
     const displayBox = document.getElementById("qrCalculatedDisplay");
     if(displayBox) displayBox.innerText = balanceQrAmount.toFixed(2);
@@ -1175,6 +1191,7 @@ function clearBill() {
     if(document.getElementById("upiAmount")) document.getElementById("upiAmount").value = "";
     if(document.getElementById("cashAmount")) document.getElementById("cashAmount").value = "";
     if(document.getElementById("couponQtyDisplay")) document.getElementById("couponQtyDisplay").innerText = "0";
+    updateTabTitle();
     renderCart();
     navigateToPage(1);
 }
