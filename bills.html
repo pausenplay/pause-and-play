@@ -540,7 +540,7 @@ const catalog = [
     { id: "cf2", category: "cafe", name: "CHIPS ₹10", rate: 10 },
     { id: "cf3", category: "cafe", name: "COLDRINK ₹10", rate: 10 },
     { id: "cf4", category: "cafe", name: "COLDRINK ₹20", rate: 20 },
-    { id: "cf5", category: "cafe", name: "DIET COKE ₹30", rate: 30 },
+    { id: "cf5", category: "cafe", name: "COLDRINK ₹35", rate: 35 },
     { id: "cf6", category: "cafe", name: "DIET COKE ₹40", rate: 40 },
     { id: "cf7", category: "cafe", name: "MINERAL WATER ₹5", rate: 5 },
     { id: "cf8", category: "cafe", name: "MINERAL WATER ₹10", rate: 10 },
@@ -549,8 +549,11 @@ const catalog = [
     { id: "cf11", category: "cafe", name: "PREDATOR", rate: 60 },
     { id: "cf12", category: "cafe", name: "PRINGLES ₹55", rate: 55 },
     { id: "cf13", category: "cafe", name: "PRINGLES ₹110", rate: 110 },
-    { id: "cf14", category: "cafe", name: "SPRITE ₹30", rate: 30 },
-    { id: "cf15", category: "cafe", name: "THUMBS UP ₹30", rate: 30 },
+    { id: "cf14", category: "cafe", name: "SPRITE ₹35", rate: 35 },
+    { id: "cf15", category: "cafe", name: "THUMBS UP ₹35", rate: 35 },
+    { id: "cf16", category: "cafe", name: "SPRITE ₹70", rate: 70 },
+    { id: "cf17", category: "cafe", name: "COKE ₹70", rate: 70 },
+    { id: "cf18", category: "cafe", name: "THUMBS-UP ₹70", rate: 70 },
 
     /* TIP TOP CHINESE MENU ITEMS */
     { id: "ttc2", category: "chinese", name: "VEG FRIED RICE", rate: 70 },
@@ -1095,7 +1098,7 @@ function navigateToPage(no) {
 function generateReceipt() {
     const line = "------------------------------\n";
     const dLine = "==============================\n";
-    let t = "```        PAUSE & PLAY        \n";
+    let t = "        PAUSE & PLAY        \n";
     t += "    Gaming Cafe, Jaunpur   \n";
     t += dLine;
     t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
@@ -1126,7 +1129,7 @@ function generateReceipt() {
     }
     t += `Grand Total   : ₹${document.getElementById("grandTotal").innerText.padStart(10, ' ')}\n`;
     t += dLine;
-    t += "   Thank You! Visit Again!   ```\n";
+    t += "   Thank You! Visit Again!   \n";
     return t;
 }
 
