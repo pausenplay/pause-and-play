@@ -540,8 +540,7 @@ const catalog = [
     { id: "cf2", category: "cafe", name: "CHIPS ₹10", rate: 10 },
     { id: "cf3", category: "cafe", name: "COLDRINK ₹10", rate: 10 },
     { id: "cf4", category: "cafe", name: "COLDRINK ₹20", rate: 20 },
-    { id: "cf5", category: "cafe", name: "COLDRINK ₹35", rate: 35 },
-    { id: "cf6", category: "cafe", name: "DIET COKE ₹40", rate: 40 },
+    { id: "cf6", category: "cafe", name: "COKE ₹40", rate: 40 },
     { id: "cf7", category: "cafe", name: "MINERAL WATER ₹5", rate: 5 },
     { id: "cf8", category: "cafe", name: "MINERAL WATER ₹10", rate: 10 },
     { id: "cf9", category: "cafe", name: "MONSTER", rate: 125 },
@@ -549,13 +548,14 @@ const catalog = [
     { id: "cf11", category: "cafe", name: "PREDATOR", rate: 60 },
     { id: "cf12", category: "cafe", name: "PRINGLES ₹55", rate: 55 },
     { id: "cf13", category: "cafe", name: "PRINGLES ₹110", rate: 110 },
+    { id: "cf5", category: "cafe", name: "COKE ₹35", rate: 35 },
     { id: "cf14", category: "cafe", name: "SPRITE ₹35", rate: 35 },
     { id: "cf15", category: "cafe", name: "THUMBS UP ₹35", rate: 35 },
     { id: "cf16", category: "cafe", name: "SPRITE ₹70", rate: 70 },
     { id: "cf17", category: "cafe", name: "COKE ₹70", rate: 70 },
     { id: "cf18", category: "cafe", name: "THUMBS-UP ₹70", rate: 70 },
 
-    /* TIP TOP CHINESE MENU ITEMS */
+    /* CHINESE MENU ITEMS */
     { id: "ttc2", category: "chinese", name: "VEG FRIED RICE", rate: 70 },
     { id: "ttc3", category: "chinese", name: "VEG SCHEZWAN RICE", rate: 80 },
     { id: "ttc4", category: "chinese", name: "VEG MANCHURIAN RICE", rate: 70 },
@@ -645,7 +645,7 @@ function populateDropdown() {
     const tgGroup = document.createElement("optgroup"); tgGroup.label = "⏱️ Timed / Hourly Games";
     const sgGroup = document.createElement("optgroup"); sgGroup.label = "🕹️ Standard Games / Fees";
     const cfGroup = document.createElement("optgroup"); cfGroup.label = "☕ Cafe Products";
-    const ttcGroup = document.createElement("optgroup"); ttcGroup.label = "🥢 Tip Top Chinese";
+    const ttcGroup = document.createElement("optgroup"); ttcGroup.label = "🥢 Chinese";
     const genGroup = document.createElement("optgroup"); genGroup.label = "✏️ Custom Items";
 
     catalog.forEach(item => {
