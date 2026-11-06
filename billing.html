@@ -3,32 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="pageTitle">Pause & Play Billing</title>
-<!-- Google Font: Inter -->
+<title id="pageTitle">🪔 Pause & Play Diwali Billing</title>
+<!-- Google Font: Inter & Cinzel for Festive Header -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
-    --bg-main: #f4f6f9;
+    --bg-main: #fdf8ed;
     --bg-card: #ffffff;
-    --text-main: #1c1c1e;
-    --text-muted: #6e6e73;
-    --border-color: #d1d1d6;
-    --input-bg: #f2f2f7;
-    --ios-green: #34c759;
-    --ios-red: #ff3b30;
-    --ios-blue: #007aff;
-    --ios-purple: #af52de;
+    --text-main: #2b1600;
+    --text-muted: #7c5c36;
+    --border-color: #f3d59b;
+    --input-bg: #fffbf2;
+    --diwali-gold: #ffb703;
+    --diwali-orange: #fb8500;
+    --diwali-red: #d90429;
+    --diwali-purple: #4a0e4e;
+    --diwali-glow: rgba(255, 183, 3, 0.35);
+    --ios-green: #2a9d8f;
+    --ios-red: #e63946;
+    --ios-blue: #0284c7;
 }
 
 [data-theme="dark"] {
-    --bg-main: #121212;
-    --bg-card: #1e1e1e;
-    --text-main: #f5f5f7;
-    --text-muted: #a1a1a6;
-    --border-color: #333336;
-    --input-bg: #2c2c2e;
+    --bg-main: #14081c;
+    --bg-card: #220e2e;
+    --text-main: #fff3db;
+    --text-muted: #d4b584;
+    --border-color: #572266;
+    --input-bg: #2d143c;
+    --diwali-gold: #ffc107;
+    --diwali-orange: #ff7b00;
+    --diwali-purple: #6a1b9a;
 }
 
 *{ margin:0; padding:0; box-sizing:border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; touch-action: manipulation; }
@@ -36,7 +43,8 @@ body{ background: var(--bg-main); color: var(--text-main); padding: 10px; line-h
 
 .container{
     max-width:100%; margin:auto; background: var(--bg-card); padding:16px 12px;
-    border-radius:18px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); border: 1px solid var(--border-color);
+    border-radius:22px; box-shadow: 0 8px 24px rgba(255, 133, 0, 0.12), 0 0 15px var(--diwali-glow); 
+    border: 2px solid var(--border-color);
     position: relative;
     transition: background 0.3s ease, border-color 0.3s ease;
 }
@@ -57,7 +65,7 @@ body{ background: var(--bg-main); color: var(--text-main); padding: 10px; line-h
 }
 .theme-switch input { display:none; }
 .slider {
-    background-color: #ccc;
+    background-color: #e0a96d;
     bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0;
     transition: .4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 34px;
 }
@@ -65,7 +73,7 @@ body{ background: var(--bg-main); color: var(--text-main); padding: 10px; line-h
     background-color: #fff; bottom: 3px; content: ""; height: 18px;
     left: 3px; position: absolute; transition: .4s cubic-bezier(0.4, 0, 0.2, 1); width: 18px; border-radius: 50%;
 }
-input:checked + .slider { background-color: var(--ios-blue); }
+input:checked + .slider { background-color: var(--diwali-orange); }
 input:checked + .slider:before { transform: translateX(22px); }
 
 /* Animated Page Transitions */
@@ -77,27 +85,23 @@ input:checked + .slider:before { transform: translateX(22px); }
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.header{ text-align:center; margin-bottom:12px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
-.title{ font-size:24px; font-weight:900; letter-spacing: -0.5px; }
-.subtitle{ color: var(--text-muted); font-size:9px; margin-top:2px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.header{ text-align:center; margin-bottom:12px; border-bottom: 2px dashed var(--border-color); padding-bottom: 12px; background: linear-gradient(135deg, rgba(255,183,3,0.1), rgba(217,4,41,0.05)); border-radius: 14px; padding-top: 8px;}
+.title{ font-family: 'Cinzel', serif; font-size:26px; font-weight:900; letter-spacing: 0.5px; color: var(--diwali-red); text-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+.subtitle{ color: var(--diwali-orange); font-size:10px; margin-top:2px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
 
 .info-grid{ display:flex; flex-direction:column; gap:8px; }
 .input, .select-customer {
-    width:100%; padding:12px; border: 1px solid var(--border-color); border-radius:10px;
+    width:100%; padding:12px; border: 1.5px solid var(--border-color); border-radius:12px;
     font-size:14px; font-weight:600; background: var(--input-bg); color: var(--text-main); outline: none;
     transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
 }
-.input:focus, .select-customer:focus { border-color: var(--ios-blue); box-shadow: 0 0 0 3px rgba(0,122,255,0.2); }
+.input:focus, .select-customer:focus { border-color: var(--diwali-orange); box-shadow: 0 0 0 3px var(--diwali-glow); }
 
-.mobile-row { display: flex; gap: 6px; align-items: center; }
-.mobile-row .input { flex: 1; }
-.btn-contact { background: var(--ios-blue); color: #fff; border: none; border-radius: 10px; padding: 0 12px; font-size: 14px; font-weight: 700; cursor: pointer; height: 44px; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap; }
+.date-box { margin: 10px 0; font-size: 12px; font-weight: 800; color: var(--diwali-orange); text-align: center; background: rgba(255, 183, 3, 0.15); padding: 4px; border-radius: 8px; }
 
-.date-box { margin: 10px 0; font-size: 12px; font-weight: 700; color: var(--text-muted); text-align: center; }
-
-.master-bar { display: flex; gap: 8px; margin-bottom: 12px; background: var(--input-bg); padding: 6px; border-radius: 12px; border: 1px solid var(--border-color); }
-.select-input { flex: 1; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; font-weight: 700; background: var(--bg-card); color: var(--text-main); outline: none; width: 100%; transition: border-color 0.2s, box-shadow 0.2s; }
-.select-input:focus { border-color: var(--ios-blue); box-shadow: 0 0 0 3px rgba(0,122,255,0.2); }
+.master-bar { display: flex; gap: 8px; margin-bottom: 12px; background: var(--input-bg); padding: 6px; border-radius: 14px; border: 1.5px solid var(--border-color); }
+.select-input { flex: 1; padding: 12px; border: 1.5px solid var(--border-color); border-radius: 10px; font-size: 14px; font-weight: 700; background: var(--bg-card); color: var(--text-main); outline: none; width: 100%; transition: border-color 0.2s, box-shadow 0.2s; }
+.select-input:focus { border-color: var(--diwali-orange); box-shadow: 0 0 0 3px var(--diwali-glow); }
 
 .items-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
 
@@ -124,7 +128,7 @@ input:checked + .slider:before { transform: translateX(22px); }
     border: 2px solid var(--border-color);
     border-radius: 16px;
     padding: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 12px rgba(255,183,3,0.08);
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -132,7 +136,7 @@ input:checked + .slider:before { transform: translateX(22px); }
 }
 
 .card-particular { display: flex; flex-direction: column; justify-content: center; width: 65%; }
-.card-particular .game-title { font-size: 16px; font-weight: 900; color: var(--text-main); letter-spacing: 0.2px; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-particular .game-title { font-size: 15px; font-weight: 900; color: var(--text-main); letter-spacing: 0.2px; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .card-particular .game-meta { font-size: 11px; font-weight: 700; color: var(--text-muted); margin-top: 2px; }
 
 .mobile-card-header { display: flex; justify-content: space-between; align-items: center; width: 100%; }
@@ -149,30 +153,30 @@ input:checked + .slider:before { transform: translateX(22px); }
     transform: scale(0.93);
 }
 
-.btn-minus { width: 36px; height: 36px; background: #ff3b30; color: #fff; border: none; border-radius: 8px; font-size: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.qty-display-box { width: 42px; height: 36px; border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-bg); font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; color: var(--text-main); transition: background 0.3s, border-color 0.3s; }
-.btn-plus { width: 36px; height: 36px; background: #34c759; color: #fff; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.btn-minus { width: 36px; height: 36px; background: var(--ios-red); color: #fff; border: none; border-radius: 10px; font-size: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.qty-display-box { width: 42px; height: 36px; border: 1.5px solid var(--border-color); border-radius: 10px; background: var(--input-bg); font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; color: var(--text-main); transition: background 0.3s, border-color 0.3s; }
+.btn-plus { width: 36px; height: 36px; background: var(--ios-green); color: #fff; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-.card-amount-box { border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-bg); height: 36px; min-width: 85px; padding: 0 8px; font-size: 15px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
-.card-timer-box { border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--bg-card); height: 36px; min-width: 95px; font-family: monospace; font-size: 15px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; justify-content: center; transition: border-color 0.3s, color 0.3s; }
+.card-amount-box { border: 1.5px solid var(--border-color); border-radius: 10px; background: var(--input-bg); height: 36px; min-width: 85px; padding: 0 8px; font-size: 15px; font-weight: 800; color: var(--diwali-red); display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+.card-timer-box { border: 1.5px solid var(--border-color); border-radius: 10px; background: var(--bg-card); height: 36px; min-width: 95px; font-family: monospace; font-size: 15px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; justify-content: center; transition: border-color 0.3s, color 0.3s; }
 
-.btn-switch { flex: 1; height: 36px; background: #34c759; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; text-transform: uppercase; }
+.btn-switch { flex: 1; height: 36px; background: var(--ios-green); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; text-transform: uppercase; }
 .btn-switch.running { 
-    background: #ff3b30; 
+    background: var(--ios-red); 
     animation: timerPulse 2s infinite;
 }
 
 @keyframes timerPulse {
-    0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.4); }
-    70% { box-shadow: 0 0 0 8px rgba(255, 59, 48, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
+    0% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.4); }
+    70% { box-shadow: 0 0 0 8px rgba(230, 57, 70, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
 }
 
-.card-current-time-group { display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--bg-card); height: 36px; padding: 0 4px; }
+.card-current-time-group { display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--border-color); border-radius: 10px; background: var(--bg-card); height: 36px; padding: 0 4px; }
 .current-time-input { border: none; outline: none; font-size: 13px; font-weight: 700; background: transparent; width: 55px; text-align: center; color: var(--text-main); }
 .btn-time-sync { background: none; border: none; cursor: pointer; font-size: 13px; margin-left: 2px; }
 
-.card-log-link { color: #007aff; font-size: 13px; font-weight: bold; text-decoration: underline; cursor: pointer; padding: 0 4px; transition: opacity 0.2s; }
+.card-log-link { color: var(--diwali-orange); font-size: 13px; font-weight: bold; text-decoration: underline; cursor: pointer; padding: 0 4px; transition: opacity 0.2s; }
 .card-log-link:active { opacity: 0.6; }
 .btn-edit-item { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 8px; font-size: 11px; font-weight: 800; color: var(--ios-blue); cursor: pointer; }
 .btn-del { background: none; border: none; color: var(--ios-red); font-size: 18px; cursor: pointer; font-weight: bold; padding: 0 4px; transition: transform 0.2s; }
@@ -185,56 +189,56 @@ input:checked + .slider:before { transform: translateX(22px); }
 }
 
 .discount-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom: 12px; }
-.summary{ border-top: 1px solid var(--border-color); padding-top: 10px; }
+.summary{ border-top: 2px dashed var(--border-color); padding-top: 10px; }
 .row{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; font-size:13px; font-weight: 600; }
-.grand{ font-size:18px; font-weight:800; background: var(--input-bg); padding: 10px; border-radius: 10px; border: 1px solid var(--border-color); margin-top: 6px; }
+.grand{ font-size:18px; font-weight:900; background: linear-gradient(135deg, rgba(255,183,3,0.2), rgba(251,133,0,0.15)); padding: 12px; border-radius: 12px; border: 2px solid var(--diwali-gold); color: var(--diwali-red); margin-top: 6px; }
 
 .actions{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:15px; }
-.btn{ padding: 14px; font-size: 15px; font-weight: 800; border-radius: 12px; cursor:pointer; border: none; text-align: center; }
-.btn.clear { background: var(--input-bg); color: var(--text-main); }
-.btn.next { background: #1a1c23; color: #ffffff; }
+.btn{ padding: 14px; font-size: 15px; font-weight: 800; border-radius: 14px; cursor:pointer; border: none; text-align: center; }
+.btn.clear { background: var(--input-bg); color: var(--text-main); border: 1.5px solid var(--border-color); }
+.btn.next { background: linear-gradient(135deg, var(--diwali-orange), var(--diwali-red)); color: #ffffff; box-shadow: 0 4px 14px rgba(251, 133, 0, 0.3); }
 
 .terminal-card {
     background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 14px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 16px;
     padding: 14px;
     margin-bottom: 12px;
 }
 
 .coupon-banner {
-    background: var(--input-bg);
-    border: 1px dashed #22c55e;
-    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(42,157,143,0.1), rgba(255,183,3,0.15));
+    border: 1.5px dashed var(--diwali-gold);
+    border-radius: 12px;
     padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 12px;
 }
-.coupon-title { font-weight: 800; color: #15803d; font-size: 12px; }
-.coupon-sub { font-size: 10px; color: #166534; font-weight: 600; margin-top: 2px; }
+.coupon-title { font-weight: 800; color: var(--diwali-red); font-size: 12px; }
+.coupon-sub { font-size: 10px; color: var(--text-muted); font-weight: 600; margin-top: 2px; }
 
 .payment-layout-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
 
 .payment-input-card {
     background: var(--input-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 12px;
     padding: 10px;
 }
 .payment-input-label {
     font-size: 10px;
     font-weight: 800;
-    color: var(--text-muted);
+    color: var(--diwali-orange);
     text-transform: uppercase;
     margin-bottom: 4px;
 }
 .payment-inner-input {
     width: 100%;
     padding: 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 10px;
     background: var(--bg-card);
     color: var(--text-main);
     font-size: 14px;
@@ -243,8 +247,8 @@ input:checked + .slider:before { transform: translateX(22px); }
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 .payment-inner-input:focus {
-    border-color: var(--ios-blue);
-    box-shadow: 0 0 0 3px rgba(0,122,255,0.2);
+    border-color: var(--diwali-orange);
+    box-shadow: 0 0 0 3px var(--diwali-glow);
 }
 
 .return-amount-box {
@@ -258,48 +262,51 @@ input:checked + .slider:before { transform: translateX(22px); }
 }
 .return-badge {
     background: #fef2f2;
-    color: #ef4444;
+    color: var(--ios-red);
     padding: 4px 10px;
-    border-radius: 6px;
+    border-radius: 8px;
     font-weight: 900;
     font-size: 14px;
+    border: 1px solid #fca5a5;
     transition: transform 0.2s ease;
 }
 
 /* QR Code Display Container */
 .qr-container {
     background: #ffffff;
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 12px;
+    border: 2px solid var(--diwali-gold);
+    border-radius: 16px;
+    padding: 14px;
     margin: 12px 0;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
+    box-shadow: 0 4px 15px rgba(255, 183, 3, 0.2);
 }
 .qr-container img {
     width: 180px;
     height: 180px;
-    border-radius: 8px;
+    border-radius: 10px;
     border: 1px solid #e5e7eb;
 }
 .qr-title {
     font-size: 12px;
     font-weight: 800;
-    color: var(--text-main);
+    color: var(--diwali-red);
     text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 .qr-amount-info {
-    font-size: 13px;
-    font-weight: 800;
-    color: var(--ios-purple);
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--diwali-orange);
 }
 
 .receipt-summary-card {
     background: var(--input-bg);
-    border: 1px solid var(--border-color);
+    border: 1.5px solid var(--border-color);
     border-radius: 14px;
     padding: 12px;
 }
@@ -312,13 +319,13 @@ input:checked + .slider:before { transform: translateX(22px); }
     margin-bottom: 6px;
 }
 
-.preview-box { background: var(--input-bg); border: 1px solid var(--border-color); padding:12px; border-radius:10px; margin-top:12px; font-family: monospace; white-space: pre-wrap; font-size: 12px; color: var(--text-main); overflow-x: auto; }
+.preview-box { background: var(--input-bg); border: 1.5px solid var(--border-color); padding:14px; border-radius:12px; margin-top:12px; font-family: monospace; white-space: pre-wrap; font-size: 12px; color: var(--text-main); overflow-x: auto; }
 .page3-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-.btn-p3 { padding: 12px; font-size: 13px; font-weight: 800; border-radius: 10px; border: none; cursor: pointer; text-align: center; }
-.btn-p3-back { background: var(--input-bg); color: var(--text-main); }
-.btn-p3-print { background: #2563eb; color: #ffffff; }
-.btn-p3-whatsapp { background: #22c55e; color: #ffffff; }
-.btn-p3-exit { background: #ef4444; color: #ffffff; }
+.btn-p3 { padding: 12px; font-size: 13px; font-weight: 800; border-radius: 12px; border: none; cursor: pointer; text-align: center; }
+.btn-p3-back { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--border-color); }
+.btn-p3-print { background: var(--ios-blue); color: #ffffff; }
+.btn-p3-whatsapp { background: #25d366; color: #ffffff; }
+.btn-p3-exit { background: var(--ios-red); color: #ffffff; }
 
 @media print {
     body * { visibility: hidden !important; }
@@ -367,8 +374,8 @@ input:checked + .slider:before { transform: translateX(22px); }
     <!-- PAGE 1: BILLING MAIN -->
     <div id="page1" class="page active">
         <div class="header">
-            <div class="title">PAUSE & PLAY</div>
-            <div class="subtitle">Gaming Cafe, Jaunpur</div>
+            <div class="title">🪔 PAUSE & PLAY 🪔</div>
+            <div class="subtitle">Gaming Café, Jaunpur • Festive Offer</div>
         </div>
 
         <div class="info-grid">
@@ -379,18 +386,9 @@ input:checked + .slider:before { transform: translateX(22px); }
                 <option value="arman">3. Arman (03-09-2026)</option>
                 <option value="new">4. ➕ [ New Customer Entry ]</option>
             </select>
-            <input type="text" id="customer" class="input" placeholder="Customer Name">
-            
-            <div class="mobile-row">
-                <input type="tel" id="mobile" class="input" placeholder="Primary Mobile Number">
-                <button type="button" class="btn-contact" onclick="pickContact('mobile')">👥 Contacts</button>
-            </div>
-
-            <div class="mobile-row">
-                <input type="tel" id="additionalMobile" class="input" placeholder="Additional / Alternate Mobile Number">
-                <button type="button" class="btn-contact" onclick="pickContact('additionalMobile')">👥 Contacts</button>
-            </div>
-
+            <input type="text" id="customer" class="input" placeholder="Customer Name" oninput="updateTabTitle()">
+            <input type="tel" id="mobile" class="input" placeholder="No.">
+            <input type="tel" id="additionalMobile" class="input" placeholder="Mobile Number">
             <input type="text" id="membershipDate" class="input" placeholder="Membership Date (DD-MM-YYYY)">
         </div>
 
@@ -425,13 +423,13 @@ input:checked + .slider:before { transform: translateX(22px); }
     <!-- PAGE 2: PROCESSING TERMINAL -->
     <div id="page2" class="page">
         <div class="header">
-            <div class="title">Terminal</div>
+            <div class="title">✨ Terminal ✨</div>
         </div>
 
         <div class="terminal-card">
             <div class="coupon-banner">
                 <div>
-                    <div class="coupon-title">🎟️ Coupon: GAMES25</div>
+                    <div class="coupon-title">🎟️ FESTIVE OFFER: GAMES25</div>
                     <div class="coupon-sub">Flat ₹25 Off per ₹200 on Games</div>
                 </div>
                 <div class="card-qty-group">
@@ -444,7 +442,7 @@ input:checked + .slider:before { transform: translateX(22px); }
             <div class="payment-layout-grid">
                 <div class="payment-input-card">
                     <div class="payment-input-label">💳 UPI ID</div>
-                    <input type="text" id="upiId" class="payment-inner-input" value="pausenplay@cnrb" placeholder="Enter UPI ID" oninput="updateQRCode()">
+                    <input type="text" id="upiId" class="payment-inner-input" value="Q67246447@ybl" placeholder="Enter UPI ID" oninput="updateQRCode()">
                 </div>
                 <div class="payment-input-card">
                     <div class="payment-input-label">💵 CASH BOX</div>
@@ -458,7 +456,7 @@ input:checked + .slider:before { transform: translateX(22px); }
 
             <!-- DYNAMIC UPI QR CODE BOX -->
             <div class="qr-container">
-                <div class="qr-title">Scan to Pay via UPI</div>
+                <div class="qr-title">🪔 Scan to Pay via UPI 🪔</div>
                 <img id="upiQrImage" src="" alt="UPI QR Code">
                 <div class="qr-amount-info">QR Amount: ₹ <span id="qrCalculatedDisplay">0.00</span></div>
             </div>
@@ -478,7 +476,7 @@ input:checked + .slider:before { transform: translateX(22px); }
             <div id="terminalItemsList"></div>
             <div style="border-top: 1px dashed var(--border-color); margin-top: 8px; padding-top: 8px;" class="summary-item-row">
                 <span style="font-weight:800;">Grand Total:</span>
-                <span style="font-weight:900; font-size:15px;">₹ <span id="p2_calculatedGrand">0</span></span>
+                <span style="font-weight:900; font-size:15px; color:var(--diwali-red);">₹ <span id="p2_calculatedGrand">0</span></span>
             </div>
         </div>
 
@@ -491,7 +489,7 @@ input:checked + .slider:before { transform: translateX(22px); }
     <!-- PAGE 3: PRINT PREVIEW -->
     <div id="page3" class="page">
         <div class="header">
-            <div class="title">Invoice</div>
+            <div class="title">🪔 Invoice Preview 🪔</div>
         </div>
 
         <div class="preview-box" id="receiptPreview"></div>
@@ -516,39 +514,20 @@ input:checked + .slider:before { transform: translateX(22px); }
 <script>
 document.getElementById("dateBox").innerText = "Date : " + new Date().toLocaleDateString("en-GB");
 
+function updateTabTitle() {
+    let custName = document.getElementById("customer").value.trim();
+    if(custName) {
+        document.title = custName + " - Pause & Play";
+    } else {
+        document.title = "Pause & Play Billing";
+    }
+}
+
 function toggleTheme(e) {
     if (e.checked) {
         document.documentElement.setAttribute('data-theme', 'dark');
     } else {
         document.documentElement.setAttribute('data-theme', 'light');
-    }
-}
-
-async function pickContact(targetFieldId) {
-    if ('contacts' in navigator && 'select' in navigator.contacts) {
-        try {
-            const props = ['name', 'tel'];
-            const opts = { multiple: false };
-            const contacts = await navigator.contacts.select(props, opts);
-            
-            if (contacts && contacts.length > 0) {
-                const contact = contacts[0];
-                const phone = contact.tel && contact.tel.length > 0 ? contact.tel[0] : '';
-                const name = contact.name && contact.name.length > 0 ? contact.name[0] : '';
-
-                if (phone) {
-                    document.getElementById(targetFieldId).value = phone;
-                }
-                if (targetFieldId === 'mobile' && name && !document.getElementById('customer').value) {
-                    document.getElementById('customer').value = name;
-                }
-            }
-        } catch (ex) {
-            console.log('Contact selection error:', ex);
-            alert('Could not open contacts. Please enter manually.');
-        }
-    } else {
-        alert('Contact Picker API is not supported on this browser/device. Please type the number manually.');
     }
 }
 
@@ -558,42 +537,55 @@ const presetCustomers = {
     "arman": { name: "Arman", mobile: "", date: "03-09-2026" }
 };
 
+/* UPDATED CATALOG FEATURING DIWALI FESTIVE WEEK OFFERS */
 const catalog = [
     { id: "mem1", category: "standard", name: "NEW MEMBERSHIP ALLOTTED", rate: 240 },
-    { id: "tg1", category: "timed", name: "CARROM", rate: 39, lapMin: 15 },
+    
+    /* TIMED / HOURLY GAMES ACCORDING TO REVISED FESTIVE LIST */
+    { id: "tg1", category: "timed", name: "CARROM", rate: 39.00, lapMin: 15 },
+    { id: "tg3", category: "timed", name: "DRIVING ADULT", rate: 5.00, lapMin: 1 },  // ₹150 / 30 Min
+    { id: "tg4", category: "timed", name: "DRIVING JR", rate: 3.33, lapMin: 1 },     // ₹100 / 30 Min
+    { id: "tg6", category: "timed", name: "MULTIPLAYER PS5", rate: 4.00, lapMin: 1 },// ₹240 / 1 Hour (₹4/Min)
+    { id: "tg7", category: "timed", name: "PLAYSTATION 5", rate: 2.50, lapMin: 1 },  // ₹150 / 1 Hour (₹2.5/Min)
+    { id: "tg9", category: "timed", name: "SNOOKER", rate: 2.50, lapMin: 1 },         // ₹2.50 / Min
+    { id: "tg10", category: "timed", name: "TABLE POOL", rate: 1.50, lapMin: 1 },     // ₹1.50 / Min
+    
     { id: "tg2", category: "timed", name: "COMPUTER GAMES", rate: 120, lapMin: 30 },
-    { id: "tg3", category: "timed", name: "DRIVING Ad. (30 Min)", rate: 240, lapMin: 30, overtimeRate: 8 },
-    { id: "tg4", category: "timed", name: "DRIVING Jr. (15 Min)", rate: 60, lapMin: 15, overtimeRate: 4 },
     { id: "tg5", category: "timed", name: "MEMBERSHIP POOL", rate: 60, lapMin: 45 },
-    { id: "tg6", category: "timed", name: "MULTI PLAYER PS5", rate: 199, lapMin: 30 },
-    { id: "tg7", category: "timed", name: "PLAY STATION 5", rate: 120, lapMin: 30 },
     { id: "tg8", category: "timed", name: "RETRO GAMES", rate: 60, lapMin: 30 },
-    { id: "tg9", category: "timed", name: "SNOOKER TABLE", rate: 4.00, lapMin: 1 },
-    { id: "tg10", category: "timed", name: "TABLE POOL", rate: 3.00, lapMin: 1 },
     { id: "tg11", category: "timed", name: "TABLE TENNIS", rate: 3.00, lapMin: 1 },
 
+    /* STANDARD GAMES WITH CORRECTED RATES */
     { id: "sg1", category: "standard", name: "AIR HOCKEY", rate: 60 },
-    { id: "sg2", category: "standard", name: "BASKETBALL", rate: 39 },
+    { id: "sg2", category: "standard", name: "BASKETBALL", rate: 39 },               // ₹39 / Round
     { id: "sg3", category: "standard", name: "FROG HAMMER", rate: 30 },
-    { id: "sg4", category: "standard", name: "CRICKET", rate: 39 },
+    { id: "sg4", category: "standard", name: "CRICKET", rate: 39 },                   // ₹39 / 12 Balls or 2 Wickets
 
-    { id: "cf1", category: "cafe", name: "CHIPS ₹5", rate: 5 },
-    { id: "cf2", category: "cafe", name: "CHIPS ₹10", rate: 10 },
-    { id: "cf3", category: "cafe", name: "COLDRINK ₹10", rate: 10 },
-    { id: "cf4", category: "cafe", name: "COLDRINK ₹20", rate: 20 },
-    { id: "cf5", category: "cafe", name: "DIET COKE ₹30", rate: 30 },
-    { id: "cf6", category: "cafe", name: "DIET COKE ₹40", rate: 40 },
-    { id: "cf7", category: "cafe", name: "MINERAL WATER ₹5", rate: 5 },
-    { id: "cf8", category: "cafe", name: "MINERAL WATER ₹10", rate: 10 },
-    { id: "cf9", category: "cafe", name: "MONSTER", rate: 125 },
-    { id: "cf10", category: "cafe", name: "ORS LIQUID", rate: 31.50 },
-    { id: "cf11", category: "cafe", name: "PREDATOR", rate: 60 },
-    { id: "cf12", category: "cafe", name: "PRINGLES ₹55", rate: 55 },
-    { id: "cf13", category: "cafe", name: "PRINGLES ₹110", rate: 110 },
-    { id: "cf14", category: "cafe", name: "SPRITE ₹30", rate: 30 },
-    { id: "cf15", category: "cafe", name: "THUMBS UP ₹30", rate: 30 },
+    /* CAFE ITEMS */
+    { id: "cf1", category: "cafe", name: "CHIPS", rate: 5 },
+    { id: "cf2", category: "cafe", name: "CHIPS", rate: 10 },
+    { id: "cf3", category: "cafe", name: "COLDRINK", rate: 10 },
+    { id: "cf4", category: "cafe", name: "COLDRINK", rate: 20 },
+    { id: "cf5", category: "cafe", name: "COLDRINK", rate: 30 },
+    { id: "cf6", category: "cafe", name: "MINERAL WATER", rate: 5 },
+    { id: "cf7", category: "cafe", name: "MINERAL WATER", rate: 10 },
+    { id: "cf8", category: "cafe", name: "MONSTER", rate: 125 },
+    { id: "cf9", category: "cafe", name: "ORS LIQUID", rate: 31.50 },
+    { id: "cf10", category: "cafe", name: "PRINGLES SMALL", rate: 55 },
+    { id: "cf11", category: "cafe", name: "PRINGLES BIG", rate: 110 },
+    { id: "cf12", category: "cafe", name: "RAW NIMBU PANI", rate: 30 },
+    { id: "cf13", category: "cafe", name: "RAW COCONUT WATER", rate: 65 },
+    { id: "cf14", category: "cafe", name: "RAW 25G PROTEIN MILK SHAKE", rate: 145 },
+    { id: "cf15", category: "cafe", name: "PREDATOR", rate: 60 },
+    { id: "cf16", category: "cafe", name: "DIET COKE", rate: 40 },
+    { id: "cf17", category: "cafe", name: "COKE", rate: 35 },
+    { id: "cf18", category: "cafe", name: "SPRITE", rate: 35 },
+    { id: "cf19", category: "cafe", name: "THUMBS UP", rate: 35 },
+    { id: "cf20", category: "cafe", name: "COKE", rate: 70 },
+    { id: "cf21", category: "cafe", name: "SPRITE", rate: 70 },
+    { id: "cf22", category: "cafe", name: "THUMBS UP", rate: 70 },
 
-    /* TIP TOP CHINESE MENU ITEMS */
+    /* CHINESE MENU ITEMS */
     { id: "ttc2", category: "chinese", name: "VEG FRIED RICE", rate: 70 },
     { id: "ttc3", category: "chinese", name: "VEG SCHEZWAN RICE", rate: 80 },
     { id: "ttc4", category: "chinese", name: "VEG MANCHURIAN RICE", rate: 70 },
@@ -629,6 +621,7 @@ function handlePresetCustomerChange(val) {
         document.getElementById("mobile").value = "";
         document.getElementById("additionalMobile").value = "";
         document.getElementById("membershipDate").value = new Date().toLocaleDateString("en-GB");
+        updateTabTitle();
         
         if(!hasMembershipInCart()) {
             addMembershipToCart();
@@ -639,6 +632,7 @@ function handlePresetCustomerChange(val) {
         document.getElementById("mobile").value = data.mobile;
         document.getElementById("additionalMobile").value = "";
         document.getElementById("membershipDate").value = data.date;
+        updateTabTitle();
         
         if(hasMembershipInCart()) {
             removeMembershipFromCart();
@@ -680,10 +674,10 @@ function populateDropdown() {
     if(!masterSelect) return;
     masterSelect.innerHTML = '<option value="">-- Select Game or Product --</option>';
 
-    const tgGroup = document.createElement("optgroup"); tgGroup.label = "⏱️ Timed / Hourly Games";
-    const sgGroup = document.createElement("optgroup"); sgGroup.label = "🕹️ Standard Games / Fees";
-    const cfGroup = document.createElement("optgroup"); cfGroup.label = "☕ Cafe Products";
-    const ttcGroup = document.createElement("optgroup"); ttcGroup.label = "🥢 Tip Top Chinese";
+    const tgGroup = document.createElement("optgroup"); tgGroup.label = "⏱️ Timed / Festive Hourly Games";
+    const sgGroup = document.createElement("optgroup"); sgGroup.label = "🕹️ Festive Standard Games";
+    const cfGroup = document.createElement("optgroup"); cfGroup.label = "☕ Cafe Beverages & Snacks";
+    const ttcGroup = document.createElement("optgroup"); ttcGroup.label = "🥢 Chinese Food";
     const genGroup = document.createElement("optgroup"); genGroup.label = "✏️ Custom Items";
 
     catalog.forEach(item => {
@@ -772,30 +766,6 @@ function editCustomItem(instanceId) {
     renderCart();
 }
 
-function calculateItemAmount(item) {
-    if (item.category !== 'timed') {
-        return item.qty * item.rate;
-    }
-    
-    // Proportional rate calculation for 0.5 qty or fractional units
-    if (item.qty <= 0.5) {
-        return item.qty * item.rate;
-    }
-
-    let totalMinutes = item.seconds / 60;
-    if (item.id === "tg4") { // Driving Jr. (15 Min base ₹60, then ₹4/min)
-        if (totalMinutes <= 15) return item.rate;
-        let extraMins = Math.ceil(totalMinutes - 15);
-        return item.rate + (extraMins * 4);
-    } else if (item.id === "tg3") { // Driving Ad. (30 Min base ₹240, then ₹8/min)
-        if (totalMinutes <= 30) return item.rate;
-        let extraMins = Math.ceil(totalMinutes - 30);
-        return item.rate + (extraMins * 8);
-    } else {
-        return item.qty * item.rate;
-    }
-}
-
 function updateCardElement(item) {
     const cardEl = document.getElementById(`card-${item.instanceId}`);
     if(!cardEl) return;
@@ -804,7 +774,7 @@ function updateCardElement(item) {
     if(qtyBox) qtyBox.innerText = item.qty;
 
     const amtBox = cardEl.querySelector('.card-amount-box');
-    if(amtBox) amtBox.innerText = `₹ ${calculateItemAmount(item).toFixed(2)}`;
+    if(amtBox) amtBox.innerText = `₹ ${(item.qty * item.rate).toFixed(2)}`;
 
     if(item.category === 'timed') {
         const hrs = String(Math.floor(item.seconds / 3600)).padStart(2, '0');
@@ -841,7 +811,6 @@ function renderCart() {
     cart.forEach((item) => {
         let isEditable = item.category === "general";
         let editBtnHtml = isEditable ? `<button type="button" class="btn-edit-item" onclick="editCustomItem('${item.instanceId}')">✏️ Edit</button>` : '';
-        let itemAmt = calculateItemAmount(item);
 
         if(item.category === "timed") {
             const hrs = String(Math.floor(item.seconds / 3600)).padStart(2, '0');
@@ -854,16 +823,16 @@ function renderCart() {
                     <div class="mobile-card-header">
                         <div class="card-particular">
                             <div class="game-title">${item.name}</div>
-                            <div class="game-meta">RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN</div>
+                            <div class="game-meta">RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN LAP</div>
                         </div>
-                        <div class="card-amount-box">₹ ${itemAmt.toFixed(2)}</div>
+                        <div class="card-amount-box">₹ ${(item.qty * item.rate).toFixed(2)}</div>
                     </div>
 
                     <div class="mobile-card-middle">
                         <div class="card-qty-group">
-                            <button type="button" class="btn-minus" onclick="changeQty('${item.instanceId}', ${item.lapMin === 1 ? -1 : -0.5})">-</button>
+                            <button type="button" class="btn-minus" onclick="changeQty('${item.instanceId}', ${item.lapMin === 1 ? -1 : -1})">-</button>
                             <div class="qty-display-box">${item.qty}</div>
-                            <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', ${item.lapMin === 1 ? 1 : 0.5})">+</button>
+                            <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', ${item.lapMin === 1 ? 1 : 1})">+</button>
                         </div>
                         <div class="card-timer-box">${hrs}:${mins}:${secs}</div>
                     </div>
@@ -891,7 +860,7 @@ function renderCart() {
                             <div class="game-title">${item.name}</div>
                             <div class="game-meta">RATE ₹ ${item.rate.toFixed(2)}</div>
                         </div>
-                        <div class="card-amount-box">₹ ${itemAmt.toFixed(2)}</div>
+                        <div class="card-amount-box">₹ ${(item.qty * item.rate).toFixed(2)}</div>
                     </div>
 
                     <div class="mobile-card-footer" style="justify-content: space-between;">
@@ -1026,7 +995,7 @@ function calculate() {
     let cafeTotal = 0;
 
     cart.forEach(item => {
-        let total = calculateItemAmount(item);
+        let total = item.qty * item.rate;
         if(item.category === "cafe" || item.category === "chinese") cafeTotal += total;
         else gamesTotal += total;
     });
@@ -1061,7 +1030,7 @@ function calculate() {
 function adjustCouponQty(delta) {
     let gamesTotal = 0;
     cart.forEach(item => {
-        if(item.category !== "cafe" && item.category !== "chinese") gamesTotal += calculateItemAmount(item);
+        if(item.category !== "cafe" && item.category !== "chinese") gamesTotal += (item.qty * item.rate);
     });
 
     let maxAllowedCoupons = Math.floor(gamesTotal / 200);
@@ -1111,7 +1080,7 @@ function updateQRCode() {
 
     let balanceQrAmount = Math.max(0, grand - cash);
 
-    let upiId = document.getElementById("upiId")?.value.trim() || "pausenplay@cnrb";
+    let upiId = document.getElementById("upiId")?.value.trim() || "Q67246447@ybl";
 
     const displayBox = document.getElementById("qrCalculatedDisplay");
     if(displayBox) displayBox.innerText = balanceQrAmount.toFixed(2);
@@ -1134,12 +1103,11 @@ function renderTerminalSummaryList() {
     cart.forEach(item => {
         if(item.qty > 0) {
             let icon = item.id === "mem1" ? "🪪" : (item.category === "timed" ? "⏱️" : (item.category === "standard" ? "🕹️" : (item.category === "chinese" ? "🥢" : (item.category === "general" ? "✏️" : "☕"))));
-            let qtyText = item.category === "timed" ? `(${item.qty}m)` : `(x${item.qty})`;
-            let itemAmt = calculateItemAmount(item);
+            let qtyText = item.category === "timed" ? `(${item.qty}${item.lapMin > 1 ? ' lap' : 'm'})` : `(x${item.qty})`;
             listContainer.innerHTML += `
                 <div class="summary-item-row">
                     <span>${icon} ${item.name} ${qtyText}</span>
-                    <span>₹ ${itemAmt.toFixed(2)}</span>
+                    <span>₹ ${(item.qty * item.rate).toFixed(2)}</span>
                 </div>
             `;
         }
@@ -1162,8 +1130,8 @@ function navigateToPage(no) {
 function generateReceipt() {
     const line = "------------------------------\n";
     const dLine = "==============================\n";
-    let t = "```        PAUSE & PLAY        \n";
-    t += "    Gaming Cafe, Jaunpur   \n";
+    let t = "```     🪔 PAUSE & PLAY 🪔      \n";
+    t += "  Gaming Café - Festive Offer  \n";
     t += dLine;
     t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
     t += `Mobile : ${document.getElementById("mobile").value || "N/A"}\n`;
@@ -1181,8 +1149,7 @@ function generateReceipt() {
         if(i.qty > 0) {
             let name = i.name.length > 14 ? i.name.substring(0, 14) : i.name.padEnd(14, ' ');
             let qty = String(i.qty).padStart(4, ' ');
-            let itemAmt = calculateItemAmount(i);
-            let amt = `₹${itemAmt.toFixed(2)}`.padStart(10, ' ');
+            let amt = `₹${(i.qty*i.rate).toFixed(2)}`.padStart(10, ' ');
             t += `${name} ${qty} ${amt}\n`;
         }
     });
@@ -1190,10 +1157,11 @@ function generateReceipt() {
     t += line;
     let disc = document.getElementById("discount").innerText;
     if (parseFloat(disc) > 0) {
-        t += `Discount      : ₹${disc.padStart(10, ' ')}\n`;
+        t += `Festive Disc  : ₹${disc.padStart(10, ' ')}\n`;
     }
     t += `Grand Total   : ₹${document.getElementById("grandTotal").innerText.padStart(10, ' ')}\n`;
     t += dLine;
+    t += "  ✨ Happy Festive Season! ✨ \n";
     t += "   Thank You! Visit Again!   ```\n";
     return t;
 }
@@ -1240,6 +1208,7 @@ function clearBill() {
     if(document.getElementById("upiAmount")) document.getElementById("upiAmount").value = "";
     if(document.getElementById("cashAmount")) document.getElementById("cashAmount").value = "";
     if(document.getElementById("couponQtyDisplay")) document.getElementById("couponQtyDisplay").innerText = "0";
+    updateTabTitle();
     renderCart();
     navigateToPage(1);
 }
