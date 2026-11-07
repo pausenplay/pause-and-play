@@ -3,39 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="pageTitle">🪔 Pause & Play Diwali Billing</title>
-<!-- Google Font: Inter & Cinzel for Festive Header -->
+<title id="pageTitle">Pause & Play Billing - Diwali Special</title>
+<!-- Google Font: Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
-    --bg-main: #fdf8ed;
+    --bg-main: #fffdf5;
     --bg-card: #ffffff;
-    --text-main: #2b1600;
-    --text-muted: #7c5c36;
-    --border-color: #f3d59b;
-    --input-bg: #fffbf2;
-    --diwali-gold: #ffb703;
-    --diwali-orange: #fb8500;
-    --diwali-red: #d90429;
-    --diwali-purple: #4a0e4e;
-    --diwali-glow: rgba(255, 183, 3, 0.35);
-    --ios-green: #2a9d8f;
-    --ios-red: #e63946;
-    --ios-blue: #0284c7;
+    --text-main: #3b1700;
+    --text-muted: #8c6a49;
+    --border-color: #f7e0b5;
+    --input-bg: #fffbf0;
+    --diwali-gold: #d97706;
+    --diwali-red: #dc2626;
+    --diwali-yellow: #f59e0b;
+    --diwali-maroon: #7c2d12;
+    --diwali-light-bg: #fef3c7;
+    --ios-green: #16a34a;
+    --ios-blue: #2563eb;
 }
 
 [data-theme="dark"] {
-    --bg-main: #14081c;
-    --bg-card: #220e2e;
-    --text-main: #fff3db;
-    --text-muted: #d4b584;
-    --border-color: #572266;
-    --input-bg: #2d143c;
-    --diwali-gold: #ffc107;
-    --diwali-orange: #ff7b00;
-    --diwali-purple: #6a1b9a;
+    --bg-main: #1c130b;
+    --bg-card: #2a1c10;
+    --text-main: #fef3c7;
+    --text-muted: #d97706;
+    --border-color: #543417;
+    --input-bg: #352315;
 }
 
 *{ margin:0; padding:0; box-sizing:border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; touch-action: manipulation; }
@@ -43,8 +39,7 @@ body{ background: var(--bg-main); color: var(--text-main); padding: 10px; line-h
 
 .container{
     max-width:100%; margin:auto; background: var(--bg-card); padding:16px 12px;
-    border-radius:22px; box-shadow: 0 8px 24px rgba(255, 133, 0, 0.12), 0 0 15px var(--diwali-glow); 
-    border: 2px solid var(--border-color);
+    border-radius:18px; box-shadow: 0 4px 20px rgba(217, 119, 6, 0.12); border: 2px solid var(--border-color);
     position: relative;
     transition: background 0.3s ease, border-color 0.3s ease;
 }
@@ -65,16 +60,16 @@ body{ background: var(--bg-main); color: var(--text-main); padding: 10px; line-h
 }
 .theme-switch input { display:none; }
 .slider {
-    background-color: #e0a96d;
+    background-color: #fde68a;
     bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0;
-    transition: .4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 34px;
+    transition: .4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 34px; border: 1px solid var(--diwali-gold);
 }
 .slider:before {
-    background-color: #fff; bottom: 3px; content: ""; height: 18px;
-    left: 3px; position: absolute; transition: .4s cubic-bezier(0.4, 0, 0.2, 1); width: 18px; border-radius: 50%;
+    background-color: var(--diwali-gold); bottom: 3px; content: ""; height: 16px;
+    left: 3px; position: absolute; transition: .4s cubic-bezier(0.4, 0, 0.2, 1); width: 16px; border-radius: 50%;
 }
-input:checked + .slider { background-color: var(--diwali-orange); }
-input:checked + .slider:before { transform: translateX(22px); }
+input:checked + .slider { background-color: var(--diwali-maroon); }
+input:checked + .slider:before { transform: translateX(22px); background-color: #fef3c7; }
 
 /* Animated Page Transitions */
 .page{ display:none; opacity: 0; transform: translateY(8px); transition: opacity 0.3s ease, transform 0.3s ease; }
@@ -85,23 +80,25 @@ input:checked + .slider:before { transform: translateX(22px); }
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.header{ text-align:center; margin-bottom:12px; border-bottom: 2px dashed var(--border-color); padding-bottom: 12px; background: linear-gradient(135deg, rgba(255,183,3,0.1), rgba(217,4,41,0.05)); border-radius: 14px; padding-top: 8px;}
-.title{ font-family: 'Cinzel', serif; font-size:26px; font-weight:900; letter-spacing: 0.5px; color: var(--diwali-red); text-shadow: 0 1px 3px rgba(0,0,0,0.15); }
-.subtitle{ color: var(--diwali-orange); font-size:10px; margin-top:2px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
+.header{ text-align:center; margin-bottom:12px; border-bottom: 2px dashed var(--border-color); padding-bottom: 10px; position: relative; }
+.header::before { content: '🪔'; font-size: 16px; margin-right: 6px; }
+.header::after { content: '🪔'; font-size: 16px; margin-left: 6px; }
+.title{ font-size:24px; font-weight:900; letter-spacing: -0.5px; color: var(--diwali-maroon); [data-theme="dark"] & { color: #fde68a; } }
+.subtitle{ color: var(--diwali-gold); font-size:10px; margin-top:2px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
 
 .info-grid{ display:flex; flex-direction:column; gap:8px; }
 .input, .select-customer {
-    width:100%; padding:12px; border: 1.5px solid var(--border-color); border-radius:12px;
+    width:100%; padding:12px; border: 1.5px solid var(--border-color); border-radius:10px;
     font-size:14px; font-weight:600; background: var(--input-bg); color: var(--text-main); outline: none;
     transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
 }
-.input:focus, .select-customer:focus { border-color: var(--diwali-orange); box-shadow: 0 0 0 3px var(--diwali-glow); }
+.input:focus, .select-customer:focus { border-color: var(--diwali-gold); box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.2); }
 
-.date-box { margin: 10px 0; font-size: 12px; font-weight: 800; color: var(--diwali-orange); text-align: center; background: rgba(255, 183, 3, 0.15); padding: 4px; border-radius: 8px; }
+.date-box { margin: 10px 0; font-size: 12px; font-weight: 800; color: var(--diwali-gold); text-align: center; }
 
-.master-bar { display: flex; gap: 8px; margin-bottom: 12px; background: var(--input-bg); padding: 6px; border-radius: 14px; border: 1.5px solid var(--border-color); }
-.select-input { flex: 1; padding: 12px; border: 1.5px solid var(--border-color); border-radius: 10px; font-size: 14px; font-weight: 700; background: var(--bg-card); color: var(--text-main); outline: none; width: 100%; transition: border-color 0.2s, box-shadow 0.2s; }
-.select-input:focus { border-color: var(--diwali-orange); box-shadow: 0 0 0 3px var(--diwali-glow); }
+.master-bar { display: flex; gap: 8px; margin-bottom: 12px; background: var(--input-bg); padding: 6px; border-radius: 12px; border: 1.5px solid var(--border-color); }
+.select-input { flex: 1; padding: 12px; border: 1.5px solid var(--border-color); border-radius: 8px; font-size: 14px; font-weight: 700; background: var(--bg-card); color: var(--text-main); outline: none; width: 100%; transition: border-color 0.2s, box-shadow 0.2s; }
+.select-input:focus { border-color: var(--diwali-gold); box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.2); }
 
 .items-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
 
@@ -128,7 +125,7 @@ input:checked + .slider:before { transform: translateX(22px); }
     border: 2px solid var(--border-color);
     border-radius: 16px;
     padding: 12px;
-    box-shadow: 0 4px 12px rgba(255,183,3,0.08);
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.08);
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -153,33 +150,33 @@ input:checked + .slider:before { transform: translateX(22px); }
     transform: scale(0.93);
 }
 
-.btn-minus { width: 36px; height: 36px; background: var(--ios-red); color: #fff; border: none; border-radius: 10px; font-size: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.qty-display-box { width: 42px; height: 36px; border: 1.5px solid var(--border-color); border-radius: 10px; background: var(--input-bg); font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; color: var(--text-main); transition: background 0.3s, border-color 0.3s; }
-.btn-plus { width: 36px; height: 36px; background: var(--ios-green); color: #fff; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.btn-minus { width: 36px; height: 36px; background: var(--diwali-red); color: #fff; border: none; border-radius: 8px; font-size: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.qty-display-box { width: 42px; height: 36px; border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-bg); font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; color: var(--text-main); transition: background 0.3s, border-color 0.3s; }
+.btn-plus { width: 36px; height: 36px; background: var(--ios-green); color: #fff; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-.card-amount-box { border: 1.5px solid var(--border-color); border-radius: 10px; background: var(--input-bg); height: 36px; min-width: 85px; padding: 0 8px; font-size: 15px; font-weight: 800; color: var(--diwali-red); display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
-.card-timer-box { border: 1.5px solid var(--border-color); border-radius: 10px; background: var(--bg-card); height: 36px; min-width: 95px; font-family: monospace; font-size: 15px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; justify-content: center; transition: border-color 0.3s, color 0.3s; }
+.card-amount-box { border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-bg); height: 36px; min-width: 85px; padding: 0 8px; font-size: 15px; font-weight: 800; color: var(--diwali-maroon); display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+.card-timer-box { border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--bg-card); height: 36px; min-width: 95px; font-family: monospace; font-size: 15px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; justify-content: center; transition: border-color 0.3s, color 0.3s; }
 
-.btn-switch { flex: 1; height: 36px; background: var(--ios-green); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; text-transform: uppercase; }
+.btn-switch { flex: 1; height: 36px; background: var(--ios-green); color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; text-transform: uppercase; }
 .btn-switch.running { 
-    background: var(--ios-red); 
+    background: var(--diwali-red); 
     animation: timerPulse 2s infinite;
 }
 
 @keyframes timerPulse {
-    0% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.4); }
-    70% { box-shadow: 0 0 0 8px rgba(230, 57, 70, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); }
+    0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+    70% { box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
 }
 
-.card-current-time-group { display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--border-color); border-radius: 10px; background: var(--bg-card); height: 36px; padding: 0 4px; }
+.card-current-time-group { display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--bg-card); height: 36px; padding: 0 4px; }
 .current-time-input { border: none; outline: none; font-size: 13px; font-weight: 700; background: transparent; width: 55px; text-align: center; color: var(--text-main); }
 .btn-time-sync { background: none; border: none; cursor: pointer; font-size: 13px; margin-left: 2px; }
 
-.card-log-link { color: var(--diwali-orange); font-size: 13px; font-weight: bold; text-decoration: underline; cursor: pointer; padding: 0 4px; transition: opacity 0.2s; }
+.card-log-link { color: var(--diwali-gold); font-size: 13px; font-weight: bold; text-decoration: underline; cursor: pointer; padding: 0 4px; transition: opacity 0.2s; }
 .card-log-link:active { opacity: 0.6; }
-.btn-edit-item { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 8px; font-size: 11px; font-weight: 800; color: var(--ios-blue); cursor: pointer; }
-.btn-del { background: none; border: none; color: var(--ios-red); font-size: 18px; cursor: pointer; font-weight: bold; padding: 0 4px; transition: transform 0.2s; }
+.btn-edit-item { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 8px; font-size: 11px; font-weight: 800; color: var(--diwali-gold); cursor: pointer; }
+.btn-del { background: none; border: none; color: var(--diwali-red); font-size: 18px; cursor: pointer; font-weight: bold; padding: 0 4px; transition: transform 0.2s; }
 .btn-del:active { transform: scale(0.85); }
 
 .history-drawer { 
@@ -191,32 +188,49 @@ input:checked + .slider:before { transform: translateX(22px); }
 .discount-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom: 12px; }
 .summary{ border-top: 2px dashed var(--border-color); padding-top: 10px; }
 .row{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; font-size:13px; font-weight: 600; }
-.grand{ font-size:18px; font-weight:900; background: linear-gradient(135deg, rgba(255,183,3,0.2), rgba(251,133,0,0.15)); padding: 12px; border-radius: 12px; border: 2px solid var(--diwali-gold); color: var(--diwali-red); margin-top: 6px; }
+.grand{ font-size:18px; font-weight:800; background: var(--input-bg); padding: 10px; border-radius: 10px; border: 1.5px solid var(--border-color); margin-top: 6px; }
+
+/* Diwali Savings Banner Box */
+.savings-box {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 2px solid var(--diwali-gold);
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--diwali-maroon);
+    font-weight: 800;
+    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.15);
+}
+.savings-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px; }
+.savings-amount { font-size: 16px; font-weight: 900; color: var(--diwali-red); }
 
 .actions{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:15px; }
-.btn{ padding: 14px; font-size: 15px; font-weight: 800; border-radius: 14px; cursor:pointer; border: none; text-align: center; }
-.btn.clear { background: var(--input-bg); color: var(--text-main); border: 1.5px solid var(--border-color); }
-.btn.next { background: linear-gradient(135deg, var(--diwali-orange), var(--diwali-red)); color: #ffffff; box-shadow: 0 4px 14px rgba(251, 133, 0, 0.3); }
+.btn{ padding: 14px; font-size: 15px; font-weight: 800; border-radius: 12px; cursor:pointer; border: none; text-align: center; }
+.btn.clear { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--border-color); }
+.btn.next { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: #ffffff; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3); }
 
 .terminal-card {
     background: var(--bg-card);
     border: 1.5px solid var(--border-color);
-    border-radius: 16px;
+    border-radius: 14px;
     padding: 14px;
     margin-bottom: 12px;
 }
 
 .coupon-banner {
-    background: linear-gradient(135deg, rgba(42,157,143,0.1), rgba(255,183,3,0.15));
+    background: var(--input-bg);
     border: 1.5px dashed var(--diwali-gold);
-    border-radius: 12px;
+    border-radius: 10px;
     padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 12px;
 }
-.coupon-title { font-weight: 800; color: var(--diwali-red); font-size: 12px; }
+.coupon-title { font-weight: 800; color: var(--diwali-gold); font-size: 12px; }
 .coupon-sub { font-size: 10px; color: var(--text-muted); font-weight: 600; margin-top: 2px; }
 
 .payment-layout-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
@@ -224,13 +238,13 @@ input:checked + .slider:before { transform: translateX(22px); }
 .payment-input-card {
     background: var(--input-bg);
     border: 1.5px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: 10px;
     padding: 10px;
 }
 .payment-input-label {
     font-size: 10px;
     font-weight: 800;
-    color: var(--diwali-orange);
+    color: var(--text-muted);
     text-transform: uppercase;
     margin-bottom: 4px;
 }
@@ -238,7 +252,7 @@ input:checked + .slider:before { transform: translateX(22px); }
     width: 100%;
     padding: 10px;
     border: 1.5px solid var(--border-color);
-    border-radius: 10px;
+    border-radius: 8px;
     background: var(--bg-card);
     color: var(--text-main);
     font-size: 14px;
@@ -247,8 +261,8 @@ input:checked + .slider:before { transform: translateX(22px); }
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 .payment-inner-input:focus {
-    border-color: var(--diwali-orange);
-    box-shadow: 0 0 0 3px var(--diwali-glow);
+    border-color: var(--diwali-gold);
+    box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.2);
 }
 
 .return-amount-box {
@@ -262,46 +276,43 @@ input:checked + .slider:before { transform: translateX(22px); }
 }
 .return-badge {
     background: #fef2f2;
-    color: var(--ios-red);
+    color: var(--diwali-red);
     padding: 4px 10px;
-    border-radius: 8px;
+    border-radius: 6px;
     font-weight: 900;
     font-size: 14px;
-    border: 1px solid #fca5a5;
     transition: transform 0.2s ease;
 }
 
 /* QR Code Display Container */
 .qr-container {
     background: #ffffff;
-    border: 2px solid var(--diwali-gold);
-    border-radius: 16px;
-    padding: 14px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px;
     margin: 12px 0;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    box-shadow: 0 4px 15px rgba(255, 183, 3, 0.2);
 }
 .qr-container img {
     width: 180px;
     height: 180px;
-    border-radius: 10px;
+    border-radius: 8px;
     border: 1px solid #e5e7eb;
 }
 .qr-title {
     font-size: 12px;
     font-weight: 800;
-    color: var(--diwali-red);
+    color: var(--diwali-maroon);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 .qr-amount-info {
-    font-size: 14px;
-    font-weight: 900;
-    color: var(--diwali-orange);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--diwali-gold);
 }
 
 .receipt-summary-card {
@@ -319,13 +330,13 @@ input:checked + .slider:before { transform: translateX(22px); }
     margin-bottom: 6px;
 }
 
-.preview-box { background: var(--input-bg); border: 1.5px solid var(--border-color); padding:14px; border-radius:12px; margin-top:12px; font-family: monospace; white-space: pre-wrap; font-size: 12px; color: var(--text-main); overflow-x: auto; }
+.preview-box { background: var(--input-bg); border: 1.5px solid var(--border-color); padding:12px; border-radius:10px; margin-top:12px; font-family: monospace; white-space: pre-wrap; font-size: 12px; color: var(--text-main); overflow-x: auto; }
 .page3-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-.btn-p3 { padding: 12px; font-size: 13px; font-weight: 800; border-radius: 12px; border: none; cursor: pointer; text-align: center; }
+.btn-p3 { padding: 12px; font-size: 13px; font-weight: 800; border-radius: 10px; border: none; cursor: pointer; text-align: center; }
 .btn-p3-back { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--border-color); }
 .btn-p3-print { background: var(--ios-blue); color: #ffffff; }
-.btn-p3-whatsapp { background: #25d366; color: #ffffff; }
-.btn-p3-exit { background: var(--ios-red); color: #ffffff; }
+.btn-p3-whatsapp { background: var(--ios-green); color: #ffffff; }
+.btn-p3-exit { background: var(--diwali-red); color: #ffffff; }
 
 @media print {
     body * { visibility: hidden !important; }
@@ -374,8 +385,8 @@ input:checked + .slider:before { transform: translateX(22px); }
     <!-- PAGE 1: BILLING MAIN -->
     <div id="page1" class="page active">
         <div class="header">
-            <div class="title">🪔 PAUSE & PLAY 🪔</div>
-            <div class="subtitle">Gaming Café, Jaunpur • Festive Offer</div>
+            <div class="title">PAUSE & PLAY</div>
+            <div class="subtitle">✨ DIWALI FESTIVE OFFER BILLING ✨</div>
         </div>
 
         <div class="info-grid">
@@ -407,6 +418,12 @@ input:checked + .slider:before { transform: translateX(22px); }
             <input id="discountRupee" class="input" type="number" placeholder="Manual Disc ₹" oninput="calculate()">
         </div>
 
+        <!-- TOTAL SAVINGS BOX (Diwali Offer Comparison) -->
+        <div class="savings-box" id="savingsBoxContainer">
+            <span class="savings-title">🪔 Festive Rate Savings</span>
+            <span class="savings-amount">₹ <span id="festiveSavingsAmount">0.00</span></span>
+        </div>
+
         <div class="summary">
             <div class="row"><span>Games Total</span><span>₹ <span id="gamesTotal">0.00</span></span></div>
             <div class="row"><span>Cafe Total</span><span>₹ <span id="cafeTotal">0.00</span></span></div>
@@ -423,13 +440,13 @@ input:checked + .slider:before { transform: translateX(22px); }
     <!-- PAGE 2: PROCESSING TERMINAL -->
     <div id="page2" class="page">
         <div class="header">
-            <div class="title">✨ Terminal ✨</div>
+            <div class="title">Terminal</div>
         </div>
 
         <div class="terminal-card">
             <div class="coupon-banner">
                 <div>
-                    <div class="coupon-title">🎟️ FESTIVE OFFER: GAMES25</div>
+                    <div class="coupon-title">🎟️ Coupon: GAMES25</div>
                     <div class="coupon-sub">Flat ₹25 Off per ₹200 on Games</div>
                 </div>
                 <div class="card-qty-group">
@@ -456,7 +473,7 @@ input:checked + .slider:before { transform: translateX(22px); }
 
             <!-- DYNAMIC UPI QR CODE BOX -->
             <div class="qr-container">
-                <div class="qr-title">🪔 Scan to Pay via UPI 🪔</div>
+                <div class="qr-title">Scan to Pay via UPI</div>
                 <img id="upiQrImage" src="" alt="UPI QR Code">
                 <div class="qr-amount-info">QR Amount: ₹ <span id="qrCalculatedDisplay">0.00</span></div>
             </div>
@@ -476,7 +493,7 @@ input:checked + .slider:before { transform: translateX(22px); }
             <div id="terminalItemsList"></div>
             <div style="border-top: 1px dashed var(--border-color); margin-top: 8px; padding-top: 8px;" class="summary-item-row">
                 <span style="font-weight:800;">Grand Total:</span>
-                <span style="font-weight:900; font-size:15px; color:var(--diwali-red);">₹ <span id="p2_calculatedGrand">0</span></span>
+                <span style="font-weight:900; font-size:15px; color: var(--diwali-maroon);">₹ <span id="p2_calculatedGrand">0</span></span>
             </div>
         </div>
 
@@ -489,7 +506,7 @@ input:checked + .slider:before { transform: translateX(22px); }
     <!-- PAGE 3: PRINT PREVIEW -->
     <div id="page3" class="page">
         <div class="header">
-            <div class="title">🪔 Invoice Preview 🪔</div>
+            <div class="title">Invoice</div>
         </div>
 
         <div class="preview-box" id="receiptPreview"></div>
@@ -519,7 +536,7 @@ function updateTabTitle() {
     if(custName) {
         document.title = custName + " - Pause & Play";
     } else {
-        document.title = "Pause & Play Billing";
+        document.title = "Pause & Play Billing - Diwali Special";
     }
 }
 
@@ -537,72 +554,67 @@ const presetCustomers = {
     "arman": { name: "Arman", mobile: "", date: "03-09-2026" }
 };
 
-/* UPDATED CATALOG FEATURING DIWALI FESTIVE WEEK OFFERS */
+/* CATALOG ACCORDING TO YOUR LATEST DIWALI FESTIVE PRICE LIST & OLD RATE SAVINGS COMPARISON */
 const catalog = [
-    { id: "mem1", category: "standard", name: "NEW MEMBERSHIP ALLOTTED", rate: 240 },
+    { id: "mem1", category: "standard", name: "NEW MEMBERSHIP ALLOTTED", rate: 240, oldRate: 240 },
     
-    /* TIMED / HOURLY GAMES ACCORDING TO REVISED FESTIVE LIST */
-    { id: "tg1", category: "timed", name: "CARROM", rate: 39.00, lapMin: 15 },
-    { id: "tg3", category: "timed", name: "DRIVING ADULT", rate: 5.00, lapMin: 1 },  // ₹150 / 30 Min
-    { id: "tg4", category: "timed", name: "DRIVING JR", rate: 3.33, lapMin: 1 },     // ₹100 / 30 Min
-    { id: "tg6", category: "timed", name: "MULTIPLAYER PS5", rate: 4.00, lapMin: 1 },// ₹240 / 1 Hour (₹4/Min)
-    { id: "tg7", category: "timed", name: "PLAYSTATION 5", rate: 2.50, lapMin: 1 },  // ₹150 / 1 Hour (₹2.5/Min)
-    { id: "tg9", category: "timed", name: "SNOOKER", rate: 2.50, lapMin: 1 },         // ₹2.50 / Min
-    { id: "tg10", category: "timed", name: "TABLE POOL", rate: 1.50, lapMin: 1 },     // ₹1.50 / Min
-    
-    { id: "tg2", category: "timed", name: "COMPUTER GAMES", rate: 120, lapMin: 30 },
-    { id: "tg5", category: "timed", name: "MEMBERSHIP POOL", rate: 60, lapMin: 45 },
-    { id: "tg8", category: "timed", name: "RETRO GAMES", rate: 60, lapMin: 30 },
-    { id: "tg11", category: "timed", name: "TABLE TENNIS", rate: 3.00, lapMin: 1 },
+    /* TIMED / HOURLY GAMES ACCORDING TO PRICE LIST */
+    { id: "tg1", category: "timed", name: "CARROM", rate: 39, oldRate: 39, lapMin: 15 },
+    { id: "tg2", category: "timed", name: "COMPUTER GAMES", rate: 120, oldRate: 120, lapMin: 30 },
+    { id: "tg3", category: "timed", name: "DRIVING ADULT", rate: 5.00, oldRate: 8.00, lapMin: 1 }, // ₹150/30m
+    { id: "tg4", category: "timed", name: "DRIVING JR", rate: 3.33, oldRate: 6.00, lapMin: 1 },    // ₹100/30m
+    { id: "tg5", category: "timed", name: "MEMBERSHIP POOL", rate: 60, oldRate: 60, lapMin: 45 },
+    { id: "tg6", category: "timed", name: "MULTI PLAYER PS5", rate: 4.00, oldRate: 6.63, lapMin: 1 }, // ₹240/1hr = ₹4/m
+    { id: "tg7", category: "timed", name: "PLAYSTATION 5", rate: 2.50, oldRate: 4.00, lapMin: 1 },    // ₹150/1hr = ₹2.5/m
+    { id: "tg8", category: "timed", name: "RETRO GAMES", rate: 60, oldRate: 60, lapMin: 30 },
+    { id: "tg9", category: "timed", name: "SNOOKER TABLE", rate: 2.50, oldRate: 4.00, lapMin: 1 },
+    { id: "tg10", category: "timed", name: "TABLE POOL", rate: 1.50, oldRate: 3.00, lapMin: 1 },
 
-    /* STANDARD GAMES WITH CORRECTED RATES */
-    { id: "sg1", category: "standard", name: "AIR HOCKEY", rate: 60 },
-    { id: "sg2", category: "standard", name: "BASKETBALL", rate: 39 },               // ₹39 / Round
-    { id: "sg3", category: "standard", name: "FROG HAMMER", rate: 30 },
-    { id: "sg4", category: "standard", name: "CRICKET", rate: 39 },                   // ₹39 / 12 Balls or 2 Wickets
+    /* STANDARD FLAT/PER-ROUND GAMES */
+    { id: "sg1", category: "standard", name: "AIR HOCKEY", rate: 60, oldRate: 100 },
+    { id: "sg2", category: "standard", name: "BASKETBALL", rate: 39, oldRate: 39 },
+    { id: "sg3", category: "standard", name: "FROG HAMMER", rate: 30, oldRate: 30 },
+    { id: "sg4", category: "standard", name: "CRICKET", rate: 39, oldRate: 39 },
 
     /* CAFE ITEMS */
-    { id: "cf1", category: "cafe", name: "CHIPS", rate: 5 },
-    { id: "cf2", category: "cafe", name: "CHIPS", rate: 10 },
-    { id: "cf3", category: "cafe", name: "COLDRINK", rate: 10 },
-    { id: "cf4", category: "cafe", name: "COLDRINK", rate: 20 },
-    { id: "cf5", category: "cafe", name: "COLDRINK", rate: 30 },
-    { id: "cf6", category: "cafe", name: "MINERAL WATER", rate: 5 },
-    { id: "cf7", category: "cafe", name: "MINERAL WATER", rate: 10 },
-    { id: "cf8", category: "cafe", name: "MONSTER", rate: 125 },
-    { id: "cf9", category: "cafe", name: "ORS LIQUID", rate: 31.50 },
-    { id: "cf10", category: "cafe", name: "PRINGLES SMALL", rate: 55 },
-    { id: "cf11", category: "cafe", name: "PRINGLES BIG", rate: 110 },
-    { id: "cf12", category: "cafe", name: "RAW NIMBU PANI", rate: 30 },
-    { id: "cf13", category: "cafe", name: "RAW COCONUT WATER", rate: 65 },
-    { id: "cf14", category: "cafe", name: "RAW 25G PROTEIN MILK SHAKE", rate: 145 },
-    { id: "cf15", category: "cafe", name: "PREDATOR", rate: 60 },
-    { id: "cf16", category: "cafe", name: "DIET COKE", rate: 40 },
-    { id: "cf17", category: "cafe", name: "COKE", rate: 35 },
-    { id: "cf18", category: "cafe", name: "SPRITE", rate: 35 },
-    { id: "cf19", category: "cafe", name: "THUMBS UP", rate: 35 },
-    { id: "cf20", category: "cafe", name: "COKE", rate: 70 },
-    { id: "cf21", category: "cafe", name: "SPRITE", rate: 70 },
-    { id: "cf22", category: "cafe", name: "THUMBS UP", rate: 70 },
+    { id: "cf1", category: "cafe", name: "CHIPS", rate: 5, oldRate: 5 },
+    { id: "cf2", category: "cafe", name: "CHIPS", rate: 10, oldRate: 10 },
+    { id: "cf3", category: "cafe", name: "COLDRINK", rate: 10, oldRate: 10 },
+    { id: "cf4", category: "cafe", name: "COLDRINK", rate: 20, oldRate: 20 },
+    { id: "cf5", category: "cafe", name: "COLDRINK", rate: 30, oldRate: 30 },
+    { id: "cf6", category: "cafe", name: "MINERAL WATER", rate: 5, oldRate: 5 },
+    { id: "cf7", category: "cafe", name: "MINERAL WATER", rate: 10, oldRate: 10 },
+    { id: "cf8", category: "cafe", name: "MONSTER", rate: 125, oldRate: 125 },
+    { id: "cf9", category: "cafe", name: "ORS LIQUID", rate: 31.50, oldRate: 31.50 },
+    { id: "cf10", category: "cafe", name: "PRINGLES SMALL", rate: 55, oldRate: 55 },
+    { id: "cf11", category: "cafe", name: "PRINGLES BIG", rate: 110, oldRate: 110 },
+    { id: "cf12", category: "cafe", name: "RAW NIMBU PANI", rate: 30, oldRate: 30 },
+    { id: "cf13", category: "cafe", name: "RAW COCONUT WATER", rate: 65, oldRate: 65 },
+    { id: "cf14", category: "cafe", name: "RAW 25G PROTEIN MILK SHAKE", rate: 145, oldRate: 145 },
+    { id: "cf15", category: "cafe", name: "PREDATOR", rate: 60, oldRate: 60 },
+    { id: "cf16", category: "cafe", name: "DIET COKE", rate: 40, oldRate: 40 },
+    { id: "cf17", category: "cafe", name: "COKE", rate: 35, oldRate: 35 },
+    { id: "cf18", category: "cafe", name: "SPRITE", rate: 35, oldRate: 35 },
+    { id: "cf19", category: "cafe", name: "THUMBS UP", rate: 35, oldRate: 35 },
 
     /* CHINESE MENU ITEMS */
-    { id: "ttc2", category: "chinese", name: "VEG FRIED RICE", rate: 70 },
-    { id: "ttc3", category: "chinese", name: "VEG SCHEZWAN RICE", rate: 80 },
-    { id: "ttc4", category: "chinese", name: "VEG MANCHURIAN RICE", rate: 70 },
-    { id: "ttc6", category: "chinese", name: "PANEER FRIED RICE", rate: 80 },
-    { id: "ttc7", category: "chinese", name: "PANEER SCHEZWAN RICE", rate: 90 },
-    { id: "ttc8", category: "chinese", name: "PANEER MANCHURIAN RICE", rate: 85 },
-    { id: "ttc9", category: "chinese", name: "PANEER TRIPLE RICE", rate: 120 },
-    { id: "ttc10", category: "chinese", name: "VEG NOODLES", rate: 70 },
-    { id: "ttc11", category: "chinese", name: "VEG PANEER NOODLES", rate: 80 },
-    { id: "ttc12", category: "chinese", name: "VEG MANCHURIAN NOODLES", rate: 85 },
-    { id: "ttc13", category: "chinese", name: "PANEER CHILLI DRY", rate: 100 },
-    { id: "ttc14", category: "chinese", name: "PANEER CHILLI GRAVY", rate: 100 },
-    { id: "ttc15", category: "chinese", name: "VEG MANCHURIAN DRY", rate: 70 },
-    { id: "ttc16", category: "chinese", name: "VEG MANCHURIAN GRAVY", rate: 80 },
+    { id: "ttc2", category: "chinese", name: "VEG FRIED RICE", rate: 70, oldRate: 70 },
+    { id: "ttc3", category: "chinese", name: "VEG SCHEZWAN RICE", rate: 80, oldRate: 80 },
+    { id: "ttc4", category: "chinese", name: "VEG MANCHURIAN RICE", rate: 70, oldRate: 70 },
+    { id: "ttc6", category: "chinese", name: "PANEER FRIED RICE", rate: 80, oldRate: 80 },
+    { id: "ttc7", category: "chinese", name: "PANEER SCHEZWAN RICE", rate: 90, oldRate: 90 },
+    { id: "ttc8", category: "chinese", name: "PANEER MANCHURIAN RICE", rate: 85, oldRate: 85 },
+    { id: "ttc9", category: "chinese", name: "PANEER TRIPLE RICE", rate: 120, oldRate: 120 },
+    { id: "ttc10", category: "chinese", name: "VEG NOODLES", rate: 70, oldRate: 70 },
+    { id: "ttc11", category: "chinese", name: "VEG PANEER NOODLES", rate: 80, oldRate: 80 },
+    { id: "ttc12", category: "chinese", name: "VEG MANCHURIAN NOODLES", rate: 85, oldRate: 85 },
+    { id: "ttc13", category: "chinese", name: "PANEER CHILLI DRY", rate: 100, oldRate: 100 },
+    { id: "ttc14", category: "chinese", name: "PANEER CHILLI GRAVY", rate: 100, oldRate: 100 },
+    { id: "ttc15", category: "chinese", name: "VEG MANCHURIAN DRY", rate: 70, oldRate: 70 },
+    { id: "ttc16", category: "chinese", name: "VEG MANCHURIAN GRAVY", rate: 80, oldRate: 80 },
 
     /* CUSTOM EDITABLE ITEM */
-    { id: "gen_custom", category: "general", name: "➕ GENERAL ITEM (EDITABLE)", rate: 0 }
+    { id: "gen_custom", category: "general", name: "➕ GENERAL ITEM (EDITABLE)", rate: 0, oldRate: 0 }
 ];
 
 let cart = [];
@@ -674,10 +686,10 @@ function populateDropdown() {
     if(!masterSelect) return;
     masterSelect.innerHTML = '<option value="">-- Select Game or Product --</option>';
 
-    const tgGroup = document.createElement("optgroup"); tgGroup.label = "⏱️ Timed / Festive Hourly Games";
-    const sgGroup = document.createElement("optgroup"); sgGroup.label = "🕹️ Festive Standard Games";
-    const cfGroup = document.createElement("optgroup"); cfGroup.label = "☕ Cafe Beverages & Snacks";
-    const ttcGroup = document.createElement("optgroup"); ttcGroup.label = "🥢 Chinese Food";
+    const tgGroup = document.createElement("optgroup"); tgGroup.label = "⏱️ Timed / Hourly Games";
+    const sgGroup = document.createElement("optgroup"); sgGroup.label = "🕹️ Standard Games / Fees";
+    const cfGroup = document.createElement("optgroup"); cfGroup.label = "☕ Cafe Products";
+    const ttcGroup = document.createElement("optgroup"); ttcGroup.label = "🥢 Chinese";
     const genGroup = document.createElement("optgroup"); genGroup.label = "✏️ Custom Items";
 
     catalog.forEach(item => {
@@ -721,6 +733,7 @@ function addItemFromDropdown() {
             category: "general",
             name: customName.toUpperCase(),
             rate: customRate,
+            oldRate: customRate,
             instanceId: instanceId,
             qty: 1,
             seconds: 0,
@@ -761,6 +774,7 @@ function editCustomItem(instanceId) {
     let newRate = prompt("Edit Item Rate (₹):", item.rate);
     if (newRate !== null && !isNaN(parseFloat(newRate))) {
         item.rate = parseFloat(newRate);
+        item.oldRate = item.rate;
     }
 
     renderCart();
@@ -823,16 +837,16 @@ function renderCart() {
                     <div class="mobile-card-header">
                         <div class="card-particular">
                             <div class="game-title">${item.name}</div>
-                            <div class="game-meta">RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN LAP</div>
+                            <div class="game-meta">RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN</div>
                         </div>
                         <div class="card-amount-box">₹ ${(item.qty * item.rate).toFixed(2)}</div>
                     </div>
 
                     <div class="mobile-card-middle">
                         <div class="card-qty-group">
-                            <button type="button" class="btn-minus" onclick="changeQty('${item.instanceId}', ${item.lapMin === 1 ? -1 : -1})">-</button>
+                            <button type="button" class="btn-minus" onclick="changeQty('${item.instanceId}', ${item.lapMin === 1 ? -1 : -0.5})">-</button>
                             <div class="qty-display-box">${item.qty}</div>
-                            <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', ${item.lapMin === 1 ? 1 : 1})">+</button>
+                            <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', ${item.lapMin === 1 ? 1 : 0.5})">+</button>
                         </div>
                         <div class="card-timer-box">${hrs}:${mins}:${secs}</div>
                     </div>
@@ -993,11 +1007,17 @@ function toggleLog(instanceId) {
 function calculate() {
     let gamesTotal = 0;
     let cafeTotal = 0;
+    let festiveSavings = 0;
 
     cart.forEach(item => {
         let total = item.qty * item.rate;
         if(item.category === "cafe" || item.category === "chinese") cafeTotal += total;
         else gamesTotal += total;
+
+        // Calculate rate savings compared to old rates
+        if(item.oldRate && item.oldRate > item.rate) {
+            festiveSavings += (item.qty * (item.oldRate - item.rate));
+        }
     });
 
     let maxAllowedCoupons = Math.floor(gamesTotal / 200);
@@ -1020,6 +1040,7 @@ function calculate() {
     if(document.getElementById("cafeTotal")) document.getElementById("cafeTotal").innerText = cafeTotal.toFixed(2);
     if(document.getElementById("discount")) document.getElementById("discount").innerText = discVal.toFixed(2);
     if(document.getElementById("grandTotal")) document.getElementById("grandTotal").innerText = grand;
+    if(document.getElementById("festiveSavingsAmount")) document.getElementById("festiveSavingsAmount").innerText = festiveSavings.toFixed(2);
 
     if(document.getElementById("p2_discountPercent")) document.getElementById("p2_discountPercent").value = document.getElementById("discountPercent")?.value || "";
     if(document.getElementById("p2_discountRupee")) document.getElementById("p2_discountRupee").value = document.getElementById("discountRupee")?.value || "";
@@ -1103,7 +1124,7 @@ function renderTerminalSummaryList() {
     cart.forEach(item => {
         if(item.qty > 0) {
             let icon = item.id === "mem1" ? "🪪" : (item.category === "timed" ? "⏱️" : (item.category === "standard" ? "🕹️" : (item.category === "chinese" ? "🥢" : (item.category === "general" ? "✏️" : "☕"))));
-            let qtyText = item.category === "timed" ? `(${item.qty}${item.lapMin > 1 ? ' lap' : 'm'})` : `(x${item.qty})`;
+            let qtyText = item.category === "timed" ? `(${item.qty}m)` : `(x${item.qty})`;
             listContainer.innerHTML += `
                 <div class="summary-item-row">
                     <span>${icon} ${item.name} ${qtyText}</span>
@@ -1130,8 +1151,9 @@ function navigateToPage(no) {
 function generateReceipt() {
     const line = "------------------------------\n";
     const dLine = "==============================\n";
-    let t = "```     🪔 PAUSE & PLAY 🪔      \n";
-    t += "  Gaming Café - Festive Offer  \n";
+    let t = "```      🪔 PAUSE & PLAY 🪔     \n";
+    t += "    DIWALI FESTIVE OFFER   \n";
+    t += "    Gaming Cafe, Jaunpur   \n";
     t += dLine;
     t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
     t += `Mobile : ${document.getElementById("mobile").value || "N/A"}\n`;
@@ -1155,14 +1177,17 @@ function generateReceipt() {
     });
     
     t += line;
+    let savings = document.getElementById("festiveSavingsAmount")?.innerText || "0.00";
+    if (parseFloat(savings) > 0) {
+        t += `Festive Savings: ₹${savings.padStart(10, ' ')}\n`;
+    }
     let disc = document.getElementById("discount").innerText;
     if (parseFloat(disc) > 0) {
-        t += `Festive Disc  : ₹${disc.padStart(10, ' ')}\n`;
+        t += `Total Discount : ₹${disc.padStart(10, ' ')}\n`;
     }
-    t += `Grand Total   : ₹${document.getElementById("grandTotal").innerText.padStart(10, ' ')}\n`;
+    t += `Grand Total    : ₹${document.getElementById("grandTotal").innerText.padStart(10, ' ')}\n`;
     t += dLine;
-    t += "  ✨ Happy Festive Season! ✨ \n";
-    t += "   Thank You! Visit Again!   ```\n";
+    t += "  🪔 Happy Diwali! Visit Again 🪔  ```\n";
     return t;
 }
 
