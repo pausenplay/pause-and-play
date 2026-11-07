@@ -564,8 +564,8 @@ const catalog = [
     { id: "tg3", category: "timed", name: "DRIVING ADULT", rate: 5.00, oldRate: 8.00, lapMin: 1 }, // ₹150/30m
     { id: "tg4", category: "timed", name: "DRIVING JR", rate: 3.33, oldRate: 6.00, lapMin: 1 },    // ₹100/30m
     { id: "tg5", category: "timed", name: "MEMBERSHIP POOL", rate: 60, oldRate: 60, lapMin: 45 },
-    { id: "tg6", category: "timed", name: "MULTI PLAYER PS5", rate: 4.00, oldRate: 6.63, lapMin: 1 }, // ₹240/1hr = ₹4/m
-    { id: "tg7", category: "timed", name: "PLAYSTATION 5", rate: 2.50, oldRate: 4.00, lapMin: 1 },    // ₹150/1hr = ₹2.5/m
+    { id: "tg6", category: "timed", name: "MULTI PLAYER PS5", rate: 240, oldRate: 240, lapMin: 60 }, // ₹240 / 1 Hour (60 Min base)
+    { id: "tg7", category: "timed", name: "PLAYSTATION 5", rate: 150, oldRate: 200, lapMin: 60 },    // ₹150 / 1 Hour (60 Min base)
     { id: "tg8", category: "timed", name: "RETRO GAMES", rate: 60, oldRate: 60, lapMin: 30 },
     { id: "tg9", category: "timed", name: "SNOOKER TABLE", rate: 2.50, oldRate: 4.00, lapMin: 1 },
     { id: "tg10", category: "timed", name: "TABLE POOL", rate: 1.50, oldRate: 3.00, lapMin: 1 },
@@ -844,9 +844,9 @@ function renderCart() {
 
                     <div class="mobile-card-middle">
                         <div class="card-qty-group">
-                            <button type="button" class="btn-minus" onclick="changeQty('${item.instanceId}', ${item.lapMin === 1 ? -1 : -0.5})">-</button>
+                            <button type="button" class="btn-minus" onclick="changeQty('${item.instanceId}', ${item.lapMin === 1 ? -1 : (item.lapMin >= 60 ? -1 : -0.5)})">-</button>
                             <div class="qty-display-box">${item.qty}</div>
-                            <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', ${item.lapMin === 1 ? 1 : 0.5})">+</button>
+                            <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', ${item.lapMin === 1 ? 1 : (item.lapMin >= 60 ? 1 : 0.5)})">+</button>
                         </div>
                         <div class="card-timer-box">${hrs}:${mins}:${secs}</div>
                     </div>
@@ -1124,7 +1124,7 @@ function renderTerminalSummaryList() {
     cart.forEach(item => {
         if(item.qty > 0) {
             let icon = item.id === "mem1" ? "🪪" : (item.category === "timed" ? "⏱️" : (item.category === "standard" ? "🕹️" : (item.category === "chinese" ? "🥢" : (item.category === "general" ? "✏️" : "☕"))));
-            let qtyText = item.category === "timed" ? `(${item.qty}m)` : `(x${item.qty})`;
+            let qtyText = item.category === "timed" ? (item.lapMin >= 60 ? `(${item.qty}h)` : `(${item.qty}m)`) : `(x${item.qty})`;
             listContainer.innerHTML += `
                 <div class="summary-item-row">
                     <span>${icon} ${item.name} ${qtyText}</span>
