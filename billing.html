@@ -1156,13 +1156,11 @@ function generateReceipt() {
     t += "    Gaming Cafe, Jaunpur   \n";
     t += dLine;
     t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
-    t += `Mobile : ${document.getElementById("mobile").value || "N/A"}\n`;
+    t += `Mobile : ${document.getElementById("addMob").value || "N/A"}\n`;
     let addMob = document.getElementById("additionalMobile").value.trim();
     if(addMob) {
-        t += `AltMob : ${addMob}\n`;
+        t += `AltMob : ${mobile}\n`;
     }
-    t += `MemDate: ${document.getElementById("membershipDate").value || "N/A"}\n`;
-    t += `Date   : ${new Date().toLocaleDateString("en-GB")}\n`;
     t += line;
     t += "ITEM           QTY     AMOUNT \n";
     t += line;
