@@ -3,43 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title id="pageTitle">Pause & Play Billing - Diwali Special</title>
-<!-- Google Font: Inter -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title id="pageTitle">Pause & Play Billing</title>
 <style>
 :root {
-    --bg-main: #fffdf5;
+    --bg-main: #f4f6f9;
     --bg-card: #ffffff;
-    --text-main: #3b1700;
-    --text-muted: #8c6a49;
-    --border-color: #f7e0b5;
-    --input-bg: #fffbf0;
-    --diwali-gold: #d97706;
-    --diwali-red: #dc2626;
-    --diwali-yellow: #f59e0b;
-    --diwali-maroon: #7c2d12;
-    --diwali-light-bg: #fef3c7;
-    --ios-green: #16a34a;
-    --ios-blue: #2563eb;
+    --text-main: #1c1c1e;
+    --text-muted: #6e6e73;
+    --border-color: #d1d1d6;
+    --input-bg: #f2f2f7;
+    --ios-green: #34c759;
+    --ios-red: #ff3b30;
+    --ios-blue: #007aff;
+    --ios-purple: #af52de;
 }
 
 [data-theme="dark"] {
-    --bg-main: #1c130b;
-    --bg-card: #2a1c10;
-    --text-main: #fef3c7;
-    --text-muted: #d97706;
-    --border-color: #543417;
-    --input-bg: #352315;
+    --bg-main: #121212;
+    --bg-card: #1e1e1e;
+    --text-main: #f5f5f7;
+    --text-muted: #a1a1a6;
+    --border-color: #333336;
+    --input-bg: #2c2c2e;
 }
 
-*{ margin:0; padding:0; box-sizing:border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; touch-action: manipulation; }
+*{ margin:0; padding:0; box-sizing:border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif; touch-action: manipulation; }
 body{ background: var(--bg-main); color: var(--text-main); padding: 10px; line-height: 1.4; transition: background 0.3s ease, color 0.3s ease; padding-bottom: 40px; }
 
 .container{
     max-width:100%; margin:auto; background: var(--bg-card); padding:16px 12px;
-    border-radius:18px; box-shadow: 0 4px 20px rgba(217, 119, 6, 0.12); border: 2px solid var(--border-color);
+    border-radius:18px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); border: 1px solid var(--border-color);
     position: relative;
     transition: background 0.3s ease, border-color 0.3s ease;
 }
@@ -60,16 +53,16 @@ body{ background: var(--bg-main); color: var(--text-main); padding: 10px; line-h
 }
 .theme-switch input { display:none; }
 .slider {
-    background-color: #fde68a;
+    background-color: #ccc;
     bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0;
-    transition: .4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 34px; border: 1px solid var(--diwali-gold);
+    transition: .4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 34px;
 }
 .slider:before {
-    background-color: var(--diwali-gold); bottom: 3px; content: ""; height: 16px;
-    left: 3px; position: absolute; transition: .4s cubic-bezier(0.4, 0, 0.2, 1); width: 16px; border-radius: 50%;
+    background-color: #fff; bottom: 3px; content: ""; height: 18px;
+    left: 3px; position: absolute; transition: .4s cubic-bezier(0.4, 0, 0.2, 1); width: 18px; border-radius: 50%;
 }
-input:checked + .slider { background-color: var(--diwali-maroon); }
-input:checked + .slider:before { transform: translateX(22px); background-color: #fef3c7; }
+input:checked + .slider { background-color: var(--ios-blue); }
+input:checked + .slider:before { transform: translateX(22px); }
 
 /* Animated Page Transitions */
 .page{ display:none; opacity: 0; transform: translateY(8px); transition: opacity 0.3s ease, transform 0.3s ease; }
@@ -80,25 +73,49 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.header{ text-align:center; margin-bottom:12px; border-bottom: 2px dashed var(--border-color); padding-bottom: 10px; position: relative; }
-.header::before { content: '🪔'; font-size: 16px; margin-right: 6px; }
-.header::after { content: '🪔'; font-size: 16px; margin-left: 6px; }
-.title{ font-size:24px; font-weight:900; letter-spacing: -0.5px; color: var(--diwali-maroon); [data-theme="dark"] & { color: #fde68a; } }
-.subtitle{ color: var(--diwali-gold); font-size:10px; margin-top:2px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; }
+.header{ text-align:center; margin-bottom:12px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
+.title{ font-size:24px; font-weight:900; letter-spacing: -0.5px; }
+.subtitle{ color: var(--text-muted); font-size:9px; margin-top:2px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
 
 .info-grid{ display:flex; flex-direction:column; gap:8px; }
 .input, .select-customer {
-    width:100%; padding:12px; border: 1.5px solid var(--border-color); border-radius:10px;
+    width:100%; padding:12px; border: 1px solid var(--border-color); border-radius:10px;
     font-size:14px; font-weight:600; background: var(--input-bg); color: var(--text-main); outline: none;
     transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
 }
-.input:focus, .select-customer:focus { border-color: var(--diwali-gold); box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.2); }
+.input:focus, .select-customer:focus { border-color: var(--ios-blue); box-shadow: 0 0 0 3px rgba(0,122,255,0.2); }
 
-.date-box { margin: 10px 0; font-size: 12px; font-weight: 800; color: var(--diwali-gold); text-align: center; }
+.member-toggle-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--input-bg);
+    border: 1px dashed var(--ios-purple);
+    padding: 10px 12px;
+    border-radius: 12px;
+    margin-top: 4px;
+}
+.member-toggle-title { font-size: 13px; font-weight: 800; color: var(--ios-purple); }
+.btn-member-toggle {
+    padding: 6px 12px;
+    background: var(--ios-purple);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 12px;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.2s ease;
+}
+.btn-member-toggle.active {
+    background: var(--ios-green);
+}
 
-.master-bar { display: flex; gap: 8px; margin-bottom: 12px; background: var(--input-bg); padding: 6px; border-radius: 12px; border: 1.5px solid var(--border-color); }
-.select-input { flex: 1; padding: 12px; border: 1.5px solid var(--border-color); border-radius: 8px; font-size: 14px; font-weight: 700; background: var(--bg-card); color: var(--text-main); outline: none; width: 100%; transition: border-color 0.2s, box-shadow 0.2s; }
-.select-input:focus { border-color: var(--diwali-gold); box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.2); }
+.date-box { margin: 10px 0; font-size: 12px; font-weight: 700; color: var(--text-muted); text-align: center; }
+
+.master-bar { display: flex; gap: 8px; margin-bottom: 12px; background: var(--input-bg); padding: 6px; border-radius: 12px; border: 1px solid var(--border-color); }
+.select-input { flex: 1; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; font-weight: 700; background: var(--bg-card); color: var(--text-main); outline: none; width: 100%; transition: border-color 0.2s, box-shadow 0.2s; }
+.select-input:focus { border-color: var(--ios-blue); box-shadow: 0 0 0 3px rgba(0,122,255,0.2); }
 
 .items-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
 
@@ -116,7 +133,7 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 @keyframes cardExit {
-    from { opacity: 1; transform: scale(1); max-height: 200px; margin-bottom: 10px; }
+    from { opacity: 1; transform: scale(1); max-height: 250px; margin-bottom: 10px; }
     to { opacity: 0; transform: scale(0.9); max-height: 0; margin-bottom: 0; padding: 0; }
 }
 
@@ -125,7 +142,7 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
     border: 2px solid var(--border-color);
     border-radius: 16px;
     padding: 12px;
-    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.08);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -133,50 +150,71 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
 }
 
 .card-particular { display: flex; flex-direction: column; justify-content: center; width: 65%; }
-.card-particular .game-title { font-size: 15px; font-weight: 900; color: var(--text-main); letter-spacing: 0.2px; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-particular .game-title { font-size: 16px; font-weight: 900; color: var(--text-main); letter-spacing: 0.2px; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .card-particular .game-meta { font-size: 11px; font-weight: 700; color: var(--text-muted); margin-top: 2px; }
 
 .mobile-card-header { display: flex; justify-content: space-between; align-items: center; width: 100%; }
 .mobile-card-middle { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 6px; }
 .mobile-card-footer { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 6px; margin-top: 4px; }
 
+.controller-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--input-bg);
+    border: 1px dashed var(--ios-blue);
+    border-radius: 10px;
+    padding: 8px 10px;
+    margin-top: 2px;
+}
+.controller-label {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--ios-blue);
+    text-transform: uppercase;
+}
+.controller-sub {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
 .card-qty-group { display: flex; align-items: center; gap: 6px; }
 
 /* Interactive Animated Buttons */
-.btn-minus, .btn-plus, .btn-switch, .btn, .btn-p3, .btn-time-sync, .btn-edit-item {
+.btn-minus, .btn-plus, .btn-switch, .btn, .btn-p3, .btn-time-sync {
     transition: transform 0.15s cubic-bezier(0.2, 0, 0.1, 1), background-color 0.2s ease, opacity 0.2s ease;
 }
-.btn-minus:active, .btn-plus:active, .btn-switch:active, .btn:active, .btn-p3:active, .btn-time-sync:active, .btn-edit-item:active {
+.btn-minus:active, .btn-plus:active, .btn-switch:active, .btn:active, .btn-p3:active, .btn-time-sync:active, .btn-member-toggle:active {
     transform: scale(0.93);
 }
 
-.btn-minus { width: 36px; height: 36px; background: var(--diwali-red); color: #fff; border: none; border-radius: 8px; font-size: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.btn-minus { width: 36px; height: 36px; background: #ff3b30; color: #fff; border: none; border-radius: 8px; font-size: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .qty-display-box { width: 42px; height: 36px; border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-bg); font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; color: var(--text-main); transition: background 0.3s, border-color 0.3s; }
-.btn-plus { width: 36px; height: 36px; background: var(--ios-green); color: #fff; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.btn-plus { width: 36px; height: 36px; background: #34c759; color: #fff; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-.card-amount-box { border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-bg); height: 36px; min-width: 85px; padding: 0 8px; font-size: 15px; font-weight: 800; color: var(--diwali-maroon); display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+.card-amount-box { border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-bg); height: 36px; min-width: 85px; padding: 0 8px; font-size: 15px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
 .card-timer-box { border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--bg-card); height: 36px; min-width: 95px; font-family: monospace; font-size: 15px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; justify-content: center; transition: border-color 0.3s, color 0.3s; }
 
-.btn-switch { flex: 1; height: 36px; background: var(--ios-green); color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; text-transform: uppercase; }
+.btn-switch { flex: 1; height: 36px; background: #34c759; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; text-transform: uppercase; }
 .btn-switch.running { 
-    background: var(--diwali-red); 
+    background: #ff3b30; 
     animation: timerPulse 2s infinite;
 }
 
 @keyframes timerPulse {
-    0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
-    70% { box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+    0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.4); }
+    70% { box-shadow: 0 0 0 8px rgba(255, 59, 48, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
 }
 
 .card-current-time-group { display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--bg-card); height: 36px; padding: 0 4px; }
 .current-time-input { border: none; outline: none; font-size: 13px; font-weight: 700; background: transparent; width: 55px; text-align: center; color: var(--text-main); }
 .btn-time-sync { background: none; border: none; cursor: pointer; font-size: 13px; margin-left: 2px; }
 
-.card-log-link { color: var(--diwali-gold); font-size: 13px; font-weight: bold; text-decoration: underline; cursor: pointer; padding: 0 4px; transition: opacity 0.2s; }
+.card-log-link { color: #007aff; font-size: 13px; font-weight: bold; text-decoration: underline; cursor: pointer; padding: 0 4px; transition: opacity 0.2s; }
 .card-log-link:active { opacity: 0.6; }
-.btn-edit-item { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 4px 8px; font-size: 11px; font-weight: 800; color: var(--diwali-gold); cursor: pointer; }
-.btn-del { background: none; border: none; color: var(--diwali-red); font-size: 18px; cursor: pointer; font-weight: bold; padding: 0 4px; transition: transform 0.2s; }
+.btn-del { background: none; border: none; color: var(--ios-red); font-size: 18px; cursor: pointer; font-weight: bold; padding: 0 4px; transition: transform 0.2s; }
 .btn-del:active { transform: scale(0.85); }
 
 .history-drawer { 
@@ -186,35 +224,18 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
 }
 
 .discount-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom: 12px; }
-.summary{ border-top: 2px dashed var(--border-color); padding-top: 10px; }
+.summary{ border-top: 1px solid var(--border-color); padding-top: 10px; }
 .row{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; font-size:13px; font-weight: 600; }
-.grand{ font-size:18px; font-weight:800; background: var(--input-bg); padding: 10px; border-radius: 10px; border: 1.5px solid var(--border-color); margin-top: 6px; }
-
-/* Diwali Savings Banner Box */
-.savings-box {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    border: 2px solid var(--diwali-gold);
-    border-radius: 12px;
-    padding: 10px 14px;
-    margin: 10px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--diwali-maroon);
-    font-weight: 800;
-    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.15);
-}
-.savings-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px; }
-.savings-amount { font-size: 16px; font-weight: 900; color: var(--diwali-red); }
+.grand{ font-size:18px; font-weight:800; background: var(--input-bg); padding: 10px; border-radius: 10px; border: 1px solid var(--border-color); margin-top: 6px; }
 
 .actions{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:15px; }
 .btn{ padding: 14px; font-size: 15px; font-weight: 800; border-radius: 12px; cursor:pointer; border: none; text-align: center; }
-.btn.clear { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--border-color); }
-.btn.next { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: #ffffff; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3); }
+.btn.clear { background: var(--input-bg); color: var(--text-main); }
+.btn.next { background: #1a1c23; color: #ffffff; }
 
 .terminal-card {
     background: var(--bg-card);
-    border: 1.5px solid var(--border-color);
+    border: 1px solid var(--border-color);
     border-radius: 14px;
     padding: 14px;
     margin-bottom: 12px;
@@ -222,7 +243,7 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
 
 .coupon-banner {
     background: var(--input-bg);
-    border: 1.5px dashed var(--diwali-gold);
+    border: 1px dashed #22c55e;
     border-radius: 10px;
     padding: 10px;
     display: flex;
@@ -230,14 +251,14 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
     align-items: center;
     margin-bottom: 12px;
 }
-.coupon-title { font-weight: 800; color: var(--diwali-gold); font-size: 12px; }
-.coupon-sub { font-size: 10px; color: var(--text-muted); font-weight: 600; margin-top: 2px; }
+.coupon-title { font-weight: 800; color: #15803d; font-size: 12px; }
+.coupon-sub { font-size: 10px; color: #166534; font-weight: 600; margin-top: 2px; }
 
 .payment-layout-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
 
 .payment-input-card {
     background: var(--input-bg);
-    border: 1.5px solid var(--border-color);
+    border: 1px solid var(--border-color);
     border-radius: 10px;
     padding: 10px;
 }
@@ -251,7 +272,7 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
 .payment-inner-input {
     width: 100%;
     padding: 10px;
-    border: 1.5px solid var(--border-color);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     background: var(--bg-card);
     color: var(--text-main);
@@ -261,8 +282,8 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 .payment-inner-input:focus {
-    border-color: var(--diwali-gold);
-    box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.2);
+    border-color: var(--ios-blue);
+    box-shadow: 0 0 0 3px rgba(0,122,255,0.2);
 }
 
 .return-amount-box {
@@ -276,7 +297,7 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
 }
 .return-badge {
     background: #fef2f2;
-    color: var(--diwali-red);
+    color: #ef4444;
     padding: 4px 10px;
     border-radius: 6px;
     font-weight: 900;
@@ -284,40 +305,9 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
     transition: transform 0.2s ease;
 }
 
-/* QR Code Display Container */
-.qr-container {
-    background: #ffffff;
-    border: 1.5px solid var(--border-color);
-    border-radius: 12px;
-    padding: 12px;
-    margin: 12px 0;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-}
-.qr-container img {
-    width: 180px;
-    height: 180px;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
-}
-.qr-title {
-    font-size: 12px;
-    font-weight: 800;
-    color: var(--diwali-maroon);
-    text-transform: uppercase;
-}
-.qr-amount-info {
-    font-size: 13px;
-    font-weight: 800;
-    color: var(--diwali-gold);
-}
-
 .receipt-summary-card {
     background: var(--input-bg);
-    border: 1.5px solid var(--border-color);
+    border: 1px solid var(--border-color);
     border-radius: 14px;
     padding: 12px;
 }
@@ -330,13 +320,13 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
     margin-bottom: 6px;
 }
 
-.preview-box { background: var(--input-bg); border: 1.5px solid var(--border-color); padding:12px; border-radius:10px; margin-top:12px; font-family: monospace; white-space: pre-wrap; font-size: 12px; color: var(--text-main); overflow-x: auto; }
+.preview-box { background: var(--input-bg); border: 1px solid var(--border-color); padding:12px; border-radius:10px; margin-top:12px; font-family: monospace; white-space: pre-wrap; font-size: 12px; color: var(--text-main); overflow-x: auto; }
 .page3-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
 .btn-p3 { padding: 12px; font-size: 13px; font-weight: 800; border-radius: 10px; border: none; cursor: pointer; text-align: center; }
-.btn-p3-back { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--border-color); }
-.btn-p3-print { background: var(--ios-blue); color: #ffffff; }
-.btn-p3-whatsapp { background: var(--ios-green); color: #ffffff; }
-.btn-p3-exit { background: var(--diwali-red); color: #ffffff; }
+.btn-p3-back { background: var(--input-bg); color: var(--text-main); }
+.btn-p3-print { background: #2563eb; color: #ffffff; }
+.btn-p3-whatsapp { background: #22c55e; color: #ffffff; }
+.btn-p3-exit { background: #ef4444; color: #ffffff; }
 
 @media print {
     body * { visibility: hidden !important; }
@@ -361,12 +351,6 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
         white-space: pre-wrap;
         word-break: break-all;
     }
-    #thermalReceipt img {
-        display: block;
-        margin: 8px auto;
-        width: 140px;
-        height: 140px;
-    }
 }
 #thermalReceipt { display:none; }
 </style>
@@ -386,7 +370,7 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
     <div id="page1" class="page active">
         <div class="header">
             <div class="title">PAUSE & PLAY</div>
-            <div class="subtitle">✨ DIWALI FESTIVE OFFER BILLING ✨</div>
+            <div class="subtitle">Where Pause Meets Play</div>
         </div>
 
         <div class="info-grid">
@@ -397,10 +381,14 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
                 <option value="arman">3. Arman (03-09-2026)</option>
                 <option value="new">4. ➕ [ New Customer Entry ]</option>
             </select>
-            <input type="text" id="customer" class="input" placeholder="Customer Name" oninput="updateTabTitle()">
-            <input type="tel" id="mobile" class="input" placeholder="No.">
-            <input type="tel" id="additionalMobile" class="input" placeholder="Mobile Number">
+            <input type="text" id="customer" class="input" placeholder="Customer Name">
+            <input type="tel" id="mobile" class="input" placeholder="Mobile Number">
             <input type="text" id="membershipDate" class="input" placeholder="Membership Date (DD-MM-YYYY)">
+            
+            <div class="member-toggle-bar">
+                <div class="member-toggle-title">🪪 New Membership Allotted (₹240)</div>
+                <button type="button" id="memberToggleBtn" class="btn-member-toggle" onclick="toggleMembershipFee()">Add ₹240</button>
+            </div>
         </div>
 
         <div class="date-box" id="dateBox">Date : </div>
@@ -416,12 +404,6 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
         <div class="discount-grid">
             <input id="discountPercent" class="input" type="number" placeholder="Manual Disc %" oninput="calculate()">
             <input id="discountRupee" class="input" type="number" placeholder="Manual Disc ₹" oninput="calculate()">
-        </div>
-
-        <!-- TOTAL SAVINGS BOX (Diwali Offer Comparison) -->
-        <div class="savings-box" id="savingsBoxContainer">
-            <span class="savings-title">🪔 Festive Rate Savings</span>
-            <span class="savings-amount">₹ <span id="festiveSavingsAmount">0.00</span></span>
         </div>
 
         <div class="summary">
@@ -458,24 +440,13 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
 
             <div class="payment-layout-grid">
                 <div class="payment-input-card">
-                    <div class="payment-input-label">💳 UPI ID</div>
-                    <input type="text" id="upiId" class="payment-inner-input" value="Q67246447@ybl" placeholder="Enter UPI ID" oninput="updateQRCode()">
+                    <div class="payment-input-label">💳 UPI BOX</div>
+                    <input type="number" id="upiAmount" class="payment-inner-input" placeholder="Enter UPI Amt" oninput="calculateTerminal()">
                 </div>
                 <div class="payment-input-card">
                     <div class="payment-input-label">💵 CASH BOX</div>
                     <input type="number" id="cashAmount" class="payment-inner-input" placeholder="Enter Cash Amt" oninput="calculateTerminal()">
                 </div>
-                <div class="payment-input-card">
-                    <div class="payment-input-label">💳 UPI BOX</div>
-                    <input type="number" id="upiAmount" class="payment-inner-input" placeholder="Enter UPI Amt" oninput="calculateTerminal()">
-                </div>
-            </div>
-
-            <!-- DYNAMIC UPI QR CODE BOX -->
-            <div class="qr-container">
-                <div class="qr-title">Scan to Pay via UPI</div>
-                <img id="upiQrImage" src="" alt="UPI QR Code">
-                <div class="qr-amount-info">QR Amount: ₹ <span id="qrCalculatedDisplay">0.00</span></div>
             </div>
 
             <div class="discount-grid" style="margin-bottom:8px;">
@@ -493,7 +464,7 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
             <div id="terminalItemsList"></div>
             <div style="border-top: 1px dashed var(--border-color); margin-top: 8px; padding-top: 8px;" class="summary-item-row">
                 <span style="font-weight:800;">Grand Total:</span>
-                <span style="font-weight:900; font-size:15px; color: var(--diwali-maroon);">₹ <span id="p2_calculatedGrand">0</span></span>
+                <span style="font-weight:900; font-size:15px;">₹ <span id="p2_calculatedGrand">0</span></span>
             </div>
         </div>
 
@@ -521,24 +492,15 @@ input:checked + .slider:before { transform: translateX(22px); background-color: 
 
 </div>
 
-<div id="thermalReceipt">
-    <pre id="receiptText"></pre>
-    <div style="text-align:center;">
-        <img id="thermalQrImage" src="" alt="Thermal UPI QR">
-    </div>
-</div>
+<div id="thermalReceipt"><pre id="receiptText"></pre></div>
+
+<!-- AUDIO ALERT TAG -->
+<audio id="timerAlertAudio" preload="auto">
+  <source src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 document.getElementById("dateBox").innerText = "Date : " + new Date().toLocaleDateString("en-GB");
-
-function updateTabTitle() {
-    let custName = document.getElementById("customer").value.trim();
-    if(custName) {
-        document.title = custName + " - Pause & Play";
-    } else {
-        document.title = "Pause & Play Billing - Diwali Special";
-    }
-}
 
 function toggleTheme(e) {
     if (e.checked) {
@@ -554,71 +516,86 @@ const presetCustomers = {
     "arman": { name: "Arman", mobile: "", date: "03-09-2026" }
 };
 
-/* CATALOG ACCORDING TO YOUR LATEST DIWALI FESTIVE PRICE LIST & OLD RATE SAVINGS COMPARISON */
 const catalog = [
-    { id: "mem1", category: "standard", name: "NEW MEMBERSHIP ALLOTTED", rate: 240, oldRate: 240 },
-    
-    /* TIMED / HOURLY GAMES ACCORDING TO PRICE LIST */
-    { id: "tg1", category: "timed", name: "CARROM", rate: 39, oldRate: 39, lapMin: 15 },
-    { id: "tg2", category: "timed", name: "COMPUTER GAMES", rate: 120, oldRate: 120, lapMin: 30 },
-    { id: "tg3", category: "timed", name: "DRIVING ADULT", rate: 5.00, oldRate: 8.00, lapMin: 1 }, // ₹150/30m
-    { id: "tg4", category: "timed", name: "DRIVING JR", rate: 3.33, oldRate: 6.00, lapMin: 1 },    // ₹100/30m
-    { id: "tg5", category: "timed", name: "MEMBERSHIP POOL", rate: 60, oldRate: 60, lapMin: 45 },
-    { id: "tg6", category: "timed", name: "MULTI PLAYER PS5", rate: 240, oldRate: 240, lapMin: 60 }, // ₹240 / 1 Hour (60 Min base)
-    { id: "tg7", category: "timed", name: "PLAYSTATION 5", rate: 150, oldRate: 200, lapMin: 60 },    // ₹150 / 1 Hour (60 Min base)
-    { id: "tg8", category: "timed", name: "RETRO GAMES", rate: 60, oldRate: 60, lapMin: 30 },
-    { id: "tg9", category: "timed", name: "SNOOKER TABLE", rate: 2.50, oldRate: 4.00, lapMin: 1 },
-    { id: "tg10", category: "timed", name: "TABLE POOL", rate: 1.50, oldRate: 3.00, lapMin: 1 },
+    { id: "mem1", category: "standard", name: "NEW MEMBERSHIP ALLOTTED", rate: 240 },
+    { id: "tg1", category: "timed", name: "CARROM", rate: 39, lapMin: 15 },
+    { id: "tg2", category: "timed", name: "COMPUTER GAMES", rate: 120, lapMin: 30 },
+    { id: "tg3", category: "timed", name: "DRIVING Ad. (15 Min)", rate: 120, lapMin: 15 },
+    { id: "tg4", category: "timed", name: "DRIVING Jr. (15 Min)", rate: 60, lapMin: 15 },
+    { id: "tg_gta6", category: "timed", name: "GTA 6", rate: 150, lapMin: 30, pricingMode: "gta6" },
+    { id: "tg5", category: "timed", name: "MEMBERSHIP POOL", rate: 60, lapMin: 45 },
+    { id: "tg6", category: "timed", name: "MULTI PLAYER PS5", rate: 199, lapMin: 30 },
+    { id: "tg7", category: "timed", name: "PLAY STATION 5", rate: 120, lapMin: 30 },
+    { id: "tg8", category: "timed", name: "RETRO GAMES", rate: 60, lapMin: 30 },
+    { id: "tg9", category: "timed", name: "TABLE POOL", rate: 99, lapMin: 30 },
+    { id: "tg10", category: "timed", name: "TABLE TENNIS", rate: 79, lapMin: 30 },
 
-    /* STANDARD FLAT/PER-ROUND GAMES */
-    { id: "sg1", category: "standard", name: "AIR HOCKEY", rate: 60, oldRate: 100 },
-    { id: "sg2", category: "standard", name: "BASKETBALL", rate: 39, oldRate: 39 },
-    { id: "sg3", category: "standard", name: "FROG HAMMER", rate: 30, oldRate: 30 },
-    { id: "sg4", category: "standard", name: "CRICKET", rate: 39, oldRate: 39 },
+    { id: "sg1", category: "standard", name: "AIR HOCKEY", rate: 99 },
+    { id: "sg2", category: "standard", name: "BASKETBALL", rate: 39 },
+    { id: "sg3", category: "standard", name: "FROG HAMMER", rate: 20 },
+    { id: "sg4", category: "standard", name: "CRICKET", rate: 39 },
 
-    /* CAFE ITEMS */
-    { id: "cf1", category: "cafe", name: "CHIPS", rate: 5, oldRate: 5 },
-    { id: "cf2", category: "cafe", name: "CHIPS", rate: 10, oldRate: 10 },
-    { id: "cf3", category: "cafe", name: "COLDRINK", rate: 10, oldRate: 10 },
-    { id: "cf4", category: "cafe", name: "COLDRINK", rate: 20, oldRate: 20 },
-    { id: "cf5", category: "cafe", name: "COLDRINK", rate: 30, oldRate: 30 },
-    { id: "cf6", category: "cafe", name: "MINERAL WATER", rate: 5, oldRate: 5 },
-    { id: "cf7", category: "cafe", name: "MINERAL WATER", rate: 10, oldRate: 10 },
-    { id: "cf8", category: "cafe", name: "MONSTER", rate: 125, oldRate: 125 },
-    { id: "cf9", category: "cafe", name: "ORS LIQUID", rate: 31.50, oldRate: 31.50 },
-    { id: "cf10", category: "cafe", name: "PRINGLES SMALL", rate: 55, oldRate: 55 },
-    { id: "cf11", category: "cafe", name: "PRINGLES BIG", rate: 110, oldRate: 110 },
-    { id: "cf12", category: "cafe", name: "RAW NIMBU PANI", rate: 30, oldRate: 30 },
-    { id: "cf13", category: "cafe", name: "RAW COCONUT WATER", rate: 65, oldRate: 65 },
-    { id: "cf14", category: "cafe", name: "RAW 25G PROTEIN MILK SHAKE", rate: 145, oldRate: 145 },
-    { id: "cf15", category: "cafe", name: "PREDATOR", rate: 60, oldRate: 60 },
-    { id: "cf16", category: "cafe", name: "DIET COKE", rate: 40, oldRate: 40 },
-    { id: "cf17", category: "cafe", name: "COKE", rate: 35, oldRate: 35 },
-    { id: "cf18", category: "cafe", name: "SPRITE", rate: 35, oldRate: 35 },
-    { id: "cf19", category: "cafe", name: "THUMBS UP", rate: 35, oldRate: 35 },
+    { id: "cf1", category: "cafe", name: "CHIPS ₹5", rate: 5 },
+    { id: "cf2", category: "cafe", name: "CHIPS ₹10", rate: 10 },
+    { id: "cf3", category: "cafe", name: "COLDRINK ₹10", rate: 10 },
+    { id: "cf4", category: "cafe", name: "COLDRINK ₹20", rate: 20 },
+    { id: "cf5", category: "cafe", name: "DIET COKE ₹30", rate: 30 },
+    { id: "cf6", category: "cafe", name: "DIET COKE ₹40", rate: 40 },
+    { id: "cf7", category: "cafe", name: "MINERAL WATER ₹5", rate: 5 },
+    { id: "cf8", category: "cafe", name: "MINERAL WATER ₹10", rate: 10 },
+    { id: "cf9", category: "cafe", name: "MONSTER", rate: 125 },
+    { id: "cf10", category: "cafe", name: "ORS LIQUID", rate: 31.50 },
+    { id: "cf11", category: "cafe", name: "PREDATOR", rate: 60 },
+    { id: "cf12", category: "cafe", name: "PRINGLES ₹55", rate: 55 },
+    { id: "cf13", category: "cafe", name: "PRINGLES ₹110", rate: 110 },
+    { id: "cf14", category: "cafe", name: "SPRITE ₹30", rate: 30 },
+    { id: "cf15", category: "cafe", name: "THUMBS UP ₹30", rate: 30 },
 
-    /* CHINESE MENU ITEMS */
-    { id: "ttc2", category: "chinese", name: "VEG FRIED RICE", rate: 70, oldRate: 70 },
-    { id: "ttc3", category: "chinese", name: "VEG SCHEZWAN RICE", rate: 80, oldRate: 80 },
-    { id: "ttc4", category: "chinese", name: "VEG MANCHURIAN RICE", rate: 70, oldRate: 70 },
-    { id: "ttc6", category: "chinese", name: "PANEER FRIED RICE", rate: 80, oldRate: 80 },
-    { id: "ttc7", category: "chinese", name: "PANEER SCHEZWAN RICE", rate: 90, oldRate: 90 },
-    { id: "ttc8", category: "chinese", name: "PANEER MANCHURIAN RICE", rate: 85, oldRate: 85 },
-    { id: "ttc9", category: "chinese", name: "PANEER TRIPLE RICE", rate: 120, oldRate: 120 },
-    { id: "ttc10", category: "chinese", name: "VEG NOODLES", rate: 70, oldRate: 70 },
-    { id: "ttc11", category: "chinese", name: "VEG PANEER NOODLES", rate: 80, oldRate: 80 },
-    { id: "ttc12", category: "chinese", name: "VEG MANCHURIAN NOODLES", rate: 85, oldRate: 85 },
-    { id: "ttc13", category: "chinese", name: "PANEER CHILLI DRY", rate: 100, oldRate: 100 },
-    { id: "ttc14", category: "chinese", name: "PANEER CHILLI GRAVY", rate: 100, oldRate: 100 },
-    { id: "ttc15", category: "chinese", name: "VEG MANCHURIAN DRY", rate: 70, oldRate: 70 },
-    { id: "ttc16", category: "chinese", name: "VEG MANCHURIAN GRAVY", rate: 80, oldRate: 80 },
-
-    /* CUSTOM EDITABLE ITEM */
-    { id: "gen_custom", category: "general", name: "➕ GENERAL ITEM (EDITABLE)", rate: 0, oldRate: 0 }
+    /* TIP TOP CHINESE MENU ITEMS */
+    { id: "ttc1", category: "chinese", name: "VEG RICE", rate: 70 },
+    { id: "ttc2", category: "chinese", name: "VEG FRIED RICE", rate: 70 },
+    { id: "ttc3", category: "chinese", name: "VEG SCHEZWAN RICE", rate: 80 },
+    { id: "ttc4", category: "chinese", name: "VEG MANCHURIAN RICE", rate: 70 },
+    { id: "ttc5", category: "chinese", name: "PANEER RICE", rate: 80 },
+    { id: "ttc6", category: "chinese", name: "PANEER FRIED RICE", rate: 80 },
+    { id: "ttc7", category: "chinese", name: "PANEER SCHEZWAN RICE", rate: 90 },
+    { id: "ttc8", category: "chinese", name: "PANEER MANCHURIAN RICE", rate: 85 },
+    { id: "ttc9", category: "chinese", name: "PANEER TRIPLE RICE", rate: 120 },
+    { id: "ttc10", category: "chinese", name: "VEG NOODLES", rate: 70 },
+    { id: "ttc11", category: "chinese", name: "VEG PANEER NOODLES", rate: 80 },
+    { id: "ttc12", category: "chinese", name: "VEG MANCHURIAN NOODLES", rate: 85 },
+    { id: "ttc13", category: "chinese", name: "PANEER CHILLI DRY", rate: 100 },
+    { id: "ttc14", category: "chinese", name: "PANEER CHILLI GRAVY", rate: 100 },
+    { id: "ttc15", category: "chinese", name: "VEG MANCHURIAN DRY", rate: 70 },
+    { id: "ttc16", category: "chinese", name: "VEG MANCHURIAN GRAVY", rate: 80 }
 ];
 
 let cart = [];
 let couponQty = 0;
+
+window.addEventListener('load', () => {
+    populateDropdown();
+    renderCart();
+
+    if ("Notification" in window && Notification.permission !== "granted") {
+        Notification.requestPermission();
+    }
+});
+
+function triggerRoundAlert(gameName, lapNumber) {
+    const audio = document.getElementById("timerAlertAudio");
+    if (audio) {
+        audio.currentTime = 0;
+        audio.play().catch(err => console.log("Audio play prevented by browser policy"));
+    }
+
+    if ("Notification" in window && Notification.permission === "granted") {
+        new Notification("⏱️ Round Completed - Pause & Play", {
+            body: `${gameName}: Round ${lapNumber} complete ho gaya hai!`,
+            icon: "https://cdn-icons-png.flaticon.com/512/3602/3602123.png"
+        });
+    }
+}
 
 function getCurrentTimeFormatted() {
     const d = new Date();
@@ -631,20 +608,16 @@ function handlePresetCustomerChange(val) {
     if(val === "new") {
         document.getElementById("customer").value = "";
         document.getElementById("mobile").value = "";
-        document.getElementById("additionalMobile").value = "";
         document.getElementById("membershipDate").value = new Date().toLocaleDateString("en-GB");
-        updateTabTitle();
         
         if(!hasMembershipInCart()) {
-            addMembershipToCart();
+            toggleMembershipFee();
         }
     } else if(presetCustomers[val]) {
         const data = presetCustomers[val];
         document.getElementById("customer").value = data.name;
         document.getElementById("mobile").value = data.mobile;
-        document.getElementById("additionalMobile").value = "";
         document.getElementById("membershipDate").value = data.date;
-        updateTabTitle();
         
         if(hasMembershipInCart()) {
             removeMembershipFromCart();
@@ -656,20 +629,25 @@ function hasMembershipInCart() {
     return cart.some(x => x.id === "mem1");
 }
 
-function addMembershipToCart() {
-    const item = catalog.find(x => x.id === "mem1");
-    if(item && !hasMembershipInCart()) {
-        cart.unshift({
-            ...item,
-            instanceId: item.id + "_" + Date.now(),
-            qty: 1,
-            seconds: 0,
-            customTime: getCurrentTimeFormatted(),
-            status: 'stopped',
-            timerObj: null,
-            logs: []
-        });
-        renderCart();
+function toggleMembershipFee() {
+    if(hasMembershipInCart()) {
+        removeMembershipFromCart();
+    } else {
+        const item = catalog.find(x => x.id === "mem1");
+        if(item) {
+            cart.unshift({
+                ...item,
+                instanceId: item.id + "_" + Date.now(),
+                qty: 1,
+                seconds: 0,
+                customTime: getCurrentTimeFormatted(),
+                status: 'stopped',
+                timerObj: null,
+                logs: []
+            });
+            updateMembershipToggleBtnState(true);
+            renderCart();
+        }
     }
 }
 
@@ -677,7 +655,20 @@ function removeMembershipFromCart() {
     const idx = cart.findIndex(x => x.id === "mem1");
     if(idx !== -1) {
         cart.splice(idx, 1);
+        updateMembershipToggleBtnState(false);
         renderCart();
+    }
+}
+
+function updateMembershipToggleBtnState(isAdded) {
+    const btn = document.getElementById("memberToggleBtn");
+    if(!btn) return;
+    if(isAdded) {
+        btn.innerText = "Added ✓";
+        btn.classList.add("active");
+    } else {
+        btn.innerText = "Add ₹240";
+        btn.classList.remove("active");
     }
 }
 
@@ -689,93 +680,88 @@ function populateDropdown() {
     const tgGroup = document.createElement("optgroup"); tgGroup.label = "⏱️ Timed / Hourly Games";
     const sgGroup = document.createElement("optgroup"); sgGroup.label = "🕹️ Standard Games / Fees";
     const cfGroup = document.createElement("optgroup"); cfGroup.label = "☕ Cafe Products";
-    const ttcGroup = document.createElement("optgroup"); ttcGroup.label = "🥢 Chinese";
-    const genGroup = document.createElement("optgroup"); genGroup.label = "✏️ Custom Items";
+    const ttcGroup = document.createElement("optgroup"); ttcGroup.label = "🥢 Tip Top Chinese";
 
     catalog.forEach(item => {
         const opt = document.createElement("option");
         opt.value = item.id;
-        opt.innerText = item.category === "general" ? item.name : `${item.name} - ₹${item.rate}${item.lapMin ? ' / ' + item.lapMin + 'm' : ''}`;
+        if(item.pricingMode === "gta6") {
+            opt.innerText = `${item.name} - ₹150 for 30m (then ₹5/m)`;
+        } else {
+            opt.innerText = `${item.name} - ₹${item.rate}${item.lapMin ? ' / ' + item.lapMin + 'm' : ''}`;
+        }
         
         if(item.category === "timed") tgGroup.appendChild(opt);
         else if(item.category === "standard") sgGroup.appendChild(opt);
         else if(item.category === "cafe") cfGroup.appendChild(opt);
         else if(item.category === "chinese") ttcGroup.appendChild(opt);
-        else if(item.category === "general") genGroup.appendChild(opt);
     });
 
     masterSelect.appendChild(tgGroup);
     masterSelect.appendChild(sgGroup);
     masterSelect.appendChild(cfGroup);
     masterSelect.appendChild(ttcGroup);
-    masterSelect.appendChild(genGroup);
 }
-
-window.onload = function() {
-    populateDropdown();
-    renderCart();
-};
 
 function addItemFromDropdown() {
     const masterSelect = document.getElementById("masterDropdown");
     const id = masterSelect.value;
     if(!id) return;
 
-    if (id === "gen_custom") {
-        let customName = prompt("Enter General Item Name:", "Custom Service / Product");
-        if (!customName) { masterSelect.value = ""; return; }
-        let customRate = parseFloat(prompt("Enter Item Rate (₹):", "100"));
-        if (isNaN(customRate) || customRate < 0) customRate = 0;
+    const item = catalog.find(x => x.id === id);
+    if(!item) return;
 
-        const instanceId = "custom_" + Date.now();
-        cart.push({
-            id: "custom_item",
-            category: "general",
-            name: customName.toUpperCase(),
-            rate: customRate,
-            oldRate: customRate,
-            instanceId: instanceId,
-            qty: 1,
-            seconds: 0,
-            customTime: getCurrentTimeFormatted(),
-            status: 'stopped',
-            timerObj: null,
-            logs: []
-        });
-    } else {
-        const item = catalog.find(x => x.id === id);
-        if(!item) return;
+    const instanceId = item.id + "_" + Date.now();
 
-        const instanceId = item.id + "_" + Date.now();
+    cart.push({
+        ...item,
+        instanceId: instanceId,
+        qty: 1,
+        seconds: 0,
+        extraControllers: 0,
+        customTime: getCurrentTimeFormatted(),
+        status: 'stopped',
+        timerObj: null,
+        lastAlertLap: 0,
+        logs: []
+    });
 
-        cart.push({
-            ...item,
-            instanceId: instanceId,
-            qty: 1,
-            seconds: 0,
-            customTime: getCurrentTimeFormatted(),
-            status: 'stopped',
-            timerObj: null,
-            logs: []
-        });
+    if(id === "mem1") {
+        updateMembershipToggleBtnState(true);
     }
 
     masterSelect.value = "";
     renderCart();
 }
 
-function editCustomItem(instanceId) {
-    const item = cart.find(x => x.instanceId === instanceId);
-    if (!item) return;
-
-    let newName = prompt("Edit Item Name:", item.name);
-    if (newName) item.name = newName.toUpperCase();
-
-    let newRate = prompt("Edit Item Rate (₹):", item.rate);
-    if (newRate !== null && !isNaN(parseFloat(newRate))) {
-        item.rate = parseFloat(newRate);
-        item.oldRate = item.rate;
+function getItemAmount(item) {
+    if (item.pricingMode === "gta6") {
+        if (item.qty === 0 && item.seconds === 0) return 0;
+        let totalMins = item.status === 'running' || item.seconds > 0
+            ? Math.ceil(item.seconds / 60)
+            : Math.round(item.qty * 30);
+        if (totalMins <= 30) return 150;
+        return 150 + ((totalMins - 30) * 5);
     }
+    return item.qty * item.rate;
+}
+
+function getEffectiveRate(item) {
+    if (item.id === "tg6") {
+        let extra = item.extraControllers || 0;
+        return (2 + extra) * 100;
+    }
+    return item.rate;
+}
+
+function changeExtraControllers(instanceId, delta) {
+    const item = cart.find(x => x.instanceId === instanceId);
+    if (!item || item.id !== "tg6") return;
+
+    let currentExtra = item.extraControllers || 0;
+    let updatedExtra = Math.max(0, currentExtra + delta);
+    item.extraControllers = updatedExtra;
+    item.rate = getEffectiveRate(item);
 
     renderCart();
 }
@@ -788,7 +774,7 @@ function updateCardElement(item) {
     if(qtyBox) qtyBox.innerText = item.qty;
 
     const amtBox = cardEl.querySelector('.card-amount-box');
-    if(amtBox) amtBox.innerText = `₹ ${(item.qty * item.rate).toFixed(2)}`;
+    if(amtBox) amtBox.innerText = `₹ ${getItemAmount(item).toFixed(2)}`;
 
     if(item.category === 'timed') {
         const hrs = String(Math.floor(item.seconds / 3600)).padStart(2, '0');
@@ -813,6 +799,8 @@ function updateCardElement(item) {
 function renderCart() {
     const container = document.getElementById("itemsCardsContainer");
     if(!container) return;
+    
+    updateMembershipToggleBtnState(hasMembershipInCart());
 
     if (cart.length === 0) {
         container.innerHTML = "";
@@ -823,13 +811,43 @@ function renderCart() {
     container.innerHTML = "";
 
     cart.forEach((item) => {
-        let isEditable = item.category === "general";
-        let editBtnHtml = isEditable ? `<button type="button" class="btn-edit-item" onclick="editCustomItem('${item.instanceId}')">✏️ Edit</button>` : '';
+        let controllerBoxHtml = "";
+        if (item.id === "tg6") {
+            let extra = item.extraControllers || 0;
+            let totalCtrl = 2 + extra;
+            let formulaText = `${totalCtrl} Controllers = ${totalCtrl} × ₹100 = ₹${totalCtrl * 100} / 30m`;
+            controllerBoxHtml = `
+            <div class="controller-box">
+                <div>
+                    <div class="controller-label">🎮 Controllers Setup</div>
+                    <div class="controller-sub">${formulaText}</div>
+                </div>
+                <div class="card-qty-group">
+                    <button type="button" class="btn-minus" style="width:30px; height:30px; font-size:16px;" onclick="changeExtraControllers('${item.instanceId}', -1)">-</button>
+                    <div class="qty-display-box" style="width:36px; height:30px; font-size:13px;">${totalCtrl}</div>
+                    <button type="button" class="btn-plus" style="width:30px; height:30px; font-size:16px;" onclick="changeExtraControllers('${item.instanceId}', 1)">+</button>
+                </div>
+            </div>`;
+        }
+
+        let metaText = "";
+        if (item.pricingMode === "gta6") {
+            metaText = `₹150 for 30m | Then ₹5/min`;
+        } else if (item.id === "tg6") {
+            let extra = item.extraControllers || 0;
+            let totalCtrl = 2 + extra;
+            metaText = `${totalCtrl} CTRLS (${totalCtrl}×100) = ₹${item.rate} | ${item.lapMin} MIN`;
+        } else {
+            metaText = `RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN`;
+        }
 
         if(item.category === "timed") {
             const hrs = String(Math.floor(item.seconds / 3600)).padStart(2, '0');
             const mins = String(Math.floor((item.seconds % 3600) / 60)).padStart(2, '0');
             const secs = String(item.seconds % 60).padStart(2, '0');
+
+            let minusStep = item.pricingMode === "gta6" ? -0.1 : -0.5;
+            let plusStep = item.pricingMode === "gta6" ? 0.1 : 0.5;
 
             container.innerHTML += `
             <div style="width:100%" class="cart-item-wrapper" id="card-${item.instanceId}">
@@ -837,16 +855,18 @@ function renderCart() {
                     <div class="mobile-card-header">
                         <div class="card-particular">
                             <div class="game-title">${item.name}</div>
-                            <div class="game-meta">RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN</div>
+                            <div class="game-meta">${metaText}</div>
                         </div>
-                        <div class="card-amount-box">₹ ${(item.qty * item.rate).toFixed(2)}</div>
+                        <div class="card-amount-box">₹ ${getItemAmount(item).toFixed(2)}</div>
                     </div>
+
+                    ${controllerBoxHtml}
 
                     <div class="mobile-card-middle">
                         <div class="card-qty-group">
-                            <button type="button" class="btn-minus" onclick="changeQty('${item.instanceId}', ${item.lapMin === 1 ? -1 : (item.lapMin >= 60 ? -1 : -0.5)})">-</button>
+                            <button type="button" class="btn-minus" onclick="changeQty('${item.instanceId}', ${minusStep})">-</button>
                             <div class="qty-display-box">${item.qty}</div>
-                            <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', ${item.lapMin === 1 ? 1 : (item.lapMin >= 60 ? 1 : 0.5)})">+</button>
+                            <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', ${plusStep})">+</button>
                         </div>
                         <div class="card-timer-box">${hrs}:${mins}:${secs}</div>
                     </div>
@@ -874,7 +894,7 @@ function renderCart() {
                             <div class="game-title">${item.name}</div>
                             <div class="game-meta">RATE ₹ ${item.rate.toFixed(2)}</div>
                         </div>
-                        <div class="card-amount-box">₹ ${(item.qty * item.rate).toFixed(2)}</div>
+                        <div class="card-amount-box">₹ ${getItemAmount(item).toFixed(2)}</div>
                     </div>
 
                     <div class="mobile-card-footer" style="justify-content: space-between;">
@@ -883,10 +903,7 @@ function renderCart() {
                             <div class="qty-display-box">${item.qty}</div>
                             <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', 1)">+</button>
                         </div>
-                        <div style="display:flex; align-items:center; gap:8px;">
-                            ${editBtnHtml}
-                            <button type="button" class="btn-del" onclick="removeItem('${item.instanceId}')">❌</button>
-                        </div>
+                        <button type="button" class="btn-del" onclick="removeItem('${item.instanceId}')">❌</button>
                     </div>
                 </div>
             </div>`;
@@ -926,6 +943,16 @@ function parseCustomTimeToTimestamp(timeStr) {
 function changeQty(instanceId, delta) {
     const item = cart.find(x => x.instanceId === instanceId);
     if (!item) return;
+
+    if (item.pricingMode === "gta6") {
+        let stepSeconds = delta > 0 ? 60 : -60;
+        item.seconds = Math.max(0, item.seconds + stepSeconds);
+        let mins = Math.round(item.seconds / 60);
+        item.qty = Math.round((mins / 30) * 100) / 100;
+        updateCardElement(item);
+        calculate();
+        return;
+    }
     
     let newQty = item.qty + delta;
     if (newQty < 0) newQty = 0;
@@ -943,17 +970,21 @@ function removeItem(instanceId) {
     const idx = cart.findIndex(x => x.instanceId === instanceId);
     if (idx === -1) return;
 
+    const isMem = cart[idx].id === "mem1";
+
     const cardEl = document.getElementById(`card-${instanceId}`);
     if (cardEl) {
         cardEl.classList.add('removing');
         setTimeout(() => {
             if(cart[idx] && cart[idx].timerObj) clearInterval(cart[idx].timerObj);
             cart.splice(idx, 1);
+            if(isMem) updateMembershipToggleBtnState(false);
             renderCart();
         }, 300);
     } else {
         if(cart[idx].timerObj) clearInterval(cart[idx].timerObj);
         cart.splice(idx, 1);
+        if(isMem) updateMembershipToggleBtnState(false);
         renderCart();
     }
 }
@@ -979,16 +1010,27 @@ function toggleTimer(instanceId) {
         }
 
         item.startTime = currentMs - (item.seconds * 1000);
+        item.lastAlertLap = Math.floor((item.seconds / 60) / item.lapMin);
+
         item.logs.push(`[${new Date().toLocaleTimeString()}] ▶ Started from ${item.customTime}`);
         
         item.timerObj = setInterval(() => {
             item.seconds = Math.floor((Date.now() - item.startTime) / 1000);
             
-            if (item.lapMin === 1) {
-                item.qty = Math.max(1, Math.floor(item.seconds / 60));
+            let currentLap = Math.floor((item.seconds / 60) / item.lapMin);
+
+            if (currentLap > item.lastAlertLap && currentLap > 0) {
+                item.lastAlertLap = currentLap;
+                triggerRoundAlert(item.name, currentLap);
+            }
+
+            if (item.pricingMode === "gta6") {
+                let mins = Math.max(1, Math.ceil(item.seconds / 60));
+                item.qty = Math.round((mins / 30) * 100) / 100;
             } else {
                 let rawLaps = (item.seconds / 60) / item.lapMin;
-                item.qty = Math.max(0.5, Math.ceil(rawLaps * 2) / 2);
+                let calcLaps = Math.max(0.5, Math.ceil(rawLaps * 2) / 2);
+                item.qty = calcLaps;
             }
 
             updateCardElement(item);
@@ -1007,17 +1049,11 @@ function toggleLog(instanceId) {
 function calculate() {
     let gamesTotal = 0;
     let cafeTotal = 0;
-    let festiveSavings = 0;
 
     cart.forEach(item => {
-        let total = item.qty * item.rate;
+        let total = getItemAmount(item);
         if(item.category === "cafe" || item.category === "chinese") cafeTotal += total;
         else gamesTotal += total;
-
-        // Calculate rate savings compared to old rates
-        if(item.oldRate && item.oldRate > item.rate) {
-            festiveSavings += (item.qty * (item.oldRate - item.rate));
-        }
     });
 
     let maxAllowedCoupons = Math.floor(gamesTotal / 200);
@@ -1040,7 +1076,6 @@ function calculate() {
     if(document.getElementById("cafeTotal")) document.getElementById("cafeTotal").innerText = cafeTotal.toFixed(2);
     if(document.getElementById("discount")) document.getElementById("discount").innerText = discVal.toFixed(2);
     if(document.getElementById("grandTotal")) document.getElementById("grandTotal").innerText = grand;
-    if(document.getElementById("festiveSavingsAmount")) document.getElementById("festiveSavingsAmount").innerText = festiveSavings.toFixed(2);
 
     if(document.getElementById("p2_discountPercent")) document.getElementById("p2_discountPercent").value = document.getElementById("discountPercent")?.value || "";
     if(document.getElementById("p2_discountRupee")) document.getElementById("p2_discountRupee").value = document.getElementById("discountRupee")?.value || "";
@@ -1051,7 +1086,7 @@ function calculate() {
 function adjustCouponQty(delta) {
     let gamesTotal = 0;
     cart.forEach(item => {
-        if(item.category !== "cafe" && item.category !== "chinese") gamesTotal += (item.qty * item.rate);
+        if(item.category !== "cafe" && item.category !== "chinese") gamesTotal += getItemAmount(item);
     });
 
     let maxAllowedCoupons = Math.floor(gamesTotal / 200);
@@ -1083,37 +1118,14 @@ function calculateTerminal() {
     let grand = parseFloat(grandText) || 0;
     if(document.getElementById("p2_calculatedGrand")) document.getElementById("p2_calculatedGrand").innerText = grand;
 
-    let cash = parseFloat(document.getElementById("cashAmount")?.value) || 0;
     let upi = parseFloat(document.getElementById("upiAmount")?.value) || 0;
+    let cash = parseFloat(document.getElementById("cashAmount")?.value) || 0;
     let totalPaid = upi + cash;
 
     let diff = totalPaid - grand;
     if(document.getElementById("p2_returnAmt")) document.getElementById("p2_returnAmt").innerText = `₹ ${diff.toFixed(2)}`;
 
-    updateQRCode();
     renderTerminalSummaryList();
-}
-
-function updateQRCode() {
-    let grandText = document.getElementById("grandTotal")?.innerText || "0";
-    let grand = parseFloat(grandText) || 0;
-    let cash = parseFloat(document.getElementById("cashAmount")?.value) || 0;
-
-    let balanceQrAmount = Math.max(0, grand - cash);
-
-    let upiId = document.getElementById("upiId")?.value.trim() || "Q67246447@ybl";
-
-    const displayBox = document.getElementById("qrCalculatedDisplay");
-    if(displayBox) displayBox.innerText = balanceQrAmount.toFixed(2);
-
-    let upiString = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=Pause%20and%20Play&am=${balanceQrAmount.toFixed(2)}&cu=INR`;
-    let qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiString)}`;
-
-    const qrImg = document.getElementById("upiQrImage");
-    if(qrImg) qrImg.src = qrUrl;
-
-    const thermalQrImg = document.getElementById("thermalQrImage");
-    if(thermalQrImg) thermalQrImg.src = qrUrl;
 }
 
 function renderTerminalSummaryList() {
@@ -1122,13 +1134,19 @@ function renderTerminalSummaryList() {
     
     listContainer.innerHTML = "";
     cart.forEach(item => {
-        if(item.qty > 0) {
-            let icon = item.id === "mem1" ? "🪪" : (item.category === "timed" ? "⏱️" : (item.category === "standard" ? "🕹️" : (item.category === "chinese" ? "🥢" : (item.category === "general" ? "✏️" : "☕"))));
-            let qtyText = item.category === "timed" ? (item.lapMin >= 60 ? `(${item.qty}h)` : `(${item.qty}m)`) : `(x${item.qty})`;
+        if(item.qty > 0 || item.seconds > 0) {
+            let icon = item.id === "mem1" ? "🪪" : (item.category === "timed" ? "⏱️" : (item.category === "standard" ? "🕹️" : (item.category === "chinese" ? "🥢" : "☕")));
+            let label = item.name;
+            if (item.id === "tg6") {
+                label += ` (${2 + (item.extraControllers || 0)} Ctrls)`;
+            }
+            let qtyText = item.pricingMode === "gta6"
+                ? `(${Math.ceil(item.seconds / 60)}m)`
+                : (item.category === "timed" ? `(${item.qty} Lap/s)` : `(x${item.qty})`);
             listContainer.innerHTML += `
                 <div class="summary-item-row">
-                    <span>${icon} ${item.name} ${qtyText}</span>
-                    <span>₹ ${(item.qty * item.rate).toFixed(2)}</span>
+                    <span>${icon} ${label} ${qtyText}</span>
+                    <span>₹ ${getItemAmount(item).toFixed(2)}</span>
                 </div>
             `;
         }
@@ -1151,57 +1169,51 @@ function navigateToPage(no) {
 function generateReceipt() {
     const line = "------------------------------\n";
     const dLine = "==============================\n";
-    let t = "```      🪔 PAUSE & PLAY 🪔     \n";
-    t += "    DIWALI FESTIVE OFFER   \n";
-    t += "    Gaming Cafe, Jaunpur   \n";
+    let t = "        PAUSE & PLAY        \n";
+    t += "    Where Pause Meets Play   \n";
     t += dLine;
     t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
-    t += `Mobile : ${document.getElementById("addMob").value || "N/A"}\n`;
-    let addMob = document.getElementById("additionalMobile").value.trim();
-    if(addMob) {
-        t += `AltMob : ${mobile}\n`;
-    }
+    t += `Mobile : ${document.getElementById("mobile").value || "N/A"}\n`;
+    t += `MemDate: ${document.getElementById("membershipDate").value || "N/A"}\n`;
+    t += `Date   : ${new Date().toLocaleDateString("en-GB")}\n`;
     t += line;
     t += "ITEM           QTY     AMOUNT \n";
     t += line;
     
     cart.forEach(i => {
-        if(i.qty > 0) {
-            let name = i.name.length > 14 ? i.name.substring(0, 14) : i.name.padEnd(14, ' ');
-            let qty = String(i.qty).padStart(4, ' ');
-            let amt = `₹${(i.qty*i.rate).toFixed(2)}`.padStart(10, ' ');
+        if(i.qty > 0 || i.seconds > 0) {
+            let itemName = i.name;
+            if (i.id === "tg6") {
+                itemName = `PS5 (${2 + (i.extraControllers || 0)} CTRLS)`;
+            }
+            let name = itemName.length > 14 ? itemName.substring(0, 14) : itemName.padEnd(14, ' ');
+            let qtyVal = i.pricingMode === "gta6" ? `${Math.ceil(i.seconds / 60)}m` : String(i.qty);
+            let qty = qtyVal.padStart(4, ' ');
+            let amt = `₹${getItemAmount(i).toFixed(2)}`.padStart(10, ' ');
             t += `${name} ${qty} ${amt}\n`;
         }
     });
     
     t += line;
-    let savings = document.getElementById("festiveSavingsAmount")?.innerText || "0.00";
-    if (parseFloat(savings) > 0) {
-        t += `Festive Savings: ₹${savings.padStart(10, ' ')}\n`;
-    }
     let disc = document.getElementById("discount").innerText;
     if (parseFloat(disc) > 0) {
-        t += `Total Discount : ₹${disc.padStart(10, ' ')}\n`;
+        t += `Discount      : ₹${disc.padStart(10, ' ')}\n`;
     }
-    t += `Grand Total    : ₹${document.getElementById("grandTotal").innerText.padStart(10, ' ')}\n`;
+    t += `Grand Total   : ₹${document.getElementById("grandTotal").innerText.padStart(10, ' ')}\n`;
     t += dLine;
-    t += "  🪔 Happy Diwali! Visit Again 🪔  ```\n";
+    t += "   Thank You! Visit Again!   \n";
     return t;
 }
 
 function sendWhatsApp() {
-    let billText = generateReceipt();
-    let mobileInput = document.getElementById("mobile").value.trim();
+    let mobile = document.getElementById("mobile").value.trim();
+    let message = encodeURIComponent(generateReceipt());
     
-    let shareUrl = "";
-    if(mobileInput) {
-        let cleanMobile = mobileInput.replace(/\D/g, '');
-        shareUrl = `https://api.whatsapp.com/send?phone=${cleanMobile}&text=${encodeURIComponent(billText)}`;
+    if (mobile) {
+        window.open(`https://wa.me/91${mobile}?text=${message}`, '_blank');
     } else {
-        shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(billText)}`;
+        window.open(`https://api.whatsapp.com/send?text=${message}`, '_blank');
     }
-    
-    window.open(shareUrl, '_blank');
 }
 
 function copyAndExit() {
@@ -1224,14 +1236,12 @@ function clearBill() {
     if(document.getElementById("presetCustomerSelect")) document.getElementById("presetCustomerSelect").value = "";
     if(document.getElementById("customer")) document.getElementById("customer").value = "";
     if(document.getElementById("mobile")) document.getElementById("mobile").value = "";
-    if(document.getElementById("additionalMobile")) document.getElementById("additionalMobile").value = "";
     if(document.getElementById("membershipDate")) document.getElementById("membershipDate").value = "";
     if(document.getElementById("discountPercent")) document.getElementById("discountPercent").value = "";
     if(document.getElementById("discountRupee")) document.getElementById("discountRupee").value = "";
     if(document.getElementById("upiAmount")) document.getElementById("upiAmount").value = "";
     if(document.getElementById("cashAmount")) document.getElementById("cashAmount").value = "";
     if(document.getElementById("couponQtyDisplay")) document.getElementById("couponQtyDisplay").innerText = "0";
-    updateTabTitle();
     renderCart();
     navigateToPage(1);
 }
