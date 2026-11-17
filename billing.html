@@ -133,7 +133,7 @@ input:checked + .slider:before { transform: translateX(22px); }
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 @keyframes cardExit {
-    from { opacity: 1; transform: scale(1); max-height: 250px; margin-bottom: 10px; }
+    from { opacity: 1; transform: scale(1); max-height: 200px; margin-bottom: 10px; }
     to { opacity: 0; transform: scale(0.9); max-height: 0; margin-bottom: 0; padding: 0; }
 }
 
@@ -157,29 +157,20 @@ input:checked + .slider:before { transform: translateX(22px); }
 .mobile-card-middle { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 6px; }
 .mobile-card-footer { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 6px; margin-top: 4px; }
 
-.controller-box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--input-bg);
-    border: 1px dashed var(--ios-blue);
-    border-radius: 10px;
-    padding: 8px 10px;
-    margin-top: 2px;
-}
-.controller-label {
-    font-size: 11px;
-    font-weight: 800;
-    color: var(--ios-blue);
-    text-transform: uppercase;
-}
-.controller-sub {
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--text-muted);
-}
-
 .card-qty-group { display: flex; align-items: center; gap: 6px; }
+.card-item-disc-input {
+    width: 65px;
+    height: 36px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--input-bg);
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--text-main);
+    outline: none;
+}
+.card-item-disc-input:focus { border-color: var(--ios-blue); }
 
 /* Interactive Animated Buttons */
 .btn-minus, .btn-plus, .btn-switch, .btn, .btn-p3, .btn-time-sync {
@@ -376,14 +367,18 @@ input:checked + .slider:before { transform: translateX(22px); }
         <div class="info-grid">
             <select id="presetCustomerSelect" class="select-customer" onchange="handlePresetCustomerChange(this.value)">
                 <option value="">-- Quick Select Existing Member --</option>
-                <option value="varun">1. Varun Kumar Seth (01-09-2026)</option>
-                <option value="reyan">2. Reyan (28-08-2026)</option>
-                <option value="arman">3. Arman (03-09-2026)</option>
-                <option value="new">4. ➕ [ New Customer Entry ]</option>
+                <option value="aditya">Aditya</option>
+                <option value="amman">Amman</option>
+                <option value="ansh">Ansh Maurya</option>
+                <option value="annu">Annu</option>
+                <option value="ayush">Ayush Tomar</option>
+                <option value="dishant">Dishant Sonkar</option>
+                <option value="rehan">Rehan</option>
+                <option value="shashank">Shashank Pathak</option>
+                <option value="new">➕ [ New Customer Entry ]</option>
             </select>
             <input type="text" id="customer" class="input" placeholder="Customer Name">
             <input type="tel" id="mobile" class="input" placeholder="Mobile Number">
-            <input type="text" id="membershipDate" class="input" placeholder="Membership Date (DD-MM-YYYY)">
             
             <div class="member-toggle-bar">
                 <div class="member-toggle-title">🪪 New Membership Allotted (₹240)</div>
@@ -511,18 +506,23 @@ function toggleTheme(e) {
 }
 
 const presetCustomers = {
-    "varun": { name: "Varun Kumar Seth", mobile: "", date: "01-09-2026" },
-    "reyan": { name: "Reyan", mobile: "", date: "28-08-2026" },
-    "arman": { name: "Arman", mobile: "", date: "03-09-2026" }
+    "aditya": { name: "Aditya", mobile: "" },
+    "amman": { name: "Amman", mobile: "" },
+    "ansh": { name: "Ansh Maurya", mobile: "" },
+    "annu": { name: "Annu", mobile: "" },
+    "ayush": { name: "Ayush Tomar", mobile: "" },
+    "dishant": { name: "Dishant Sonkar", mobile: "" },
+    "rehan": { name: "Rehan", mobile: "" },
+    "shashank": { name: "Shashank Pathak", mobile: "" }
 };
 
 const catalog = [
     { id: "mem1", category: "standard", name: "NEW MEMBERSHIP ALLOTTED", rate: 240 },
+    { id: "tg11", category: "timed", name: "GTA 6", rate: 150, lapMin: 30, subsequentRate: 6 },
     { id: "tg1", category: "timed", name: "CARROM", rate: 39, lapMin: 15 },
     { id: "tg2", category: "timed", name: "COMPUTER GAMES", rate: 120, lapMin: 30 },
     { id: "tg3", category: "timed", name: "DRIVING Ad. (15 Min)", rate: 120, lapMin: 15 },
     { id: "tg4", category: "timed", name: "DRIVING Jr. (15 Min)", rate: 60, lapMin: 15 },
-    { id: "tg_gta6", category: "timed", name: "GTA 6", rate: 150, lapMin: 30, pricingMode: "gta6" },
     { id: "tg5", category: "timed", name: "MEMBERSHIP POOL", rate: 60, lapMin: 45 },
     { id: "tg6", category: "timed", name: "MULTI PLAYER PS5", rate: 199, lapMin: 30 },
     { id: "tg7", category: "timed", name: "PLAY STATION 5", rate: 120, lapMin: 30 },
@@ -608,7 +608,6 @@ function handlePresetCustomerChange(val) {
     if(val === "new") {
         document.getElementById("customer").value = "";
         document.getElementById("mobile").value = "";
-        document.getElementById("membershipDate").value = new Date().toLocaleDateString("en-GB");
         
         if(!hasMembershipInCart()) {
             toggleMembershipFee();
@@ -617,7 +616,6 @@ function handlePresetCustomerChange(val) {
         const data = presetCustomers[val];
         document.getElementById("customer").value = data.name;
         document.getElementById("mobile").value = data.mobile;
-        document.getElementById("membershipDate").value = data.date;
         
         if(hasMembershipInCart()) {
             removeMembershipFromCart();
@@ -639,6 +637,7 @@ function toggleMembershipFee() {
                 ...item,
                 instanceId: item.id + "_" + Date.now(),
                 qty: 1,
+                itemDiscountPct: 0,
                 seconds: 0,
                 customTime: getCurrentTimeFormatted(),
                 status: 'stopped',
@@ -685,11 +684,7 @@ function populateDropdown() {
     catalog.forEach(item => {
         const opt = document.createElement("option");
         opt.value = item.id;
-        if(item.pricingMode === "gta6") {
-            opt.innerText = `${item.name} - ₹150 for 30m (then ₹5/m)`;
-        } else {
-            opt.innerText = `${item.name} - ₹${item.rate}${item.lapMin ? ' / ' + item.lapMin + 'm' : ''}`;
-        }
+        opt.innerText = `${item.name} - ₹${item.rate}${item.lapMin ? ' / ' + item.lapMin + 'm' : ''}`;
         
         if(item.category === "timed") tgGroup.appendChild(opt);
         else if(item.category === "standard") sgGroup.appendChild(opt);
@@ -717,8 +712,8 @@ function addItemFromDropdown() {
         ...item,
         instanceId: instanceId,
         qty: 1,
+        itemDiscountPct: 0,
         seconds: 0,
-        extraControllers: 0,
         customTime: getCurrentTimeFormatted(),
         status: 'stopped',
         timerObj: null,
@@ -734,36 +729,21 @@ function addItemFromDropdown() {
     renderCart();
 }
 
-function getItemAmount(item) {
-    if (item.pricingMode === "gta6") {
-        if (item.qty === 0 && item.seconds === 0) return 0;
-        let totalMins = item.status === 'running' || item.seconds > 0
-            ? Math.ceil(item.seconds / 60)
-            : Math.round(item.qty * 30);
-        if (totalMins <= 30) return 150;
-        return 150 + ((totalMins - 30) * 5);
+function calculateItemAmount(item) {
+    let baseAmount = 0;
+    if(item.id === "tg11") {
+        // GTA 6: ₹150 for first 30 min (qty 1), then ₹6/min
+        let totalMins = item.seconds ? Math.floor(item.seconds / 60) : (item.qty * 30);
+        if(totalMins <= 30) {
+            baseAmount = item.rate;
+        } else {
+            baseAmount = item.rate + (totalMins - 30) * (item.subsequentRate || 6);
+        }
+    } else {
+        baseAmount = item.qty * item.rate;
     }
-    return item.qty * item.rate;
-}
-
-function getEffectiveRate(item) {
-    if (item.id === "tg6") {
-        let extra = item.extraControllers || 0;
-        return (2 + extra) * 100;
-    }
-    return item.rate;
-}
-
-function changeExtraControllers(instanceId, delta) {
-    const item = cart.find(x => x.instanceId === instanceId);
-    if (!item || item.id !== "tg6") return;
-
-    let currentExtra = item.extraControllers || 0;
-    let updatedExtra = Math.max(0, currentExtra + delta);
-    item.extraControllers = updatedExtra;
-    item.rate = getEffectiveRate(item);
-
-    renderCart();
+    let disc = baseAmount * ((item.itemDiscountPct || 0) / 100);
+    return Math.max(0, baseAmount - disc);
 }
 
 function updateCardElement(item) {
@@ -774,7 +754,7 @@ function updateCardElement(item) {
     if(qtyBox) qtyBox.innerText = item.qty;
 
     const amtBox = cardEl.querySelector('.card-amount-box');
-    if(amtBox) amtBox.innerText = `₹ ${getItemAmount(item).toFixed(2)}`;
+    if(amtBox) amtBox.innerText = `₹ ${calculateItemAmount(item).toFixed(2)}`;
 
     if(item.category === 'timed') {
         const hrs = String(Math.floor(item.seconds / 3600)).padStart(2, '0');
@@ -811,43 +791,11 @@ function renderCart() {
     container.innerHTML = "";
 
     cart.forEach((item) => {
-        let controllerBoxHtml = "";
-        if (item.id === "tg6") {
-            let extra = item.extraControllers || 0;
-            let totalCtrl = 2 + extra;
-            let formulaText = `${totalCtrl} Controllers = ${totalCtrl} × ₹100 = ₹${totalCtrl * 100} / 30m`;
-            controllerBoxHtml = `
-            <div class="controller-box">
-                <div>
-                    <div class="controller-label">🎮 Controllers Setup</div>
-                    <div class="controller-sub">${formulaText}</div>
-                </div>
-                <div class="card-qty-group">
-                    <button type="button" class="btn-minus" style="width:30px; height:30px; font-size:16px;" onclick="changeExtraControllers('${item.instanceId}', -1)">-</button>
-                    <div class="qty-display-box" style="width:36px; height:30px; font-size:13px;">${totalCtrl}</div>
-                    <button type="button" class="btn-plus" style="width:30px; height:30px; font-size:16px;" onclick="changeExtraControllers('${item.instanceId}', 1)">+</button>
-                </div>
-            </div>`;
-        }
-
-        let metaText = "";
-        if (item.pricingMode === "gta6") {
-            metaText = `₹150 for 30m | Then ₹5/min`;
-        } else if (item.id === "tg6") {
-            let extra = item.extraControllers || 0;
-            let totalCtrl = 2 + extra;
-            metaText = `${totalCtrl} CTRLS (${totalCtrl}×100) = ₹${item.rate} | ${item.lapMin} MIN`;
-        } else {
-            metaText = `RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN`;
-        }
-
+        let discValInput = item.itemDiscountPct ? item.itemDiscountPct : '';
         if(item.category === "timed") {
             const hrs = String(Math.floor(item.seconds / 3600)).padStart(2, '0');
             const mins = String(Math.floor((item.seconds % 3600) / 60)).padStart(2, '0');
             const secs = String(item.seconds % 60).padStart(2, '0');
-
-            let minusStep = item.pricingMode === "gta6" ? -0.1 : -0.5;
-            let plusStep = item.pricingMode === "gta6" ? 0.1 : 0.5;
 
             container.innerHTML += `
             <div style="width:100%" class="cart-item-wrapper" id="card-${item.instanceId}">
@@ -855,18 +803,17 @@ function renderCart() {
                     <div class="mobile-card-header">
                         <div class="card-particular">
                             <div class="game-title">${item.name}</div>
-                            <div class="game-meta">${metaText}</div>
+                            <div class="game-meta">RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN</div>
                         </div>
-                        <div class="card-amount-box">₹ ${getItemAmount(item).toFixed(2)}</div>
+                        <input type="number" class="card-item-disc-input" placeholder="Disc %" value="${discValInput}" oninput="updateItemDiscount('${item.instanceId}', this.value)">
+                        <div class="card-amount-box">₹ ${calculateItemAmount(item).toFixed(2)}</div>
                     </div>
-
-                    ${controllerBoxHtml}
 
                     <div class="mobile-card-middle">
                         <div class="card-qty-group">
-                            <button type="button" class="btn-minus" onclick="changeQty('${item.instanceId}', ${minusStep})">-</button>
+                            <button type="button" class="btn-minus" onclick="changeQty('${item.instanceId}', -0.5)">-</button>
                             <div class="qty-display-box">${item.qty}</div>
-                            <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', ${plusStep})">+</button>
+                            <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', 0.5)">+</button>
                         </div>
                         <div class="card-timer-box">${hrs}:${mins}:${secs}</div>
                     </div>
@@ -894,7 +841,8 @@ function renderCart() {
                             <div class="game-title">${item.name}</div>
                             <div class="game-meta">RATE ₹ ${item.rate.toFixed(2)}</div>
                         </div>
-                        <div class="card-amount-box">₹ ${getItemAmount(item).toFixed(2)}</div>
+                        <input type="number" class="card-item-disc-input" placeholder="Disc %" value="${discValInput}" oninput="updateItemDiscount('${item.instanceId}', this.value)">
+                        <div class="card-amount-box">₹ ${calculateItemAmount(item).toFixed(2)}</div>
                     </div>
 
                     <div class="mobile-card-footer" style="justify-content: space-between;">
@@ -911,6 +859,15 @@ function renderCart() {
     });
 
     calculate();
+}
+
+function updateItemDiscount(instanceId, val) {
+    const item = cart.find(x => x.instanceId === instanceId);
+    if(item) {
+        item.itemDiscountPct = parseFloat(val) || 0;
+        updateCardElement(item);
+        calculate();
+    }
 }
 
 function updateCustomTime(instanceId, val) {
@@ -943,16 +900,6 @@ function parseCustomTimeToTimestamp(timeStr) {
 function changeQty(instanceId, delta) {
     const item = cart.find(x => x.instanceId === instanceId);
     if (!item) return;
-
-    if (item.pricingMode === "gta6") {
-        let stepSeconds = delta > 0 ? 60 : -60;
-        item.seconds = Math.max(0, item.seconds + stepSeconds);
-        let mins = Math.round(item.seconds / 60);
-        item.qty = Math.round((mins / 30) * 100) / 100;
-        updateCardElement(item);
-        calculate();
-        return;
-    }
     
     let newQty = item.qty + delta;
     if (newQty < 0) newQty = 0;
@@ -1024,15 +971,10 @@ function toggleTimer(instanceId) {
                 triggerRoundAlert(item.name, currentLap);
             }
 
-            if (item.pricingMode === "gta6") {
-                let mins = Math.max(1, Math.ceil(item.seconds / 60));
-                item.qty = Math.round((mins / 30) * 100) / 100;
-            } else {
-                let rawLaps = (item.seconds / 60) / item.lapMin;
-                let calcLaps = Math.max(0.5, Math.ceil(rawLaps * 2) / 2);
-                item.qty = calcLaps;
-            }
-
+            let rawLaps = (item.seconds / 60) / item.lapMin;
+            let calcLaps = Math.max(0.5, Math.ceil(rawLaps * 2) / 2);
+            
+            item.qty = calcLaps;
             updateCardElement(item);
             calculate();
         }, 1000);
@@ -1051,7 +993,7 @@ function calculate() {
     let cafeTotal = 0;
 
     cart.forEach(item => {
-        let total = getItemAmount(item);
+        let total = calculateItemAmount(item);
         if(item.category === "cafe" || item.category === "chinese") cafeTotal += total;
         else gamesTotal += total;
     });
@@ -1086,7 +1028,7 @@ function calculate() {
 function adjustCouponQty(delta) {
     let gamesTotal = 0;
     cart.forEach(item => {
-        if(item.category !== "cafe" && item.category !== "chinese") gamesTotal += getItemAmount(item);
+        if(item.category !== "cafe" && item.category !== "chinese") gamesTotal += calculateItemAmount(item);
     });
 
     let maxAllowedCoupons = Math.floor(gamesTotal / 200);
@@ -1134,19 +1076,13 @@ function renderTerminalSummaryList() {
     
     listContainer.innerHTML = "";
     cart.forEach(item => {
-        if(item.qty > 0 || item.seconds > 0) {
+        if(item.qty > 0) {
             let icon = item.id === "mem1" ? "🪪" : (item.category === "timed" ? "⏱️" : (item.category === "standard" ? "🕹️" : (item.category === "chinese" ? "🥢" : "☕")));
-            let label = item.name;
-            if (item.id === "tg6") {
-                label += ` (${2 + (item.extraControllers || 0)} Ctrls)`;
-            }
-            let qtyText = item.pricingMode === "gta6"
-                ? `(${Math.ceil(item.seconds / 60)}m)`
-                : (item.category === "timed" ? `(${item.qty} Lap/s)` : `(x${item.qty})`);
+            let qtyText = item.category === "timed" ? `(${item.qty} Lap/s)` : `(x${item.qty})`;
             listContainer.innerHTML += `
                 <div class="summary-item-row">
-                    <span>${icon} ${label} ${qtyText}</span>
-                    <span>₹ ${getItemAmount(item).toFixed(2)}</span>
+                    <span>${icon} ${item.name} ${qtyText}</span>
+                    <span>₹ ${calculateItemAmount(item).toFixed(2)}</span>
                 </div>
             `;
         }
@@ -1174,22 +1110,16 @@ function generateReceipt() {
     t += dLine;
     t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
     t += `Mobile : ${document.getElementById("mobile").value || "N/A"}\n`;
-    t += `MemDate: ${document.getElementById("membershipDate").value || "N/A"}\n`;
     t += `Date   : ${new Date().toLocaleDateString("en-GB")}\n`;
     t += line;
     t += "ITEM           QTY     AMOUNT \n";
     t += line;
     
     cart.forEach(i => {
-        if(i.qty > 0 || i.seconds > 0) {
-            let itemName = i.name;
-            if (i.id === "tg6") {
-                itemName = `PS5 (${2 + (i.extraControllers || 0)} CTRLS)`;
-            }
-            let name = itemName.length > 14 ? itemName.substring(0, 14) : itemName.padEnd(14, ' ');
-            let qtyVal = i.pricingMode === "gta6" ? `${Math.ceil(i.seconds / 60)}m` : String(i.qty);
-            let qty = qtyVal.padStart(4, ' ');
-            let amt = `₹${getItemAmount(i).toFixed(2)}`.padStart(10, ' ');
+        if(i.qty > 0) {
+            let name = i.name.length > 14 ? i.name.substring(0, 14) : i.name.padEnd(14, ' ');
+            let qty = String(i.qty).padStart(4, ' ');
+            let amt = `₹${calculateItemAmount(i).toFixed(2)}`.padStart(10, ' ');
             t += `${name} ${qty} ${amt}\n`;
         }
     });
@@ -1236,7 +1166,6 @@ function clearBill() {
     if(document.getElementById("presetCustomerSelect")) document.getElementById("presetCustomerSelect").value = "";
     if(document.getElementById("customer")) document.getElementById("customer").value = "";
     if(document.getElementById("mobile")) document.getElementById("mobile").value = "";
-    if(document.getElementById("membershipDate")) document.getElementById("membershipDate").value = "";
     if(document.getElementById("discountPercent")) document.getElementById("discountPercent").value = "";
     if(document.getElementById("discountRupee")) document.getElementById("discountRupee").value = "";
     if(document.getElementById("upiAmount")) document.getElementById("upiAmount").value = "";
