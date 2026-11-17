@@ -138,7 +138,16 @@ input:checked + .slider:before { transform: translateX(22px); }
 .card-qty-group { display: flex; align-items: center; gap: 6px; }
 
 /* Interactive Animated Buttons */
-.btn-minus, .btn-plus, .btn-switch, .btn, .btn-p3, .btn-time-sync, .btn-edit-item {
+.btn-minus, .btn-plus, .btn-switch, .btn, .btn-p3, .btn-time-sync, 
+.card-disc-group { display: flex; align-items: center; gap: 4px; border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-bg); height: 36px; padding: 0 6px; }
+.card-disc-input { width: 42px; border: none; outline: none; background: transparent; font-size: 13px; font-weight: 800; color: var(--text-main); text-align: center; }
+.card-disc-label { font-size: 11px; font-weight: 800; color: var(--text-muted); }
+.ps5-slider-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 6px 10px; }
+.ps5-slider-label { font-size: 12px; font-weight: 800; color: var(--text-main); white-space: nowrap; }
+.ps5-range-input { flex: 1; accent-color: var(--ios-blue); cursor: pointer; height: 6px; }
+.ps5-controller-badge { background: var(--ios-blue); color: #fff; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 6px; white-space: nowrap; }
+
+.btn-edit-item {
     transition: transform 0.15s cubic-bezier(0.2, 0, 0.1, 1), background-color 0.2s ease, opacity 0.2s ease;
 }
 .btn-minus:active, .btn-plus:active, .btn-switch:active, .btn:active, .btn-p3:active, .btn-time-sync:active, .btn-edit-item:active {
@@ -376,9 +385,7 @@ input:checked + .slider:before { transform: translateX(22px); }
                 <option value="new">4. ➕ [ New Customer Entry ]</option>
             </select>
             <input type="text" id="customer" class="input" placeholder="Customer Name" oninput="updateTabTitle()">
-            <input type="tel" id="mobile" class="input" placeholder="No.">
             <input type="tel" id="additionalMobile" class="input" placeholder="Mobile Number">
-            <input type="text" id="membershipDate" class="input" placeholder="Membership Date (DD-MM-YYYY)">
         </div>
 
         <div class="date-box" id="dateBox">Date : </div>
@@ -532,8 +539,8 @@ const catalog = [
     { id: "tg2", category: "timed", name: "COMPUTER GAMES", rate: 120, lapMin: 30 },
     { id: "tg3", category: "timed", name: "DRIVING Ad.", rate: 8.00, lapMin: 1 },
     { id: "tg4", category: "timed", name: "DRIVING Jr.", rate: 6.00, lapMin: 1 },
-    { id: "tg5", category: "timed", name: "MEMBERSHIP POOL", rate: 60, lapMin: 45 },
-    { id: "tg6", category: "timed", name: "MULTI PLAYER PS5", rate: 199, lapMin: 30 },
+    { id: "tg5", category: "timed", name: "GTA 6", rate: 150, lapMin: 30, extraPerMin: 6 },
+    { id: "tg6", category: "timed", name: "MULTI PLAYER PS5", rate: 200, lapMin: 30 },
     { id: "tg7", category: "timed", name: "PLAY STATION 5", rate: 120, lapMin: 30 },
     { id: "tg8", category: "timed", name: "RETRO GAMES", rate: 60, lapMin: 30 },
     { id: "tg9", category: "timed", name: "SNOOKER TABLE", rate: 4.00, lapMin: 1 },
@@ -591,6 +598,7 @@ const catalog = [
 
 let cart = [];
 let couponQty = 0;
+let currentMembershipDate = "";
 
 function getCurrentTimeFormatted() {
     const d = new Date();
@@ -602,9 +610,8 @@ function handlePresetCustomerChange(val) {
     
     if(val === "new") {
         document.getElementById("customer").value = "";
-        document.getElementById("mobile").value = "";
         document.getElementById("additionalMobile").value = "";
-        document.getElementById("membershipDate").value = new Date().toLocaleDateString("en-GB");
+        currentMembershipDate = new Date().toLocaleDateString("en-GB");
         updateTabTitle();
         
         if(!hasMembershipInCart()) {
@@ -613,9 +620,8 @@ function handlePresetCustomerChange(val) {
     } else if(presetCustomers[val]) {
         const data = presetCustomers[val];
         document.getElementById("customer").value = data.name;
-        document.getElementById("mobile").value = data.mobile;
-        document.getElementById("additionalMobile").value = "";
-        document.getElementById("membershipDate").value = data.date;
+        document.getElementById("additionalMobile").value = data.mobile || "";
+        currentMembershipDate = data.date;
         updateTabTitle();
         
         if(hasMembershipInCart()) {
@@ -635,6 +641,7 @@ function addMembershipToCart() {
             ...item,
             instanceId: item.id + "_" + Date.now(),
             qty: 1,
+            itemDiscountPct: 0,
             seconds: 0,
             customTime: getCurrentTimeFormatted(),
             status: 'stopped',
@@ -667,7 +674,13 @@ function populateDropdown() {
     catalog.forEach(item => {
         const opt = document.createElement("option");
         opt.value = item.id;
-        opt.innerText = item.category === "general" ? item.name : `${item.name} - ₹${item.rate}${item.lapMin ? ' / ' + item.lapMin + 'm' : ''}`;
+        if (item.id === "tg5") {
+            opt.innerText = `${item.name} - ₹150 / 30m (after ₹6/m)`;
+        } else if (item.id === "tg6") {
+            opt.innerText = `${item.name} - ₹200/300/400 (2-4P) / 30m`;
+        } else {
+            opt.innerText = item.category === "general" ? item.name : `${item.name} - ₹${item.rate}${item.lapMin ? ' / ' + item.lapMin + 'm' : ''}`;
+        }
         
         if(item.category === "timed") tgGroup.appendChild(opt);
         else if(item.category === "standard") sgGroup.appendChild(opt);
@@ -723,6 +736,8 @@ function addItemFromDropdown() {
             ...item,
             instanceId: instanceId,
             qty: 1,
+            itemDiscountPct: 0,
+            controllers: item.id === "tg6" ? 2 : undefined,
             seconds: 0,
             customTime: getCurrentTimeFormatted(),
             status: 'stopped',
@@ -750,6 +765,61 @@ function editCustomItem(instanceId) {
     renderCart();
 }
 
+
+function getItemBaseAmount(item) {
+    if (item.id === "tg5") {
+        // GTA 6: ₹150 for first 30 min (qty <= 1 lap of 30m), after 30 min ₹6/min
+        if (item.qty <= 0) return 0;
+        if (item.qty <= 1) return item.qty * 150;
+        let extraMins = (item.qty - 1) * 30;
+        return 150 + (extraMins * 6);
+    }
+    return item.qty * item.rate;
+}
+
+function getItemNetAmount(item) {
+    let base = getItemBaseAmount(item);
+    let discPct = parseFloat(item.itemDiscountPct) || 0;
+    if (discPct > 0) {
+        return Math.max(0, base * (1 - discPct / 100));
+    }
+    return base;
+}
+
+function isGameItem(item) {
+    return item.category === "timed" || item.category === "standard";
+}
+
+function updateItemDiscount(instanceId, val) {
+    const item = cart.find(x => x.instanceId === instanceId);
+    if (!item) return;
+    let pct = parseFloat(val);
+    if (isNaN(pct) || pct < 0) pct = 0;
+    if (pct > 100) pct = 100;
+    item.itemDiscountPct = val === "" ? 0 : pct;
+    updateCardElement(item);
+    calculate();
+}
+
+function updatePs5Controllers(instanceId, val) {
+    const item = cart.find(x => x.instanceId === instanceId);
+    if (!item) return;
+    const controllers = parseInt(val, 10) || 2;
+    item.controllers = controllers;
+    const rateMap = { 2: 200, 3: 300, 4: 400 };
+    item.rate = rateMap[controllers] || 200;
+
+    const cardEl = document.getElementById(`card-${item.instanceId}`);
+    if (cardEl) {
+        const metaEl = cardEl.querySelector('.game-meta');
+        if (metaEl) metaEl.innerText = `RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN (${controllers}P)`;
+        const badgeEl = cardEl.querySelector('.ps5-controller-badge');
+        if (badgeEl) badgeEl.innerText = `${controllers} Controllers - ₹${item.rate}`;
+    }
+    updateCardElement(item);
+    calculate();
+}
+
 function updateCardElement(item) {
     const cardEl = document.getElementById(`card-${item.instanceId}`);
     if(!cardEl) return;
@@ -758,7 +828,7 @@ function updateCardElement(item) {
     if(qtyBox) qtyBox.innerText = item.qty;
 
     const amtBox = cardEl.querySelector('.card-amount-box');
-    if(amtBox) amtBox.innerText = `₹ ${(item.qty * item.rate).toFixed(2)}`;
+    if(amtBox) amtBox.innerText = `₹ ${getItemNetAmount(item).toFixed(2)}`;
 
     if(item.category === 'timed') {
         const hrs = String(Math.floor(item.seconds / 3600)).padStart(2, '0');
@@ -795,11 +865,32 @@ function renderCart() {
     cart.forEach((item) => {
         let isEditable = item.category === "general";
         let editBtnHtml = isEditable ? `<button type="button" class="btn-edit-item" onclick="editCustomItem('${item.instanceId}')">✏️ Edit</button>` : '';
+        let gameDiscHtml = isGameItem(item) ? `
+            <div class="card-disc-group" title="Game Discount %">
+                <span class="card-disc-label">Disc</span>
+                <input type="number" min="0" max="100" class="card-disc-input" placeholder="0" value="${item.itemDiscountPct ? item.itemDiscountPct : ''}" oninput="updateItemDiscount('${item.instanceId}', this.value)">
+                <span class="card-disc-label">%</span>
+            </div>` : '';
 
         if(item.category === "timed") {
             const hrs = String(Math.floor(item.seconds / 3600)).padStart(2, '0');
             const mins = String(Math.floor((item.seconds % 3600) / 60)).padStart(2, '0');
             const secs = String(item.seconds % 60).padStart(2, '0');
+
+            let metaText = `RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN`;
+            if (item.id === "tg5") {
+                metaText = `RATE ₹ 150 / 30M | AFTER ₹6/MIN`;
+            } else if (item.id === "tg6") {
+                let cCount = item.controllers || 2;
+                metaText = `RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN (${cCount}P)`;
+            }
+
+            let ps5SliderHtml = item.id === "tg6" ? `
+                <div class="ps5-slider-row">
+                    <span class="ps5-slider-label">🎮 Controllers:</span>
+                    <input type="range" min="2" max="4" step="1" value="${item.controllers || 2}" class="ps5-range-input" oninput="updatePs5Controllers('${item.instanceId}', this.value)">
+                    <span class="ps5-controller-badge">${item.controllers || 2} Controllers - ₹${item.rate}</span>
+                </div>` : '';
 
             container.innerHTML += `
             <div style="width:100%" class="cart-item-wrapper" id="card-${item.instanceId}">
@@ -807,10 +898,12 @@ function renderCart() {
                     <div class="mobile-card-header">
                         <div class="card-particular">
                             <div class="game-title">${item.name}</div>
-                            <div class="game-meta">RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN</div>
+                            <div class="game-meta">${metaText}</div>
                         </div>
-                        <div class="card-amount-box">₹ ${(item.qty * item.rate).toFixed(2)}</div>
+                        <div class="card-amount-box">₹ ${getItemNetAmount(item).toFixed(2)}</div>
                     </div>
+
+                    ${ps5SliderHtml}
 
                     <div class="mobile-card-middle">
                         <div class="card-qty-group">
@@ -818,6 +911,7 @@ function renderCart() {
                             <div class="qty-display-box">${item.qty}</div>
                             <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', ${item.lapMin === 1 ? 1 : 0.5})">+</button>
                         </div>
+                        ${gameDiscHtml}
                         <div class="card-timer-box">${hrs}:${mins}:${secs}</div>
                     </div>
 
@@ -844,7 +938,7 @@ function renderCart() {
                             <div class="game-title">${item.name}</div>
                             <div class="game-meta">RATE ₹ ${item.rate.toFixed(2)}</div>
                         </div>
-                        <div class="card-amount-box">₹ ${(item.qty * item.rate).toFixed(2)}</div>
+                        <div class="card-amount-box">₹ ${getItemNetAmount(item).toFixed(2)}</div>
                     </div>
 
                     <div class="mobile-card-footer" style="justify-content: space-between;">
@@ -854,6 +948,7 @@ function renderCart() {
                             <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', 1)">+</button>
                         </div>
                         <div style="display:flex; align-items:center; gap:8px;">
+                            ${gameDiscHtml}
                             ${editBtnHtml}
                             <button type="button" class="btn-del" onclick="removeItem('${item.instanceId}')">❌</button>
                         </div>
@@ -979,7 +1074,7 @@ function calculate() {
     let cafeTotal = 0;
 
     cart.forEach(item => {
-        let total = item.qty * item.rate;
+        let total = getItemNetAmount(item);
         if(item.category === "cafe" || item.category === "chinese") cafeTotal += total;
         else gamesTotal += total;
     });
@@ -1014,7 +1109,7 @@ function calculate() {
 function adjustCouponQty(delta) {
     let gamesTotal = 0;
     cart.forEach(item => {
-        if(item.category !== "cafe" && item.category !== "chinese") gamesTotal += (item.qty * item.rate);
+        if(item.category !== "cafe" && item.category !== "chinese") gamesTotal += getItemNetAmount(item);
     });
 
     let maxAllowedCoupons = Math.floor(gamesTotal / 200);
@@ -1088,10 +1183,12 @@ function renderTerminalSummaryList() {
         if(item.qty > 0) {
             let icon = item.id === "mem1" ? "🪪" : (item.category === "timed" ? "⏱️" : (item.category === "standard" ? "🕹️" : (item.category === "chinese" ? "🥢" : (item.category === "general" ? "✏️" : "☕"))));
             let qtyText = item.category === "timed" ? `(${item.qty}m)` : `(x${item.qty})`;
+            let ps5Tag = item.id === "tg6" ? ` [${item.controllers || 2}P]` : "";
+            let discTag = item.itemDiscountPct > 0 ? ` (-${item.itemDiscountPct}%)` : "";
             listContainer.innerHTML += `
                 <div class="summary-item-row">
-                    <span>${icon} ${item.name} ${qtyText}</span>
-                    <span>₹ ${(item.qty * item.rate).toFixed(2)}</span>
+                    <span>${icon} ${item.name}${ps5Tag} ${qtyText}${discTag}</span>
+                    <span>₹ ${getItemNetAmount(item).toFixed(2)}</span>
                 </div>
             `;
         }
@@ -1118,12 +1215,11 @@ function generateReceipt() {
     t += "    Gaming Cafe, Jaunpur   \n";
     t += dLine;
     t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
-    t += `Mobile : ${document.getElementById("mobile").value || "N/A"}\n`;
-    let addMob = document.getElementById("additionalMobile").value.trim();
-    if(addMob) {
-        t += `AltMob : ${addMob}\n`;
+    let mobVal = document.getElementById("additionalMobile").value.trim();
+    t += `Mobile : ${mobVal || "N/A"}\n`;
+    if(currentMembershipDate) {
+        t += `MemDate: ${currentMembershipDate}\n`;
     }
-    t += `MemDate: ${document.getElementById("membershipDate").value || "N/A"}\n`;
     t += `Date   : ${new Date().toLocaleDateString("en-GB")}\n`;
     t += line;
     t += "ITEM           QTY     AMOUNT \n";
@@ -1131,9 +1227,10 @@ function generateReceipt() {
     
     cart.forEach(i => {
         if(i.qty > 0) {
-            let name = i.name.length > 14 ? i.name.substring(0, 14) : i.name.padEnd(14, ' ');
+            let rawName = i.id === "tg6" ? `PS5 MULTI(${i.controllers || 2}P)` : i.name;
+            let name = rawName.length > 14 ? rawName.substring(0, 14) : rawName.padEnd(14, ' ');
             let qty = String(i.qty).padStart(4, ' ');
-            let amt = `₹${(i.qty*i.rate).toFixed(2)}`.padStart(10, ' ');
+            let amt = `₹${getItemNetAmount(i).toFixed(2)}`.padStart(10, ' ');
             t += `${name} ${qty} ${amt}\n`;
         }
     });
@@ -1151,7 +1248,7 @@ function generateReceipt() {
 
 function sendWhatsApp() {
     let billText = generateReceipt();
-    let mobileInput = document.getElementById("mobile").value.trim();
+    let mobileInput = document.getElementById("additionalMobile").value.trim();
     
     let shareUrl = "";
     if(mobileInput) {
@@ -1181,11 +1278,10 @@ function clearBill() {
     });
     cart = [];
     couponQty = 0;
+    currentMembershipDate = "";
     if(document.getElementById("presetCustomerSelect")) document.getElementById("presetCustomerSelect").value = "";
     if(document.getElementById("customer")) document.getElementById("customer").value = "";
-    if(document.getElementById("mobile")) document.getElementById("mobile").value = "";
     if(document.getElementById("additionalMobile")) document.getElementById("additionalMobile").value = "";
-    if(document.getElementById("membershipDate")) document.getElementById("membershipDate").value = "";
     if(document.getElementById("discountPercent")) document.getElementById("discountPercent").value = "";
     if(document.getElementById("discountRupee")) document.getElementById("discountRupee").value = "";
     if(document.getElementById("upiAmount")) document.getElementById("upiAmount").value = "";
