@@ -138,16 +138,7 @@ input:checked + .slider:before { transform: translateX(22px); }
 .card-qty-group { display: flex; align-items: center; gap: 6px; }
 
 /* Interactive Animated Buttons */
-.btn-minus, .btn-plus, .btn-switch, .btn, .btn-p3, .btn-time-sync, 
-.card-disc-group { display: flex; align-items: center; gap: 4px; border: 1.5px solid var(--border-color); border-radius: 8px; background: var(--input-bg); height: 36px; padding: 0 6px; }
-.card-disc-input { width: 42px; border: none; outline: none; background: transparent; font-size: 13px; font-weight: 800; color: var(--text-main); text-align: center; }
-.card-disc-label { font-size: 11px; font-weight: 800; color: var(--text-muted); }
-.ps5-slider-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 6px 10px; }
-.ps5-slider-label { font-size: 12px; font-weight: 800; color: var(--text-main); white-space: nowrap; }
-.ps5-range-input { flex: 1; accent-color: var(--ios-blue); cursor: pointer; height: 6px; }
-.ps5-controller-badge { background: var(--ios-blue); color: #fff; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 6px; white-space: nowrap; }
-
-.btn-edit-item {
+.btn-minus, .btn-plus, .btn-switch, .btn, .btn-p3, .btn-time-sync, .btn-edit-item {
     transition: transform 0.15s cubic-bezier(0.2, 0, 0.1, 1), background-color 0.2s ease, opacity 0.2s ease;
 }
 .btn-minus:active, .btn-plus:active, .btn-switch:active, .btn:active, .btn-p3:active, .btn-time-sync:active, .btn-edit-item:active {
@@ -356,6 +347,15 @@ input:checked + .slider:before { transform: translateX(22px); }
     }
 }
 #thermalReceipt { display:none; }
+
+.card-disc-group { display: flex; align-items: center; gap: 4px; background: var(--input-bg); border: 1.5px solid var(--border-color); border-radius: 8px; height: 36px; padding: 0 6px; }
+.card-disc-input { width: 38px; border: none; outline: none; background: transparent; font-size: 13px; font-weight: 800; color: var(--text-main); text-align: center; }
+.card-disc-label { font-size: 11px; font-weight: 800; color: var(--text-muted); }
+
+.controller-slider-box { display: flex; flex-direction: column; gap: 4px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 8px 10px; }
+.controller-slider-header { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 800; color: var(--text-main); }
+.controller-range { width: 100%; accent-color: var(--ios-blue); cursor: pointer; }
+.controller-ticks { display: flex; justify-content: space-between; font-size: 10px; font-weight: 700; color: var(--text-muted); }
 </style>
 </head>
 <body>
@@ -539,8 +539,8 @@ const catalog = [
     { id: "tg2", category: "timed", name: "COMPUTER GAMES", rate: 120, lapMin: 30 },
     { id: "tg3", category: "timed", name: "DRIVING Ad.", rate: 8.00, lapMin: 1 },
     { id: "tg4", category: "timed", name: "DRIVING Jr.", rate: 6.00, lapMin: 1 },
-    { id: "tg5", category: "timed", name: "GTA 6", rate: 150, lapMin: 30, extraPerMin: 6 },
-    { id: "tg6", category: "timed", name: "MULTI PLAYER PS5", rate: 200, lapMin: 30 },
+    { id: "tg5", category: "timed", name: "GTA 6", rate: 150, lapMin: 30, extraPerMin: 5 },
+    { id: "tg6", category: "timed", name: "MULTI PLAYER PS5", rate: 200, lapMin: 30, controllers: 2 },
     { id: "tg7", category: "timed", name: "PLAY STATION 5", rate: 120, lapMin: 30 },
     { id: "tg8", category: "timed", name: "RETRO GAMES", rate: 60, lapMin: 30 },
     { id: "tg9", category: "timed", name: "SNOOKER TABLE", rate: 4.00, lapMin: 1 },
@@ -598,7 +598,6 @@ const catalog = [
 
 let cart = [];
 let couponQty = 0;
-let currentMembershipDate = "";
 
 function getCurrentTimeFormatted() {
     const d = new Date();
@@ -610,8 +609,9 @@ function handlePresetCustomerChange(val) {
     
     if(val === "new") {
         document.getElementById("customer").value = "";
+        if(document.getElementById("mobile")) document.getElementById("mobile").value = "";
         document.getElementById("additionalMobile").value = "";
-        currentMembershipDate = new Date().toLocaleDateString("en-GB");
+        if(document.getElementById("membershipDate")) document.getElementById("membershipDate").value = new Date().toLocaleDateString("en-GB");
         updateTabTitle();
         
         if(!hasMembershipInCart()) {
@@ -620,8 +620,9 @@ function handlePresetCustomerChange(val) {
     } else if(presetCustomers[val]) {
         const data = presetCustomers[val];
         document.getElementById("customer").value = data.name;
-        document.getElementById("additionalMobile").value = data.mobile || "";
-        currentMembershipDate = data.date;
+        if(document.getElementById("mobile")) document.getElementById("mobile").value = data.mobile;
+        document.getElementById("additionalMobile").value = "";
+        if(document.getElementById("membershipDate")) document.getElementById("membershipDate").value = data.date;
         updateTabTitle();
         
         if(hasMembershipInCart()) {
@@ -641,7 +642,6 @@ function addMembershipToCart() {
             ...item,
             instanceId: item.id + "_" + Date.now(),
             qty: 1,
-            itemDiscountPct: 0,
             seconds: 0,
             customTime: getCurrentTimeFormatted(),
             status: 'stopped',
@@ -674,13 +674,7 @@ function populateDropdown() {
     catalog.forEach(item => {
         const opt = document.createElement("option");
         opt.value = item.id;
-        if (item.id === "tg5") {
-            opt.innerText = `${item.name} - ₹150 / 30m (after ₹6/m)`;
-        } else if (item.id === "tg6") {
-            opt.innerText = `${item.name} - ₹200/300/400 (2-4P) / 30m`;
-        } else {
-            opt.innerText = item.category === "general" ? item.name : `${item.name} - ₹${item.rate}${item.lapMin ? ' / ' + item.lapMin + 'm' : ''}`;
-        }
+        opt.innerText = item.category === "general" ? item.name : (item.id === "tg5" ? `${item.name} - ₹${item.rate}/30m (+₹5/min)` : `${item.name} - ₹${item.rate}${item.lapMin ? ' / ' + item.lapMin + 'm' : ''}`);
         
         if(item.category === "timed") tgGroup.appendChild(opt);
         else if(item.category === "standard") sgGroup.appendChild(opt);
@@ -736,8 +730,6 @@ function addItemFromDropdown() {
             ...item,
             instanceId: instanceId,
             qty: 1,
-            itemDiscountPct: 0,
-            controllers: item.id === "tg6" ? 2 : undefined,
             seconds: 0,
             customTime: getCurrentTimeFormatted(),
             status: 'stopped',
@@ -766,28 +758,26 @@ function editCustomItem(instanceId) {
 }
 
 
-function getItemBaseAmount(item) {
+function getItemGrossAmount(item) {
     if (item.id === "tg5") {
-        // GTA 6: ₹150 for first 30 min (qty <= 1 lap of 30m), after 30 min ₹6/min
-        if (item.qty <= 0) return 0;
-        if (item.qty <= 1) return item.qty * 150;
-        let extraMins = (item.qty - 1) * 30;
-        return 150 + (extraMins * 6);
+        // GTA 6: ₹150 for up to 30 mins (1 qty = 30 mins, 0.5 qty = 15 mins -> if qty <= 1, rate applies; after 30 mins (qty > 1), ₹5 per extra minute)
+        // Check both seconds (if timed/running or set via qty) and qty
+        let totalMins = item.seconds > 0 ? Math.ceil(item.seconds / 60) : Math.round(item.qty * item.lapMin);
+        if (item.qty === 0 && item.seconds === 0) return 0;
+        if (totalMins <= 30) {
+            return item.qty * item.rate;
+        } else {
+            let extraMins = totalMins - 30;
+            return item.rate + (extraMins * 5);
+        }
     }
     return item.qty * item.rate;
 }
 
 function getItemNetAmount(item) {
-    let base = getItemBaseAmount(item);
-    let discPct = parseFloat(item.itemDiscountPct) || 0;
-    if (discPct > 0) {
-        return Math.max(0, base * (1 - discPct / 100));
-    }
-    return base;
-}
-
-function isGameItem(item) {
-    return item.category === "timed" || item.category === "standard";
+    let gross = getItemGrossAmount(item);
+    let discPct = parseFloat(item.itemDiscount) || 0;
+    return Math.max(0, gross - (gross * (discPct / 100)));
 }
 
 function updateItemDiscount(instanceId, val) {
@@ -796,7 +786,7 @@ function updateItemDiscount(instanceId, val) {
     let pct = parseFloat(val);
     if (isNaN(pct) || pct < 0) pct = 0;
     if (pct > 100) pct = 100;
-    item.itemDiscountPct = val === "" ? 0 : pct;
+    item.itemDiscount = pct;
     updateCardElement(item);
     calculate();
 }
@@ -804,17 +794,16 @@ function updateItemDiscount(instanceId, val) {
 function updatePs5Controllers(instanceId, val) {
     const item = cart.find(x => x.instanceId === instanceId);
     if (!item) return;
-    const controllers = parseInt(val, 10) || 2;
-    item.controllers = controllers;
+    const count = parseInt(val, 10) || 2;
+    item.controllers = count;
     const rateMap = { 2: 200, 3: 300, 4: 400 };
-    item.rate = rateMap[controllers] || 200;
-
+    item.rate = rateMap[count] || 200;
     const cardEl = document.getElementById(`card-${item.instanceId}`);
     if (cardEl) {
         const metaEl = cardEl.querySelector('.game-meta');
-        if (metaEl) metaEl.innerText = `RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN (${controllers}P)`;
-        const badgeEl = cardEl.querySelector('.ps5-controller-badge');
-        if (badgeEl) badgeEl.innerText = `${controllers} Controllers - ₹${item.rate}`;
+        if (metaEl) metaEl.innerText = `RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN (${count} CONTROLLERS)`;
+        const ctrlLabel = cardEl.querySelector('.ctrl-count-label');
+        if (ctrlLabel) ctrlLabel.innerText = `${count} Controllers (₹${item.rate}/30m)`;
     }
     updateCardElement(item);
     calculate();
@@ -865,11 +854,12 @@ function renderCart() {
     cart.forEach((item) => {
         let isEditable = item.category === "general";
         let editBtnHtml = isEditable ? `<button type="button" class="btn-edit-item" onclick="editCustomItem('${item.instanceId}')">✏️ Edit</button>` : '';
-        let gameDiscHtml = isGameItem(item) ? `
+        let isGame = (item.category === "timed" || item.category === "standard");
+        let discValAttr = item.itemDiscount ? item.itemDiscount : "";
+        let gameDiscHtml = isGame ? `
             <div class="card-disc-group" title="Game Discount %">
-                <span class="card-disc-label">Disc</span>
-                <input type="number" min="0" max="100" class="card-disc-input" placeholder="0" value="${item.itemDiscountPct ? item.itemDiscountPct : ''}" oninput="updateItemDiscount('${item.instanceId}', this.value)">
-                <span class="card-disc-label">%</span>
+                <input type="number" min="0" max="100" class="card-disc-input" placeholder="0" value="${discValAttr}" oninput="updateItemDiscount('${item.instanceId}', this.value)">
+                <span class="card-disc-label">% Off</span>
             </div>` : '';
 
         if(item.category === "timed") {
@@ -879,18 +869,29 @@ function renderCart() {
 
             let metaText = `RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN`;
             if (item.id === "tg5") {
-                metaText = `RATE ₹ 150 / 30M | AFTER ₹6/MIN`;
+                metaText = `₹150 / 30 MIN | AFTER 30M ₹5/MIN`;
             } else if (item.id === "tg6") {
                 let cCount = item.controllers || 2;
-                metaText = `RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN (${cCount}P)`;
+                metaText = `RATE ₹ ${item.rate.toFixed(2)} | ${item.lapMin} MIN (${cCount} CONTROLLERS)`;
             }
 
-            let ps5SliderHtml = item.id === "tg6" ? `
-                <div class="ps5-slider-row">
-                    <span class="ps5-slider-label">🎮 Controllers:</span>
-                    <input type="range" min="2" max="4" step="1" value="${item.controllers || 2}" class="ps5-range-input" oninput="updatePs5Controllers('${item.instanceId}', this.value)">
-                    <span class="ps5-controller-badge">${item.controllers || 2} Controllers - ₹${item.rate}</span>
-                </div>` : '';
+            let ps5SliderHtml = "";
+            if (item.id === "tg6") {
+                let cCount = item.controllers || 2;
+                ps5SliderHtml = `
+                    <div class="controller-slider-box">
+                        <div class="controller-slider-header">
+                            <span>🎮 Controllers</span>
+                            <span class="ctrl-count-label">${cCount} Controllers (₹${item.rate}/30m)</span>
+                        </div>
+                        <input type="range" min="2" max="4" step="1" value="${cCount}" class="controller-range" oninput="updatePs5Controllers('${item.instanceId}', this.value)">
+                        <div class="controller-ticks">
+                            <span>2 (₹200)</span>
+                            <span>3 (₹300)</span>
+                            <span>4 (₹400)</span>
+                        </div>
+                    </div>`;
+            }
 
             container.innerHTML += `
             <div style="width:100%" class="cart-item-wrapper" id="card-${item.instanceId}">
@@ -947,8 +948,8 @@ function renderCart() {
                             <div class="qty-display-box">${item.qty}</div>
                             <button type="button" class="btn-plus" onclick="changeQty('${item.instanceId}', 1)">+</button>
                         </div>
+                        ${gameDiscHtml}
                         <div style="display:flex; align-items:center; gap:8px;">
-                            ${gameDiscHtml}
                             ${editBtnHtml}
                             <button type="button" class="btn-del" onclick="removeItem('${item.instanceId}')">❌</button>
                         </div>
@@ -1049,7 +1050,15 @@ function toggleTimer(instanceId) {
         item.timerObj = setInterval(() => {
             item.seconds = Math.floor((Date.now() - item.startTime) / 1000);
             
-            if (item.lapMin === 1) {
+            if (item.id === "tg5") {
+                let elapsedMins = Math.floor(item.seconds / 60);
+                if (elapsedMins <= 30) {
+                    let rawLaps = (item.seconds / 60) / 30;
+                    item.qty = Math.max(0.5, Math.ceil(rawLaps * 2) / 2);
+                } else {
+                    item.qty = Math.round((elapsedMins / 30) * 100) / 100;
+                }
+            } else if (item.lapMin === 1) {
                 item.qty = Math.max(1, Math.floor(item.seconds / 60));
             } else {
                 let rawLaps = (item.seconds / 60) / item.lapMin;
@@ -1183,11 +1192,10 @@ function renderTerminalSummaryList() {
         if(item.qty > 0) {
             let icon = item.id === "mem1" ? "🪪" : (item.category === "timed" ? "⏱️" : (item.category === "standard" ? "🕹️" : (item.category === "chinese" ? "🥢" : (item.category === "general" ? "✏️" : "☕"))));
             let qtyText = item.category === "timed" ? `(${item.qty}m)` : `(x${item.qty})`;
-            let ps5Tag = item.id === "tg6" ? ` [${item.controllers || 2}P]` : "";
-            let discTag = item.itemDiscountPct > 0 ? ` (-${item.itemDiscountPct}%)` : "";
+            let discTag = item.itemDiscount ? ` [-${item.itemDiscount}%]` : '';
             listContainer.innerHTML += `
                 <div class="summary-item-row">
-                    <span>${icon} ${item.name}${ps5Tag} ${qtyText}${discTag}</span>
+                    <span>${icon} ${item.name} ${qtyText}${discTag}</span>
                     <span>₹ ${getItemNetAmount(item).toFixed(2)}</span>
                 </div>
             `;
@@ -1215,11 +1223,8 @@ function generateReceipt() {
     t += "    Gaming Cafe, Jaunpur   \n";
     t += dLine;
     t += `Client : ${document.getElementById("customer").value || "Walk In"}\n`;
-    let mobVal = document.getElementById("additionalMobile").value.trim();
-    t += `Mobile : ${mobVal || "N/A"}\n`;
-    if(currentMembershipDate) {
-        t += `MemDate: ${currentMembershipDate}\n`;
-    }
+    let addMob = document.getElementById("additionalMobile").value.trim();
+    t += `Mobile : ${addMob || "N/A"}\n`;
     t += `Date   : ${new Date().toLocaleDateString("en-GB")}\n`;
     t += line;
     t += "ITEM           QTY     AMOUNT \n";
@@ -1227,8 +1232,7 @@ function generateReceipt() {
     
     cart.forEach(i => {
         if(i.qty > 0) {
-            let rawName = i.id === "tg6" ? `PS5 MULTI(${i.controllers || 2}P)` : i.name;
-            let name = rawName.length > 14 ? rawName.substring(0, 14) : rawName.padEnd(14, ' ');
+            let name = i.name.length > 14 ? i.name.substring(0, 14) : i.name.padEnd(14, ' ');
             let qty = String(i.qty).padStart(4, ' ');
             let amt = `₹${getItemNetAmount(i).toFixed(2)}`.padStart(10, ' ');
             t += `${name} ${qty} ${amt}\n`;
@@ -1278,10 +1282,11 @@ function clearBill() {
     });
     cart = [];
     couponQty = 0;
-    currentMembershipDate = "";
     if(document.getElementById("presetCustomerSelect")) document.getElementById("presetCustomerSelect").value = "";
     if(document.getElementById("customer")) document.getElementById("customer").value = "";
+    if(document.getElementById("mobile")) document.getElementById("mobile").value = "";
     if(document.getElementById("additionalMobile")) document.getElementById("additionalMobile").value = "";
+    if(document.getElementById("membershipDate")) document.getElementById("membershipDate").value = "";
     if(document.getElementById("discountPercent")) document.getElementById("discountPercent").value = "";
     if(document.getElementById("discountRupee")) document.getElementById("discountRupee").value = "";
     if(document.getElementById("upiAmount")) document.getElementById("upiAmount").value = "";
