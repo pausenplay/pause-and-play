@@ -377,6 +377,124 @@ input:checked + .slider:before { transform: translateX(22px); }
 .btn-p3-whatsapp { background: #22c55e; color: #ffffff; }
 .btn-p3-exit { background: #ef4444; color: #ffffff; }
 
+/* Menu Buttons & Modal Lightbox */
+.menu-buttons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+.btn-menu-open {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 12px;
+    background: var(--input-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.15s ease, border-color 0.2s ease, background 0.3s ease;
+}
+.btn-menu-open:active {
+    transform: scale(0.95);
+}
+.btn-menu-open:hover {
+    border-color: var(--ios-blue);
+}
+
+.menu-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.78);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    backdrop-filter: blur(4px);
+}
+.menu-modal-overlay.active {
+    display: flex;
+}
+.menu-modal-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    max-width: 520px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+}
+.menu-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border-color);
+}
+.menu-modal-title {
+    font-size: 15px;
+    font-weight: 900;
+    color: var(--text-main);
+}
+.menu-modal-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-modal-tab {
+    background: var(--ios-blue);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+}
+.btn-modal-close {
+    background: var(--ios-red);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+}
+.menu-modal-body {
+    padding: 10px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--input-bg);
+}
+.menu-modal-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    display: block;
+}
+.menu-modal-fallback {
+    display: none;
+    text-align: center;
+    padding: 24px 12px;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 700;
+}
+
 @media print {
     body * { visibility: hidden !important; }
     #thermalReceipt, #thermalReceipt * { visibility: visible !important; }
@@ -442,6 +560,11 @@ input:checked + .slider:before { transform: translateX(22px); }
         </div>
 
         <div class="date-box" id="dateBox">Date : </div>
+
+        <div class="menu-buttons-grid">
+            <button type="button" class="btn-menu-open" onclick="openMenuModal('menu/game.png', '🎮 Game Menu')">🎮 Game Menu</button>
+            <button type="button" class="btn-menu-open" onclick="openMenuModal('menu/chinese.png', '🥢 Chinese Menu')">🥢 Chinese Menu</button>
+        </div>
 
         <div class="master-bar">
             <select id="masterDropdown" class="select-input" onchange="addItemFromDropdown()">
@@ -560,8 +683,50 @@ input:checked + .slider:before { transform: translateX(22px); }
     </div>
 </div>
 
+<!-- MENU IMAGE MODAL LIGHTBOX -->
+<div id="menuModalOverlay" class="menu-modal-overlay" onclick="if(event.target === this) closeMenuModal()">
+    <div class="menu-modal-card">
+        <div class="menu-modal-header">
+            <span id="menuModalTitle" class="menu-modal-title">Menu</span>
+            <div class="menu-modal-actions">
+                <a id="menuModalNewTab" href="#" target="_blank" rel="noopener" class="btn-modal-tab">↗ Open PNG</a>
+                <button type="button" class="btn-modal-close" onclick="closeMenuModal()">✕ Close</button>
+            </div>
+        </div>
+        <div class="menu-modal-body">
+            <img id="menuModalImg" src="" alt="Menu Preview" onload="this.style.display='block'; document.getElementById('menuModalFallback').style.display='none';" onerror="this.style.display='none'; document.getElementById('menuModalFallback').style.display='block';">
+            <div id="menuModalFallback" class="menu-modal-fallback">
+                Could not preview image inline.<br>
+                Click <strong>"↗ Open PNG"</strong> above to open <span id="menuFallbackPath"></span> directly.
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 document.getElementById("dateBox").innerText = "Date : " + new Date().toLocaleDateString("en-GB");
+
+function openMenuModal(filePath, title) {
+    const overlay = document.getElementById("menuModalOverlay");
+    const titleEl = document.getElementById("menuModalTitle");
+    const imgEl = document.getElementById("menuModalImg");
+    const linkEl = document.getElementById("menuModalNewTab");
+    const fallbackPathEl = document.getElementById("menuFallbackPath");
+
+    if (titleEl) titleEl.innerText = title;
+    if (linkEl) linkEl.href = filePath;
+    if (fallbackPathEl) fallbackPathEl.innerText = filePath;
+    if (imgEl) {
+        imgEl.style.display = "block";
+        imgEl.src = filePath;
+    }
+    if (overlay) overlay.classList.add("active");
+}
+
+function closeMenuModal() {
+    const overlay = document.getElementById("menuModalOverlay");
+    if (overlay) overlay.classList.remove("active");
+}
 
 function updateTabTitle() {
     let custName = document.getElementById("customer").value.trim();
